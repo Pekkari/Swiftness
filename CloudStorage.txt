@@ -1,0 +1,91 @@
+1. Cloud Storage.
+	
+	El Cloud Storage, o almacenamiento en la nube, es un modelo de almacenamiento basado en redes donde los datos son almacenados en piscinas virtuales de almacenamiento. 
+	En las arquitecturas de almacenamiento en la nube, se persiguen cuatro objetivos, la agilidad, o capacidad de mover los datos al sitio adecuado para mejorar su disponibilidad, la escalabilidad, o capacidad de manejar crecientes cargas de trabajo, o de adaptarse para ser capaces de soportarlas, la elasticidad, o la capacidad de escalarse sin limites razonables, y la capacidad de ser multiusuario.
+	El Cloud Storage debe estar formado por servicios distribuidos que deben comportarse como un conjunto, debe ser tolerante a fallos a través de la redundancia de datos, debe ser duradero, sirviéndose de la creación de versiones de los documentos alojados, y debe ser consistente entre las diferentes versiones almacenadas.
+	Las principales preocupaciones de dichas soluciones son la seguridad ante posibles accesos indebidos, la estabilidad de la empresa proveedora, la accesibilidad de la información, y los costes hardware de la solución utilizada.
+	Actualmente, existen dos tipos de instalaciones de Cloud Storage, las realizadas en servidores externos, y las instalaciones locales que el administrador puede acomodar a sus necesidades. 
+	En servidores externos, la compañías que ofrecen este servicio establecen una piscina de servidores virtuales en los que se aloja dicho almacenamiento y los pone a disposición del usuario. Este tipo de instalaciones goza de las mayores ventajas del Cloud Storage, que se apoyan en la disposición de grandes servidores de almacenamiento, y la delegación de la tarea de la administración y responsabilidades a la compañía encargada de ofrecer el servicio.
+	En las instalaciones locales, el usuario debe instalar la plataforma de almacenamiento en la nube, adaptarla a sus necesidades, y administrarla adecuadamente con el fin que persigue. Para el objetivo de este proyecto estudiaremos en mayor profundidad las soluciones locales.
+
+2. Almacenamiento en soluciones libres y locales existentes.
+
+2.1 Amazon S3.
+	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, puesto que solo se ofrecen las distintas interfaces de comunicación de esta. Aun así es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
+	La Amazon Simple Storage Service tiene como objetivo ser escalable, tener alta disponibilidad y baja latencia, a un bajo coste. Dispone de tres tipos de interfaces distintas, REST(Representational State Transfer), SOAP(Simple Object Access Protocol) y BitTorrent. Las primera interfaz es la más adoptada, se trata de una interfaz para sistemas distribuidos adoptada ampliamente en la World Wide Web. La segunda es una interfaz que cumple el mismo propósito que REST, pero basándose en tecnología XML. La tercera es una de las conocidas tecnologías P2P existentes. 
+	Admite objetos de un tamaño inferior a 5 terabytes de información y los organiza en cubos. Para cada cubo y objeto, dentro de este, se dispone una lista de control de acceso que permite al usuario disponer de su información. Cada objeto en un cubo puede ser accedido directamente desde internet. Además, cada objeto es una semilla de la red BitTorrent que puede ser utilizada para reducir el ancho de banda utilizado durante la descarga.
+	Puesto que el principal uso de los cubos es almacenar páginas web, cada cubo puede ser configurado para almacenar los registros de acceso en un cubo gemelo, o réplica.
+	
+2.2 OpenNebula.
+	Aunque plataforma de Cloud Computing de OpenNebula es compatible con la interfaz Amazon EC2 Query Interface, lo que le ofrece compatibilidad con la plataforma de almacenamiento Amazon S3, dicha plataforma goza de un subsistema de almacenamiento propio. 
+	El subsistema está ideado para almacenar máquinas virtuales unicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gestión de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creación, eliminación y modificación de las máquinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonación y enlace.
+2.3 Nimbus.
+	La plataforma Nimbus utiliza una implementación propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento.
+2.4 OpenStack.
+	Dicha solución se divide en tres partes bien diferenciadas para ofrecer una nube personal, estas son Nova, para la ejecución de software, Swift, para el almacenamiento, y Glance, para la gestión de imágenes virtuales. Esto le ofrece la capacidad de poder instalar solo el componente necesario para las necesidades del usuario. Swift es capaz de almacenar objetos o bloques indistintamente, permitiendo no solo el almacenamiento de imágenes virtuales, sino de cualquier tipo de información. 
+	Esta solución es escalable, distribuida admite redundancia de datos, y propone al usuario una API de programación. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnética, o una imagen virtual) pueda añadirse al sistema de almacenamiento distribuido de forma transparente.
+	Su organización se basa en clusteres de almacenamiento, y cada objeto se distribuye entre diferentes nodos de la red. El sistema garantiza la persistencia de bloques y capacidad de realizar instantaneas(snapshots) del almacenamiento para labores de salvaguardas.
+2.5 OpenQRM.
+	En  el caso de OpenQRM nos encontramos con una solución propia, basada en el sistema de plugins de la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas máquinas. Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage, 
+2.6 Eucalyptus.
+	Entre los distintos componentes de esta solución de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3.
+2.7 CloudStack.
+	Esta plataforma se nutre de la solución de almacenamiento de OpenStack, Swift, estudiada anteriormente.
+2.8 Abiquo Open source edition.
+En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o genérico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento genérico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una máquinas virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
+
+3. Swiftness.
+
+	El objetivo principal de Swiftness es ofrecer drivers de código abierto, para los distintos sistemas operativos existentes, para la administración de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computación en la nube o administración de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de máquinas virtuales, Swift se convierte en una solución perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiéndose plantear un modelo de negocio basado en la instalación y mantenimiento de nubes privadas, de almacenamiento o de computación. Swiftness permitirá acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
+
+	
+
+4. Glosario.
+	
+
+Cloud Storage:  almacenamiento en la nube, es decir, en internet.
+Agilidad:  capacidad de mover los datos al área adecuada para mejorar su disponibilidad.
+Escalabilidad: capacidad de manejar crecientes cargas de trabajo, o de adaptarse para ser capaces de soportarlas.
+Elasticidad: capacidad de escalarse mas allá limites impuestos por las condiciones del sistema.
+Latencia: Tiempo de espera, normalmente entre que se realiza una petición y se recibe una respuesta.
+Persistencia: Si existen distintas copias de un archivo, todas deben ser iguales.
+Cluster: Conjunto de sistemas informáticos que actúan como un solo sistema.
+Nodo: Sistema capaz de procesar información.
+Tumultuario: capacidad de que el recurso sea utilizado por varios usuarios concurrentemente.
+Servicio distribuido: servicio ofrecido por un conjunto de sistemas que actúa como un solo sistema.
+API: Application programming interface, interfaz de programación de la aplicación.
+Tolerancia a fallos: capacidad de soportar errores sin dejar sin servicio al cliente.
+Redundancia de datos: duplicación de datos, habitualmente para evitar su pérdida.
+Software duradero: software capaz de almacenar distintas versiones de un mismo fichero.
+World Wide Web: Sistema de enlace de documentos a través de internet.
+Amazon EC2 Query Interface: Interfaz de consultas de la plataforma de Cloud Computing de Amazon.
+Amazon S3: Sistema de almacenamiento propietario de la plataforma de Cloud Computing de Amazon.
+Data store drivers: Drivers de almacenamiento de datos.
+Transfer manager drivers: Drivers de gestión de transferencias.
+Imagen virtual: fichero que simula el disco duro de un ordenador para, en conjunto con la tecnología de virtualización, se pueda lanzar un sistema operativo con sus aplicaciones propias.
+	
+	Referencias.
+
+Wikipedia:
+http://en.wikipedia.org/wiki/Cloud_computing_comparison
+http://en.wikipedia.org/wiki/OpenNebula
+http://en.wikipedia.org/wiki/Nimbus_(cloud_computing)
+http://en.wikipedia.org/wiki/Amazon_Elastic_Block_Store
+http://en.wikipedia.org/wiki/Eucalyptus_%28computing%29
+http://en.wikipedia.org/wiki/Cloudstack 
+http://en.wikipedia.org/wiki/OpenQRM
+http://en.wikipedia.org/wiki/Abiquo_Enterprise_Edition 
+http://en.wikipedia.org/wiki/OpenStack
+OpenNebula:
+http://opennebula.org/documentation:rel3.6
+Nimbus:
+http://www.nimbusproject.org/docs/2.9/ 
+CloudStack:
+http://docs.cloudstack.org/CloudStack_Documentation 
+OpenQRM:
+http://www.openqrm-enterprise.com/news/details/article/in-depth-documentation-of-openqrm-available.html 
+Abiquo:
+http://community.abiquo.com/display/ABI20/Abiquo+Documentation+Home
+OpenStack:
+http://www.openstack.org/software/openstack-storage/
+
