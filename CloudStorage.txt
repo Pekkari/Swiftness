@@ -17,30 +17,70 @@
 	Puesto que el principal uso de los cubos es almacenar páginas web, cada cubo puede ser configurado para almacenar los registros de acceso en un cubo gemelo, o réplica.
 	
 2.2 OpenNebula.
-	Aunque plataforma de Cloud Computing de OpenNebula es compatible con la interfaz Amazon EC2 Query Interface, lo que le ofrece compatibilidad con la plataforma de almacenamiento Amazon S3, dicha plataforma goza de un subsistema de almacenamiento propio. 
-	El subsistema está ideado para almacenar máquinas virtuales unicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gestión de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creación, eliminación y modificación de las máquinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonación y enlace.
+	Aunque la plataforma de Cloud Computing de OpenNebula es compatible con la interfaz Amazon EC2 Query Interface, lo que le ofrece compatibilidad con la plataforma de almacenamiento Amazon S3, dicha plataforma goza de un subsistema de almacenamiento propio. 
+	El subsistema está ideado para almacenar máquinas virtuales únicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gestión de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creación, eliminación y modificación de las máquinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonación y enlace.
+
 2.3 Nimbus.
 	La plataforma Nimbus utiliza una implementación propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento.
+
 2.4 OpenStack.
 	Dicha solución se divide en tres partes bien diferenciadas para ofrecer una nube personal, estas son Nova, para la ejecución de software, Swift, para el almacenamiento, y Glance, para la gestión de imágenes virtuales. Esto le ofrece la capacidad de poder instalar solo el componente necesario para las necesidades del usuario. Swift es capaz de almacenar objetos o bloques indistintamente, permitiendo no solo el almacenamiento de imágenes virtuales, sino de cualquier tipo de información. 
-	Esta solución es escalable, distribuida admite redundancia de datos, y propone al usuario una API de programación. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnética, o una imagen virtual) pueda añadirse al sistema de almacenamiento distribuido de forma transparente.
+	Esta solución es escalable, distribuida, admite redundancia de datos, y propone al usuario una API de programación. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnética, o una imagen virtual) pueda añadirse al sistema de almacenamiento distribuido de forma transparente.
 	Su organización se basa en clusteres de almacenamiento, y cada objeto se distribuye entre diferentes nodos de la red. El sistema garantiza la persistencia de bloques y capacidad de realizar instantaneas(snapshots) del almacenamiento para labores de salvaguardas.
+
 2.5 OpenQRM.
-	En  el caso de OpenQRM nos encontramos con una solución propia, basada en el sistema de plugins de la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas máquinas. Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage, 
+	En  el caso de OpenQRM nos encontramos con una solución propia, basada en el sistema de plugins para la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas máquinas. Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage, 
+
 2.6 Eucalyptus.
 	Entre los distintos componentes de esta solución de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3.
+
 2.7 CloudStack.
 	Esta plataforma se nutre de la solución de almacenamiento de OpenStack, Swift, estudiada anteriormente.
+
 2.8 Abiquo Open source edition.
-En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o genérico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento genérico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una máquinas virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
+	En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o genérico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento genérico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una máquina virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
 
 3. Swiftness.
+	El objetivo principal de Swiftness es ofrecer drivers de código abierto, para los distintos sistemas operativos existentes, y para la administración de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computación en la nube o administración de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de máquinas virtuales, Swift se convierte en una solución perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiéndose plantear un modelo de negocio basado en la instalación y mantenimiento de nubes privadas, de almacenamiento o de computación. Swiftness permitirá acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
+	Para ello Swiftness propone una capa de abstracción de software que se interpondrá entre el núcleo del sistema operativo y el sistema de ficheros del cliente.
 
-	El objetivo principal de Swiftness es ofrecer drivers de código abierto, para los distintos sistemas operativos existentes, para la administración de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computación en la nube o administración de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de máquinas virtuales, Swift se convierte en una solución perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiéndose plantear un modelo de negocio basado en la instalación y mantenimiento de nubes privadas, de almacenamiento o de computación. Swiftness permitirá acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
+4. Swift.
+	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacción, el cliente deberá solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondrá de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier petición, el cual ejerce de fachada aislando al resto de servidores. La organización de estos seria la siguiente:
+
+	Insertar imagen aquí.
+
+	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribución de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
+
+4.1 Swift proxy server.
+	La comunicación con este componente, se basa en el envio de peticiones HTTP. Dichas peticiones se gestionan mediante el uso de la operación GET, y deben contener unas cabeceras específicas para reconocer los distintos tipos de peticiones. Dichas peticiones disponen de una serie de restricciones detalladas a continuación:
+
+El numero máximo de cabeceras por petición es 90.
+La máxima longitud de las cabeceras es 4096 bytes.
+Cada linea de petición no debe tener más de 8192 bytes.
+Una petición no debe exceder el tamaño de 5 gigabytes.
+El nombre de un contenedor no puede ser mayor de 256 bytes.
+El nombre de un objeto no puede ser mayor que 1024 bytes.
+
+	La operaciones posibles sobre el almacenamiento se dividen entre los tres servidores de gestión de este. Detallamos a continuación las operaciones relevantes:
+
+Servidor de cuentas.
+Listado de contenedores.
+Servidor de contenedores.
+Listado de objetos en el contenedor.
+Creación de contenedores.
+Eliminación de contenedores.
+Servidor de objetos.
+Recuperación de objetos.
+Creación/actualización de objetos.
+Copia de objetos.
+Eliminación de objetos.
+
+	NOTA! Se añadirán operaciones conforme se descubra su necesidad.
 
 	
 
-4. Glosario.
+
+5. Glosario.
 	
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
@@ -51,7 +91,7 @@ Latencia: Tiempo de espera, normalmente entre que se realiza una petición y se r
 Persistencia: Si existen distintas copias de un archivo, todas deben ser iguales.
 Cluster: Conjunto de sistemas informáticos que actúan como un solo sistema.
 Nodo: Sistema capaz de procesar información.
-Tumultuario: capacidad de que el recurso sea utilizado por varios usuarios concurrentemente.
+Multiusuario: capacidad de que el recurso sea utilizado por varios usuarios concurrentemente.
 Servicio distribuido: servicio ofrecido por un conjunto de sistemas que actúa como un solo sistema.
 API: Application programming interface, interfaz de programación de la aplicación.
 Tolerancia a fallos: capacidad de soportar errores sin dejar sin servicio al cliente.
@@ -88,4 +128,6 @@ Abiquo:
 http://community.abiquo.com/display/ABI20/Abiquo+Documentation+Home
 OpenStack:
 http://www.openstack.org/software/openstack-storage/
+http://docs.openstack.org/api/
+http://docs.openstack.org/developer/
 
