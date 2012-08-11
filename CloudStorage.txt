@@ -77,10 +77,23 @@ Eliminación de objetos.
 
 	NOTA! Se añadirán operaciones conforme se descubra su necesidad.
 
-	
+5. Linux.
+	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el año 1991, los programas en espacio de usuario deben comunicarse con el núcleo a través de módulos que permitan la gestión de dispositivos en el sistema. Dichos módulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
+	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la información transmitida es un flujo de caracteres secuencial en el tiempo. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no tienen necesariamente se acceden de manera secuencial. Por ultimo, los dispositivos de red, se encargan de cualquier tipo de comunicación con el exterior del sistema a través de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
+	Los dispositivos representados no tienen la obligación de ser dispositivos reales, pudiendo permitirse la existencia de dispositivos virtuales que resuelvan un tipo de tarea determinada. Un ejemplo claro de dispositivo virtual es el dispositivo de generación de números aleatorios(accedido desde el fichero /dev/random), el cual no requiere de ningún hardware especifico para desempeñar su función.
+	La intención principal de Swiftness es proveer de un dispositivo de bloques que sea capaz de acceder al servidor Swift de Openstack, como si de un dispositivo local se tratara. Esto conlleva la clara diferencia de que, si detrás de un driver de dispositivo de bloques solemos encontrar dispositivos de almacenamiento físicos(como por ejemplo, un disco duro, una cinta magnética o un CD-ROM), en este caso nos encontraremos con una interfaz de red que debe saber comunicarse con el servidor.
+
+	Insertar imagen aquí.
+
+	Cabría esperar que la labor de Swiftness fuera la de la traducción de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el módulo nbd(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor swift pueda ser gobernado por el módulo nbd.
+
+5.1 Dispositivos de bloques.
+	Los dispositivos de bloques, dentro del código fuente de Linux se alojan en el directorio drivers/block, y las interfaces que deben cumplir en el directorio include/linux. 
+
+5.2 Dispositivos de red.
 
 
-5. Glosario.
+6. Glosario.
 	
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
@@ -130,4 +143,5 @@ OpenStack:
 http://www.openstack.org/software/openstack-storage/
 http://docs.openstack.org/api/
 http://docs.openstack.org/developer/
+Cap. 17 Devices and modules. Linux Kernel Development - Robert Love, Editorial Addison Wesley)
 
