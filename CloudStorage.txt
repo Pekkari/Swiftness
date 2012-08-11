@@ -79,7 +79,7 @@ Eliminación de objetos.
 
 5. Linux.
 	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el año 1991, los programas en espacio de usuario deben comunicarse con el núcleo a través de módulos que permitan la gestión de dispositivos en el sistema. Dichos módulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
-	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la información transmitida es un flujo de caracteres secuencial en el tiempo. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no tienen necesariamente se acceden de manera secuencial. Por ultimo, los dispositivos de red, se encargan de cualquier tipo de comunicación con el exterior del sistema a través de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
+	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la información transmitida es un flujo de caracteres secuencial, si tecleas una palabra, esta se tratará en su estricto orden, y no en otro distinto. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no necesariamente se acceden de manera secuencial. Por último, los dispositivos de red, se encargan de cualquier tipo de comunicación con el exterior del sistema a través de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
 	Los dispositivos representados no tienen la obligación de ser dispositivos reales, pudiendo permitirse la existencia de dispositivos virtuales que resuelvan un tipo de tarea determinada. Un ejemplo claro de dispositivo virtual es el dispositivo de generación de números aleatorios(accedido desde el fichero /dev/random), el cual no requiere de ningún hardware especifico para desempeñar su función.
 	La intención principal de Swiftness es proveer de un dispositivo de bloques que sea capaz de acceder al servidor Swift de Openstack, como si de un dispositivo local se tratara. Esto conlleva la clara diferencia de que, si detrás de un driver de dispositivo de bloques solemos encontrar dispositivos de almacenamiento físicos(como por ejemplo, un disco duro, una cinta magnética o un CD-ROM), en este caso nos encontraremos con una interfaz de red que debe saber comunicarse con el servidor.
 
@@ -88,7 +88,11 @@ Eliminación de objetos.
 	Cabría esperar que la labor de Swiftness fuera la de la traducción de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el módulo nbd(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor swift pueda ser gobernado por el módulo nbd.
 
 5.1 Dispositivos de bloques.
-	Los dispositivos de bloques, dentro del código fuente de Linux se alojan en el directorio drivers/block, y las interfaces que deben cumplir en el directorio include/linux. 
+	Los drivers dispositivos de bloques, dentro del código fuente de Linux, se alojan en el directorio drivers/block, y las interfaces que deben cumplir en el directorio include/linux. Como antes adelantábamos, dichos dispositivos disponen de grandes cantidades de información, dividida en bloques que no serán accedidos secuencialmente y es este hecho el que los diferencia de los dispositivos de caracteres. Debido a que tendremos que navegar a lo largo del dispositivo para acceder a la información, estos dispositivos ganan complejidad. La naturaleza de dichos dispositivos hacen al sistema altamente sensible a su disponibilidad.
+	El tamaño de un sector depende del dispositivo en cuestión, y es la unidad minima fundamental de un dispositivo de bloques. Aunque muchos dispositivos de bloques dispongan de un tamaño de sector de 512 bytes, esto no quiere decir que sea un tamaño estándar. El sistema operativo debe cumplir con ciertas restricciones a la ora de acceder a un dispositivo de bloque. Debe acceder a la información en bloques de tamaño múltiplo del tamaño de sector, el tamaño de este bloque, deberá ser potencia de dos(restricción que suele aplicarse también al tamaño de sector),  y el tamaño de bloque no puede ser mayor que el tamaño de una página de información en memoria principal. Los tamaños más habituales son 512 bytes, 1 kilobytes, y 4 kilobytes.
+	Cada vez que un bloque es alojado en memoria principal, este es asociado a un buffer. Un buffer es un objeto que representa un bloque en memoria, y, dado que el núcleo requiere más información que esta, cada buffer se asociará a un descriptor llamado buffer_head. Esta estructura almacenará datos como el estado del bloque, su página asociada, su tamaño, un puntero al comienzo de los datos, y el dispositivo al que pertenece, entre otros detalles. Puede consultarse la estructura en el fichero "include/linux/buffer_head.h". Aunque mucha de esta información es necesaria para el núcleo, no deja de ser una sobrecarga y un consumo de espacio en memoria.
+	Otra estructura de importancia, es aquella que almacena la información de una operación de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero "include/linux/bio.h"). Las operaciones se descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligación de estar alojadas de forma contigua en memoria principal. De esta forma, el núcleo puede operar con un sector repartido a lo largo de toda la memoria. La información de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la dirección su vector asociado, bi_idx, su posición dentro del vector, y bi_vcnt, el número de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la información relativa a la página de memoria donde se aloja el segmento, su tamaño, y el desplazamiento dentro de la  página.
+	Con esta organización, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia, normalmente por proximidad de páginas dentro del almacenamiento masivo, añadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques.	
 
 5.2 Dispositivos de red.
 
@@ -116,6 +120,10 @@ Amazon S3: Sistema de almacenamiento propietario de la plataforma de Cloud Compu
 Data store drivers: Drivers de almacenamiento de datos.
 Transfer manager drivers: Drivers de gestión de transferencias.
 Imagen virtual: fichero que simula el disco duro de un ordenador para, en conjunto con la tecnología de virtualización, se pueda lanzar un sistema operativo con sus aplicaciones propias.
+Sector: Unidad mínima de almacenamiento de un dispositivo de bloques.
+Buffer: zona de memoria para alojar información.
+Puntero: tipo abstracto de dato útil para referenciar direcciones de memoria.
+Memoria principal: 
 	
 	Referencias.
 
@@ -143,5 +151,5 @@ OpenStack:
 http://www.openstack.org/software/openstack-storage/
 http://docs.openstack.org/api/
 http://docs.openstack.org/developer/
-Cap. 17 Devices and modules. Linux Kernel Development - Robert Love, Editorial Addison Wesley)
+Linux Kernel Development - Robert Love, Editorial Addison Wesley)
 
