@@ -46,9 +46,7 @@
 
 4. Swift.
 	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacción, el cliente deberá solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondrá de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier petición, el cual ejerce de fachada aislando al resto de servidores. La organización de estos seria la siguiente:
-
-	Insertar imagen aquí.
-
+	
 	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribución de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
 
 4.1 Swift proxy server.
@@ -83,7 +81,7 @@ Eliminación de objetos.
 	Los dispositivos representados no tienen la obligación de ser dispositivos reales, pudiendo permitirse la existencia de dispositivos virtuales que resuelvan un tipo de tarea determinada. Un ejemplo claro de dispositivo virtual es el dispositivo de generación de números aleatorios(accedido desde el fichero /dev/random), el cual no requiere de ningún hardware especifico para desempeñar su función.
 	La intención principal de Swiftness es proveer de un dispositivo de bloques que sea capaz de acceder al servidor Swift de Openstack, como si de un dispositivo local se tratara. Esto conlleva la clara diferencia de que, si detrás de un driver de dispositivo de bloques solemos encontrar dispositivos de almacenamiento físicos(como por ejemplo, un disco duro, una cinta magnética o un CD-ROM), en este caso nos encontraremos con una interfaz de red que debe saber comunicarse con el servidor.
 
-	Insertar imagen aquí.
+	
 
 	Cabría esperar que la labor de Swiftness fuera la de la traducción de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el módulo nbd(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor swift pueda ser gobernado por el módulo nbd.
 
@@ -94,7 +92,6 @@ Eliminación de objetos.
 	Otra estructura de importancia, es aquella que almacena la información de una operación de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero "include/linux/bio.h"). Las operaciones se descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligación de estar alojadas de forma contigua en memoria principal. De esta forma, el núcleo puede operar con un sector repartido a lo largo de toda la memoria. La información de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la dirección su vector asociado, bi_idx, su posición dentro del vector, y bi_vcnt, el número de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la información relativa a la página de memoria donde se aloja el segmento, su tamaño, y el desplazamiento dentro de la  página.
 	Con esta organización, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia(normalmente por proximidad de páginas dentro del almacenamiento masivo), añadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques. El panorama general se asemejara a la siguiente figura:
 
-	Insertar imagen aquí.
 
 	La forma en la que el sistema de ficheros virtual maneja todas estas estructuras, es a través de una estructura request_queue, que, como cuyo nombre indica, es una cola de peticiones. Mientras la cola no este vacía, el driver del dispositivo de bloques ir retirando peticiones, o estructuras request, de la cabeza de la cola y enviándole dichas peticiones al dispositivo que soporta. La estructura request está compuesta de una o más estructuras bio que operan sobre bloques consecutivos en el dispositivo. Estas estructuras vienen definidas en el fichero "include/linux/blkdev.h".
  
