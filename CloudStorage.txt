@@ -92,9 +92,17 @@ Eliminación de objetos.
 	El tamaño de un sector depende del dispositivo en cuestión, y es la unidad minima fundamental de un dispositivo de bloques. Aunque muchos dispositivos de bloques dispongan de un tamaño de sector de 512 bytes, esto no quiere decir que sea un tamaño estándar. El sistema operativo debe cumplir con ciertas restricciones a la ora de acceder a un dispositivo de bloque. Debe acceder a la información en bloques de tamaño múltiplo del tamaño de sector, el tamaño de este bloque, deberá ser potencia de dos(restricción que suele aplicarse también al tamaño de sector),  y el tamaño de bloque no puede ser mayor que el tamaño de una página de información en memoria principal. Los tamaños más habituales son 512 bytes, 1 kilobytes, y 4 kilobytes.
 	Cada vez que un bloque es alojado en memoria principal, este es asociado a un buffer. Un buffer es un objeto que representa un bloque en memoria, y, dado que el núcleo requiere más información que esta, cada buffer se asociará a un descriptor llamado buffer_head. Esta estructura almacenará datos como el estado del bloque, su página asociada, su tamaño, un puntero al comienzo de los datos, y el dispositivo al que pertenece, entre otros detalles. Puede consultarse la estructura en el fichero "include/linux/buffer_head.h". Aunque mucha de esta información es necesaria para el núcleo, no deja de ser una sobrecarga y un consumo de espacio en memoria.
 	Otra estructura de importancia, es aquella que almacena la información de una operación de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero "include/linux/bio.h"). Las operaciones se descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligación de estar alojadas de forma contigua en memoria principal. De esta forma, el núcleo puede operar con un sector repartido a lo largo de toda la memoria. La información de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la dirección su vector asociado, bi_idx, su posición dentro del vector, y bi_vcnt, el número de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la información relativa a la página de memoria donde se aloja el segmento, su tamaño, y el desplazamiento dentro de la  página.
-	Con esta organización, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia, normalmente por proximidad de páginas dentro del almacenamiento masivo, añadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques.	
+	Con esta organización, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia(normalmente por proximidad de páginas dentro del almacenamiento masivo), añadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques. El panorama general se asemejara a la siguiente figura:
+
+	Insertar imagen aquí.
+
+	La forma en la que el sistema de ficheros virtual maneja todas estas estructuras, es a través de una estructura request_queue, que, como cuyo nombre indica, es una cola de peticiones. Mientras la cola no este vacía, el driver del dispositivo de bloques ir retirando peticiones, o estructuras request, de la cabeza de la cola y enviándole dichas peticiones al dispositivo que soporta. La estructura request está compuesta de una o más estructuras bio que operan sobre bloques consecutivos en el dispositivo. Estas estructuras vienen definidas en el fichero "include/linux/blkdev.h".
+ 
+	Estas colas de peticiones serán manejadas por los distintos organizadores de las operaciones de entrada/salida. Entre los organizadores más importantes nos encontramos, el ascensor de Linus(Linus Elevator Scheduler), el organizador por plazos(Deadline Scheduler), el organizador anticipado(Anticipatory Scheduler), el organizador de cola completamente justo(Complete Fair Queue Scheduler), y el organizador de no operación(Noop Scheduler).
 
 5.2 Dispositivos de red.
+	Los dispositivos de red en Linux disponen de un comportamiento similar al de un dispositivo de bloques montado. Este debe registrarse en el núcleo del sistema operativo utilizando las estructuras habilitadas para tal efecto antes de que pueda transmitir o recibir ningún paquete. Aún así, parece razonable pensar que existen ciertas diferencias. Los dispositivos de red no disponen de un fichero en el directorio "/dev" que sirva de punto de acceso, puesto que sus operaciones principales ya no van a ser las de leer o escribir, sino las de transmitir o recibir. Además, utiliza un espacio de nombres distintos y provee al usuario de operaciones distintas, que operan sobre objetos diferentes en el núcleo. 
+	Otra diferencia a subrayar es que un dispositivo de bloques actúa en consecuencia de una petición del núcleo, mientras que el dispositivo de red debe pedir al núcleo que procese el paquete que ha recibido asíncronamente. Esto implica que aunque el subsistema de red de este sistema operativo sea independiente del protocolo utilizado, su API sea completamente distinta.
 
 
 6. Glosario.
@@ -123,7 +131,8 @@ Imagen virtual: fichero que simula el disco duro de un ordenador para, en conjun
 Sector: Unidad mínima de almacenamiento de un dispositivo de bloques.
 Buffer: zona de memoria para alojar información.
 Puntero: tipo abstracto de dato útil para referenciar direcciones de memoria.
-Memoria principal: 
+Memoria principal: almacenamiento de instrucciones y datos principal del sistema físico.
+Espacio de nombres: juego de identificadores que permiten la desambiguación de homónimos.
 	
 	Referencias.
 
@@ -151,5 +160,6 @@ OpenStack:
 http://www.openstack.org/software/openstack-storage/
 http://docs.openstack.org/api/
 http://docs.openstack.org/developer/
-Linux Kernel Development - Robert Love, Editorial Addison Wesley)
+Linux Kernel Development - Robert Love, Editorial Addison Wesley.
+Linux Device Drivers - Jonathan Corbet, Alessandro Rubini and Greg KroaH-Hartman, Editorial O'Reilly.
 
