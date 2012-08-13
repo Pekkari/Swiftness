@@ -48,7 +48,7 @@
 	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacción, el cliente deberá solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondrá de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier petición, el cual ejerce de fachada aislando al resto de servidores. La organización de estos seria la siguiente:
 	
 	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribución de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
-
+	
 4.1 Swift proxy server.
 	La comunicación con este componente, se basa en el envio de peticiones HTTP. Dichas peticiones se gestionan mediante el uso de la operación GET, y deben contener unas cabeceras específicas para reconocer los distintos tipos de peticiones. Dichas peticiones disponen de una serie de restricciones detalladas a continuación:
 
@@ -74,6 +74,9 @@ Copia de objetos.
 Eliminación de objetos.
 
 	NOTA! Se añadirán operaciones conforme se descubra su necesidad.
+
+4.2 Entorno de operación.
+	Para poder comprobar que nuestros drivers funcionan correctamente, es necesario preparar un servidor Openstack Swift donde poder realizar las conexiones pertinentes. Para este proyecto, hemos elegido utilizar una máquina virtual utilizando la tecnología de virtualización KVM, propia del núcleo de linux. La máquina ha sido dotada de un sistema operativo Debian GNU/Linux en su versión de pruebas(actualmente Debian GNU/Linux Wheezy), y dispone de dirección IP propia dentro de la red gracias a la compatibilidad de KVM con los puentes virtuales que ofrece Linux. Además del software básico que se instala automáticamente con la distribución, se le ha añadido un servidor OpenSSH para realizar conexiones seguras a la máquina y los paquetes, incluidos en los repositorios de la distribución, de Openstack Swift. De esta forma puede ejecutarse la máquina virtual como si de un servidor del sistema real se tratara, y podemos realizar cualquier prueba pertinente de nuestros drivers. Para la configuración del servidor Swift, hemos seguido las instrucciones detalladas en la documentación de Openstack SAIO(Swift All In One).
 
 5. Linux.
 	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el año 1991, los programas en espacio de usuario deben comunicarse con el núcleo a través de módulos que permitan la gestión de dispositivos en el sistema. Dichos módulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
@@ -175,6 +178,7 @@ OpenStack:
 http://www.openstack.org/software/openstack-storage/
 http://docs.openstack.org/api/
 http://docs.openstack.org/developer/
+http://docs.openstack.org/developer/swift/development_saio.html
 Linux Kernel Development - Robert Love, Editorial Addison Wesley.
 Linux Device Drivers - Jonathan Corbet, Alessandro Rubini and Greg KroaH-Hartman, Editorial O'Reilly.
 
