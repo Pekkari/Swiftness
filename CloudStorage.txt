@@ -75,7 +75,188 @@ Eliminación de objetos.
 
 	NOTA! Se añadirán operaciones conforme se descubra su necesidad.
 
-4.2 Entorno de operación.
+4.2 Operaciones en la API.
+	Como ya adelantábamos, para interactuar con el servidor proxy se utiliza una interfaz REST, es decir, el servidor espera peticiones HTTP para servir cualquier tipo de fichero disponible, y realizar el control de acceso al almacenamiento.
+4.2.1. Identificación.
+	Esta operación es, por razones de seguridad, la primera a realizar de todas las posibles. Para ello hace falta proveer al servidor de un usuario válido y su contraseña a través de la operación GET de la versión 1.1 de HTTP. El servidor nos devolverá un identificador único necesario para realizar cualquier posterior operación. La solicitud es la siguiente:
+
+	GET /v1.0 HTTP/1.1
+	Host: <Servidor proxy>
+	X-Auth-User: <usuario>
+	X-Auth-Key: <contraseña>
+	La respuesta tiene la siguiente forma:
+	HTTP/1.1 204 No Content
+	Date: <fecha>
+	Server: <servidor web>
+	X-Storage-Url: <dirección para posteriores accesos>
+	X-Auth-Token: <identificador para posteriores accesos>
+	Content-Length: 0
+	Content-Type: text/plain; charset=UTF-8
+
+4.2.2. Listado de contenedores.
+	La operación de listado de contenedores no requiere ningún parametro en especial, más que el indentificador de sesión obtenido durante la identificación, sin embargo, existen un par de variables configurables de interés general para dicha operación. Las variables se concatenan a la dirección solicitada en la operación GET, separando el listado de variables de la dirección por un interrogante('?'). Dichas variables sirven para describir el formato en que se recibirá el listado,siendo válidos los valores format=json y format=xml, el límite de contenedores que se quieren recibir, configurando la variable limit=N, y la coincidencia desde la cual quiere comenzarse el listado con la variable marker.
+	
+	GET /<api version>/<account>?var1=val1& ? & varN=valN HTTP/1.1
+	Host: <dirección del servidor>
+ 	X-Auth-Token: <identificador de sesión>
+	Un ejemplo de respuesta en formato JSON es el siguiente:
+	HTTP/1.1 200 OK
+	Date: Tue, 25 Nov 2008 19:39:13 GMT
+	Server: Apache
+	Content-Type: application/json; charset=utf-8
+	[
+	  {"name":"test_container_1", "count":2, "bytes":78},
+	  {"name":"test_container_2", "count":1, "bytes":17}
+	] 
+	En formato XML la respuesta sería de la siguiente forma:
+	  HTTP/1.1 200 OK
+	Date: Tue, 25 Nov 2008 19:42:35 GMT
+	Server: Apache
+	Content-Type: application/xml; charset=utf-8
+	<?xml version="1.0" encoding="UTF-8"?>
+
+	<account name="MichaelBarton">
+	  <container>
+	    <name>test_container_1</name>
+	    <count>2</count>
+	    <bytes>78</bytes>
+	  </container>
+	  <container>
+	    <name>test_container_2</name>
+	    <count>1</count>
+	    <bytes>17</bytes>
+	  </container>
+	</account>
+4.2.3. Listado de objetos.
+	En el caso de los listados de objetos, se dispone de algunas variables de configuración adicionales, además de las ya descritas para los listados de contenedores. Estas nuevas variables son  end_marker, para devolver un listado terminado en el valor especificado, prefix, para ofrecer un prefijo que preceda al nombre del objeto y delimiter, para mostrar las ocurrencias listadas hasta el delimitador, desechando el resto de la dirección. Un ejemplo de uso de delimitador es aquel en el que solo queremos listar los directorios existentes en la raíz del almacenamiento, para lo cual solo requerimos utilizar el delimitador '/' para obtener el resultado deseado.
+	Un ejemplo de respuesta en formato JSON:
+
+	HTTP/1.1 200 OK
+	Date: Tue, 25 Nov 2008 19:39:13 GMT
+	Server: Apache
+	Content-Length: 387
+	Content-Type: application/json; charset=utf-8
+	[
+	  {"name":"test_obj_1",
+	   "hash":"4281c348eaf83e70ddce0e07221c3d28",
+	   "bytes":14,
+	   "content_type":"application\/octet-stream",
+	    "last_modified":"2009-02-03T05:26:32.612278"},
+	  {"name":"test_obj_2",
+	   "hash":"b039efe731ad111bc1b0ef221c3849d0",
+	   "bytes":64,
+	   "content_type":"application\/octet-stream",
+	   "last_modified":"2009-02-03T05:26:32.612278"},
+	]
+	En formato XML el servidor respondería lo siguiente:
+	HTTP/1.1 200 OK
+	Date: Tue, 25 Nov 2008 19:42:35 GMT
+	Server: Apache
+	Content-Length: 643
+	Content-Type: application/xml; charset=utf-8
+	<?xml version="1.0" encoding="UTF-8"?>
+
+	<container name="test_container_1">
+	  <object>
+	    <name>test_object_1</name>
+	    <hash>4281c348eaf83e70ddce0e07221c3d28</hash>
+	    <bytes>14</bytes>
+	    <content_type>application/octet-stream</content_type>
+	    <last_modified>2009-02-03T05:26:32.612278</last_modified>
+	  </object>
+	  <object>
+	    <name>test_object_2</name>
+	    <hash>b039efe731ad111bc1b0ef221c3849d0</hash>
+	    <bytes>64</bytes>
+	    <content_type>application/octet-stream</content_type>
+	    <last_modified>2009-02-03T05:26:32.612278</last_modified>
+	  </object>
+	</container>
+4.2.4. Creación de contenedores.
+	Los contenedores, no son más que compartimentos donde almacenar los objetos, sin embargo, sus nombres deben cumplir las restricciones de no tener una longitud mayor de 256 caracteres, y no contener el carácter '/'. Un ejemplo de petición de creación de un contenedor es el siguiente:
+
+	PUT /<api version>/<account>/<container> HTTP/1.1
+	Host: <servidor>
+	X-Auth-Token: <identificador de sesión>
+	La respuesta en este caso:
+	HTTP/1.1 201 Created
+	Date: Thu, 07 Jun 2010 18:50:19 GMT
+	Server: Apache
+	Content-Type: text/plain; charset=UTF-8
+
+4.2.5. Eliminación de contenedores.
+	Para la eliminación de un contenedor, es suficiente con la siguiente petición:
+
+	DELETE /<api version>/<account>/<container> HTTP/1.1
+	Host: <server>
+	X-Auth-Token: <identificador de sesión>
+	Sin embargo deben suceder que el contenedor esté vacio para que este pueda ser eliminado. Su borrado es permanente. Su respuesta pudiera ser la siguiente:
+	 HTTP/1.1 204 No Content
+	 Date: Thu, 07 Jun 2010 18:57:07 GMT
+	 Server: Apache
+	 Content-Length: 0
+	 Content-Type: text/plain; charset=UTF-8
+4.2.6. Recuperación de objetos.
+	Aunque habitualmente se utiliza la operación GET para recuperar objetos del almacenamiento masivo, es posible utilizar las directivas If-Match, If-None-Match, If-Modified-Since y If-Unmodified-Since definidas en el protocolo RFC2616. Como sus nombres indican, su funcionalidad es hacer condicional la recuperación del objeto en cuestión, definiendo si se encuentra un objeto que coincida en nombre, que no, o si ha sido modificado desde una fecha determinada.
+	Existe también un soporte básico para recuperar rangos de memoria dentro del objeto, permitiendo recuperar solo partes de este si no se requiere el objeto completo.
+	Su petición es la siguiente:
+	
+	GET /<api version>/<account>/<container>/<object> HTTP/1.1
+	Host: <servidor>
+	X-Auth-Token: <identificador de sesión>
+	Su posible respuesta correspondiente sería:
+
+	HTTP/1.1 200 Ok
+	Date: Wed, 11 Jul 2010 19:37:41 GMT
+	Server: Apache
+	Last-Modified: Fri, 12 Jun 2010 13:40:18 GMT
+	ETag: b0dffe8254d152d8fd28f3c5e0404a10
+	Content-type: text/html
+	Content-Length: 512000
+	[ ... ]
+4.2.7. Creación, o actualización de objetos.
+	Es posible, y recomendable, que para la creación o actualización de objetos se utilizen sumas MD5 que ayuden a verificar la integridad de este. Está soportada dicha funcionalidad a través  del envío de una cabecera especial llamada Etag. Independientemente de si esta cabecera es incluida en la creación del objeto, al recuperarlo, siempre se devolverá el valor de la suma, para que el usuario pueda comprobar su integridad. Si se desea que el objeto expire en un tiempo determinado, o en una fecha, es posible añadir las cabeceras X-Delete-At y X-Delete-After. Su petición tiene la siguiente forma:
+
+	PUT /<api version>/<account>/<container>/<object> HTTP/1.1
+	Host: <servidor>
+	X-Auth-Token: <identificador de sesión>
+	ETag: <suma MD5>
+	Content-Length: <longitud en bytes>
+	X-Object-Meta-PIN: 1234
+	[ ... ]
+
+	Su posible respuesta sería:
+	
+	HTTP/1.1 201 Created
+	Date: Thu, 07 Jun 2010 18:57:07 GMT
+	Server: Apache
+	ETag: d9f5eb4bba4e2f2f046e54611bc8196b
+	Content-Length: 0
+	Content-Type: text/plain; charset=UTF-8
+4.2.8. Copia de objetos.
+	De cometerse un error con el nombre del objeto, al subirlo, o sencillamente querer cambiar su nombre, debería eliminarse el objeto y volverlo a subir, produciendo sobrecarga en las comunicaciones. Esto se evita mediante la copia en servidor de objetos. Esta copia puede realizarse de dos formas. A través de la cabecera X-Copy-From, donde se especificará el contenedor y el objeto que se desea copiar, o mediante la operación COPY. Detallamos sus formas a continuación:
+
+	PUT /<api version>/<account>/<container>/<destobject> HTTP/1.1
+	Host: <storage URL>
+	X-Auth-Token: <some-auth-token>
+	X-Copy-From: /<container>/<sourceobject>
+	Content-Length: 0 
+	COPY /<api version>/<account>/<container>/<sourceobject> HTTP/1.1
+	Host: <storage URL>
+	X-Auth-Token: <some-auth-token>
+	Destination: /<container>/<destobject>
+4.2.9. Eliminación de objetos.
+	La eliminación de objetos es inmediata y permanente, toda operación sobre el objeto despues de la operación DELETE, devolverá el conocido error 404 de HTTP, objeto no encontrado. Es posible programar la eliminación mediante el uso de las cabeceras X-Delete-At y X-Delete-After. La petición debe tener la siguiente forma:
+
+	DELETE /<api version>/<account>/<container>/<object> HTTP/1.1
+	Host: <servidor>
+	X-Auth-Token: <>
+	Su respuesta se asemajará a la detallada a continuación:
+	HTTP/1.1 204 No Content
+	Date: Thu, 07 Jun 2010 20:59:39 GMT
+	Server: Apache
+	Content-Type: text/plain; charset=UTF-8
+4.3 Entorno de operación.
 	Para poder comprobar que nuestros drivers funcionan correctamente, es necesario preparar un servidor Openstack Swift donde poder realizar las conexiones pertinentes. Para este proyecto, hemos elegido utilizar una máquina virtual utilizando la tecnología de virtualización KVM, propia del núcleo de linux. La máquina ha sido dotada de un sistema operativo Debian GNU/Linux en su versión de pruebas(actualmente Debian GNU/Linux Wheezy), y dispone de dirección IP propia dentro de la red gracias a la compatibilidad de KVM con los puentes virtuales que ofrece Linux. Además del software básico que se instala automáticamente con la distribución, se le ha añadido un servidor OpenSSH para realizar conexiones seguras a la máquina y los paquetes, incluidos en los repositorios de la distribución, de Openstack Swift. De esta forma puede ejecutarse la máquina virtual como si de un servidor del sistema real se tratara, y podemos realizar cualquier prueba pertinente de nuestros drivers. Para la configuración del servidor Swift, hemos seguido las instrucciones detalladas en la documentación de Openstack SAIO(Swift All In One).
 
 5. Linux.
