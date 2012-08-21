@@ -334,7 +334,7 @@ Eliminación de objetos.
 	int xmit_timeout;
 	};
 
-	Sus campos más destacables son el entero flags para configurar sus parámetros, la estructura socket que realiza el envio y recepción de peticiones, la estructura file que define el fichero del dispositivo y las dos colas de peticiones active_wq y waiting_wq. El driver se apoya en dichas colas para ejercer sus funciones. La primera cola, active_wq, almacena las peticiones que se encuentran pendientes de enviar. Una vez enviada por el driver, la petición pasa a la cola waiting_wq. Estas operaciones sobre las listas suceden tras la protección de concurrencia del mecanismo de spinlock. Ademas, con el fin de evitar problemas de concurrencia, se protege la transferencia de estructuras mediante un mutex.
+	Sus campos más destacables son el entero flags para configurar sus parámetros, la estructura socket que realiza el envio y recepción de peticiones, la estructura file que define el fichero del dispositivo y las dos colas de peticiones active_wq y waiting_wq. El driver se apoya en dichas colas para ejercer sus funciones. Una petición nueva, es encolada en la cola waiting_wq. Cuando llega su turno en la cola, la petición se envía y pasa a la cola active_wq para esperar su respuesta. Estas operaciones sobre las listas suceden tras la protección de concurrencia del mecanismo de spinlock. Ademas, con el fin de evitar problemas de concurrencia, se protege la transferencia de estructuras mediante un mutex.
 	La estructura request de nbd es la siguiente:
 
 	struct nbd_request {
@@ -346,7 +346,7 @@ Eliminación de objetos.
 	} __attribute__((packed));
 
 	Esta estructura dispone de un número mágico(o número único) para asegurar la consistencia de la petición, un tipo(lectura o escritura), el campo handle, que se utiliza para almacenar la dirección del manejador de la petición en curso, from, para almacenar la posición dentro del dispositivo donde se encuentra el fichero a tratar, y len, el tamaño de la petición, en multiplos de bloques.
-	Fnialmente la estructura reply se compone de lo siguiente:
+	Finalmente la estructura reply se compone de lo siguiente:
 	
 	struct nbd_reply {
 	__be32 magic;
@@ -355,6 +355,10 @@ Eliminación de objetos.
 	};
 	
 	Podemos observar que se dispone de campos similares al de la estructura request, exceptuando que, en vez de denotar un tipo de respuesta, se almacena un posible código de error. Tampoco se requiere la posición de los bloques solicitados.
+	De entre todas las funciones que conforman dicho driver, alojado en <drivers/block/nbd.c> nos interesan mayoritariamente las funciones que se encargan de transmitir y recibir paquetes a través de la red, y las funciones que creen o procesen dichos paquetes pues son las funciones susceptibles de modificación. Entre ellas, encontramos la función sock_xmit, que se encarga de transmitir un buffer utilizando el socket propio del dispositivo. Gracias a que su objetivo es muy simple, esta función no requiere ningún cambio, suponiendo una base de la comunicación imprescindible. Sin embargo, podemos observar las funciones sock_send_bvec y nbd_send_req, que se encargan de utilizar sock_xmit para enviar la estructura request y las estructuras bio_vec requeridas para procesar la operación en curso, y que con toda probabilidad deberán ser modificadas para permitir la comunicación con el servidor Swift. Estas dos funciones componen la comunicación en el sentido cliente-servidor.
+	Las funciones sock_recv_bvec y nbd_read_stat son el equivalente a las funciones  sock_send_bvec y nbd_send_req en el sentido opuesto de la comunicación, es decir, la comunicación servidor-cliente. La primera de ellas recibe las estructuras bio_vec requeridas, y la segunda se encarga de procesar la respuesta. Con el diseño adecuado, dichas funciones no deberían ser susceptibles de cambio.
+	La función nbd_handle_req añade la petición activa a la cabeza de la cola de peticiones activas, donde esperará su respuesta correspondiente. La función do_nbd_request será la encargada de encolar una nueva petición en la cola waiting_queue antes de ser enviada.
+	Se definen en este módulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo nbd, las cuales no resultan de especial interés para el cometido de este proyecto.
 
 6. Glosario.	
 
