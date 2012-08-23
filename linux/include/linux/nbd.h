@@ -73,6 +73,9 @@ struct nbd_device {
 	u64 bytesize;
 	pid_t pid; /* pid of nbd-client, if attached */
 	int xmit_timeout;
+	
+	int type;	/* to provide differents backends */
+	int (*send_req)(struct nbd_device *nbd, struct request *req);
 };
 
 #endif
