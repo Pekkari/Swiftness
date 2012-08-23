@@ -46,6 +46,11 @@ enum {
 #define NBD_READ_ONLY 0x0001
 #define NBD_WRITE_NOCHK 0x0002
 
+enum nbd_type {
+	NBD_DEFAULT,
+	NBD_SWT,
+};
+
 struct request;
 
 struct nbd_device {
