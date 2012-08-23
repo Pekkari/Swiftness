@@ -71,6 +71,27 @@ static int max_part;
  */
 static DEFINE_SPINLOCK(nbd_lock);
 
+struct nbd_protocol {
+	enum nbd_type type;
+	const char *name;
+	const char *alias;
+};
+
+static const struct nbd_protocol nbd_protocols[] = {
+	{
+		.type		= NBD_DEFAULT,
+		.name		= "NBD",
+		.alias		= "bare",
+	},
+#ifdef CONFIG_BLK_DEV_SWT
+	{
+		.type		= NBD_SWT,
+		.name		= "Swiftness",
+		.alias		= "REST",
+	},
+#endif
+};
+
 #ifndef NDEBUG
 static const char *ioctl_cmd_to_ascii(int cmd)
 {
@@ -227,6 +248,12 @@ static inline int sock_send_bvec(struct nbd_device *nbd, struct bio_vec *bvec,
 			   bvec->bv_len, flags);
 	kunmap(bvec->bv_page);
 	return result;
+}
+
+/* always call with the tx_lock held */
+static int swt_send_req(struct nbd_device *nbd, struct request *req)
+{
+  
 }
 
 /* always call with the tx_lock held */
@@ -698,6 +725,17 @@ static int __nbd_ioctl(struct block_device *bdev, struct nbd_device *nbd,
 			nbd->queue_head.next, nbd->queue_head.prev,
 			&nbd->queue_head);
 		return 0;
+	case NBD_SET_BACKEND:
+	    if ( NBD_SWT == arg)
+	    {
+	      nbd->type = NBD_SWT;
+	      nbd->send_req = swt_send_req;
+	    }
+	    else /* Any other case, fallback to default */
+	    {
+	      nbd->type = NBD_DEFAULT;
+	      nbd->send_req = nbd_send_req;
+	    }
 	}
 	return -ENOTTY;
 }
@@ -822,6 +860,8 @@ static int __init nbd_init(void)
 		sprintf(disk->disk_name, "nbd%d", i);
 		set_capacity(disk, 0);
 		add_disk(disk);
+		nbd_dev[i].type = NBD_DEFAULT;
+		nbd_dev[i].send_req = nbd_send_req;
 	}
 
 	return 0;
