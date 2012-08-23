@@ -1,21 +1,10 @@
 
-#include <linux/init.h>
-#include <linux/module.h>
 #include <linux/kernel.h>
+#include <linux/blkdev.h>
+#include <linux/nbd.h>
 
-static int swt_init(void)
+/* always call with the tx_lock held */
+static int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
-
+  return 0;
 }
-
-static void swt_exit(void)
-{
-
-}
-
-module_init(swt_init);
-module_exit(swt_exit);
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("José Ramón Muñoz Pekkarinen");
-MODULE_DESCRIPTION("Openstack Swift support for NBD module");

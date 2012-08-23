@@ -37,6 +37,7 @@
 #include <asm/types.h>
 
 #include <linux/nbd.h>
+#include "swt.h"
 
 #define NBD_MAGIC 0x68797548
 
@@ -248,12 +249,6 @@ static inline int sock_send_bvec(struct nbd_device *nbd, struct bio_vec *bvec,
 			   bvec->bv_len, flags);
 	kunmap(bvec->bv_page);
 	return result;
-}
-
-/* always call with the tx_lock held */
-static int swt_send_req(struct nbd_device *nbd, struct request *req)
-{
-  
 }
 
 /* always call with the tx_lock held */
