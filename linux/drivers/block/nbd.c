@@ -497,7 +497,7 @@ static void nbd_handle_req(struct nbd_device *nbd, struct request *req)
 
 	nbd->active_req = req;
 
-	if (nbd_send_req(nbd, req) != 0) {
+	if (nbd->send_req(nbd, req) != 0) {
 		dev_err(disk_to_dev(nbd->disk), "Request send failed\n");
 		req->errors++;
 		nbd_end_request(req);
@@ -604,7 +604,7 @@ static int __nbd_ioctl(struct block_device *bdev, struct nbd_device *nbd,
 		nbd_cmd(&sreq) = NBD_CMD_DISC;
 		if (!nbd->sock)
 			return -EINVAL;
-		nbd_send_req(nbd, &sreq);
+		nbd->send_req(nbd, &sreq);
                 return 0;
 	}
  
