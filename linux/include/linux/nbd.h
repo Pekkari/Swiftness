@@ -25,9 +25,10 @@
 #define NBD_CLEAR_QUE	_IO( 0xab, 5 )
 #define NBD_PRINT_DEBUG	_IO( 0xab, 6 )
 #define NBD_SET_SIZE_BLOCKS	_IO( 0xab, 7 )
-#define NBD_DISCONNECT  _IO( 0xab, 8 )
-#define NBD_SET_TIMEOUT _IO( 0xab, 9 )
-#define NBD_SET_BACKEND _IO( 0xab, 10 )
+#define NBD_SWT_CONNECT	_IO( 0xab, 8 )
+#define NBD_DISCONNECT  _IO( 0xab, 9 )
+#define NBD_SET_TIMEOUT _IO( 0xab, 10 )
+#define NBD_SET_BACKEND _IO( 0xab, 11 )
 
 enum {
 	NBD_CMD_READ = 0,
@@ -77,6 +78,8 @@ struct nbd_device {
 	
 	int type;	/* to provide differents backends */
 	int (*send_req)(struct nbd_device *nbd, struct request *req);
+	char * url;	/* Required for swt authentication */
+	char * token;
 };
 
 #endif
