@@ -353,7 +353,7 @@ int main(int argc, char *argv[]) {
 
 	logging();
 
-	while((c=getopt_long_only(argc, argv, "-b:c:d:hnN:pSBukst:", long_options, NULL))>=0) {
+	while((c=getopt_long_only(argc, argv, "-b:c:d:hnN:pSBu:k:st:", long_options, NULL))>=0) {
 		switch(c) {
 		case 1:
 			// non-option argument
@@ -463,14 +463,15 @@ int main(int argc, char *argv[]) {
 
 	sock = opennet(hostname, port, sdp);
 
-	if(!backend)	negotiate(sock, &size64, &flags, name);
-	else {
+	if(!backend){
+		negotiate(sock, &size64, &flags, name);
+		setsizes(nbd, size64, blocksize, flags);
+	} else {
 		struct swt_auth auth;
 		auth.user = user;
 		auth.key = key;
 		ioctl(nbd, NBD_SWT_CONNECT, &auth);
 	}
-	setsizes(nbd, size64, blocksize, flags);
 	set_timeout(nbd, timeout);
 	finish_sock(sock, nbd, swap);
 
@@ -519,13 +520,21 @@ int main(int argc, char *argv[]) {
 					close(sock); close(nbd);
 					sock = opennet(hostname, port, sdp);
 					nbd = open(nbddev, O_RDWR);
-					negotiate(sock, &new_size, &new_flags, name);
-					if (size64 != new_size) {
-						err("Size of the device changed. Bye");
-					}
-					setsizes(nbd, size64, blocksize,
+					if (!backend){
+						negotiate(sock, &new_size, &new_flags, name);
+						if (size64 != new_size) {
+							err("Size of the device changed. Bye");
+						}
+						setsizes(nbd, size64, blocksize,
 								new_flags);
 
+					}else {
+						struct swt_auth auth;
+						auth.user = user;
+						auth.key = key;
+						ioctl(nbd, NBD_SWT_CONNECT, &auth);
+					}
+					
 					set_timeout(nbd, timeout);
 					finish_sock(sock,nbd,swap);
 				}
