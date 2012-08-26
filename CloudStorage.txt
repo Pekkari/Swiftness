@@ -80,7 +80,7 @@ Eliminación de objetos.
 4.2.1. Identificación.
 	Esta operación es, por razones de seguridad, la primera a realizar de todas las posibles. Para ello hace falta proveer al servidor de un usuario válido y su contraseña a través de la operación GET de la versión 1.1 de HTTP. El servidor nos devolverá un identificador único necesario para realizar cualquier posterior operación. La solicitud es la siguiente:
 
-	GET /v1.0 HTTP/1.1
+	GET /<api version> HTTP/1.1
 	Host: <Servidor proxy>
 	X-Auth-User: <usuario>
 	X-Auth-Key: <contraseña>
@@ -129,6 +129,11 @@ Eliminación de objetos.
 	</account>
 4.2.3. Listado de objetos.
 	En el caso de los listados de objetos, se dispone de algunas variables de configuración adicionales, además de las ya descritas para los listados de contenedores. Estas nuevas variables son  end_marker, para devolver un listado terminado en el valor especificado, prefix, para ofrecer un prefijo que preceda al nombre del objeto y delimiter, para mostrar las ocurrencias listadas hasta el delimitador, desechando el resto de la dirección. Un ejemplo de uso de delimitador es aquel en el que solo queremos listar los directorios existentes en la raíz del almacenamiento, para lo cual solo requerimos utilizar el delimitador '/' para obtener el resultado deseado.
+	El formato de la petición es el siguiente:
+
+	GET /<api version>/<account>/<container>[?parm=value] HTTP/1.1
+	Host: <servidor>
+	X-Auth-Token: <identificador de sesion>
 	Un ejemplo de respuesta en formato JSON:
 
 	HTTP/1.1 200 OK
@@ -250,7 +255,7 @@ Eliminación de objetos.
 
 	DELETE /<api version>/<account>/<container>/<object> HTTP/1.1
 	Host: <servidor>
-	X-Auth-Token: <>
+	X-Auth-Token: <identificador de sesión>
 	Su respuesta se asemajará a la detallada a continuación:
 	HTTP/1.1 204 No Content
 	Date: Thu, 07 Jun 2010 20:59:39 GMT
