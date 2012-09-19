@@ -55,7 +55,115 @@
 	Las soluciones Openstack y Cloudstack ofrecen alta flexibilidad de instalación, una modularización aceptable, y por tanto, facilidad de mantenimiento de código, y la posibilidad de hacer instalaciones minimalistas orientadas a cada uno de sus servicios por separado. Esta última característica las convierten en plataformas adecuadas para cualquier tipo de desarrollo sobre cualquiera de sus servicios.
 	Las características de las distintas plataformas se resumen en la siguiente tabla:
 
-	Introducir tabla aquí.
+	
+Característica / Nube
+ 
+Amazon S3
+OpenNebula
+Nimbus
+OpenStack
+OpenQRM
+Eucalyptus
+Cloudstack
+Abiquo O.S.E.
+APIs soportadas
+REST
+Si
+Si
+Si
+Si
+No
+Si
+Si
+Si
+
+SOAP
+Si 
+No
+Si
+Si
+Si
+Si
+Si
+No
+
+Bittorrent
+Si
+No
+No
+No
+No
+Si
+No
+No
+Comunicación independiente de almacenamiento
+No
+Si
+No
+Si
+No
+Si
+Si
+Si
+Tipo almacenamiento
+M.V.
+Si
+Si
+Si
+Si
+Si
+Si
+Si
+Si
+
+Puro
+Si
+No
+No
+Si
+No
+Si
+Si
+Si
+Cluster de replicación
+Si
+No
+Si
+Si
+No
+Si
+Si
+No
+Host
+No requerido
+?
+No
+No
+No
+No
+No
+Si
+Si
+
+Linux
+?
+Si
+Si
+Si
+Si
+Si
+Si
+No
+
+Windows
+?
+No
+No
+No
+No
+No
+No
+No
 
 4. Swiftness.
 	El objetivo principal de Swiftness es ofrecer drivers de código abierto, para los distintos sistemas operativos existentes, y para la administración de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computación en la nube o administración de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de máquinas virtuales, Swift se convierte en una solución perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiéndose plantear un modelo de negocio basado en la instalación y mantenimiento de nubes privadas, de almacenamiento o de computación. Swiftness permitirá acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
@@ -89,8 +197,6 @@ Recuperación de objetos.
 Creación/actualización de objetos.
 Copia de objetos.
 Eliminación de objetos.
-
-	NOTA! Se añadirán operaciones conforme se descubra su necesidad.
 
 5.2 Operaciones en la API.
 	Como ya adelantábamos, para interactuar con el servidor proxy se utiliza una interfaz REST, es decir, el servidor espera peticiones HTTP para servir cualquier tipo de fichero disponible, y realizar el control de acceso al almacenamiento.
