@@ -11,45 +11,62 @@
 2. Almacenamiento en soluciones libres y locales existentes.
 
 2.1 Amazon S3.
-	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, puesto que solo se ofrecen las distintas interfaces de comunicación de esta. Aun así es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
-	La Amazon Simple Storage Service tiene como objetivo ser escalable, tener alta disponibilidad y baja latencia, a un bajo coste. Dispone de tres tipos de interfaces distintas, REST(Representational State Transfer), SOAP(Simple Object Access Protocol) y BitTorrent. Las primera interfaz es la más adoptada, se trata de una interfaz para sistemas distribuidos adoptada ampliamente en la World Wide Web. La segunda es una interfaz que cumple el mismo propósito que REST, pero basándose en tecnología XML. La tercera es una de las conocidas tecnologías P2P existentes. 
-	Admite objetos de un tamaño inferior a 5 terabytes de información y los organiza en cubos. Para cada cubo y objeto, dentro de este, se dispone una lista de control de acceso que permite al usuario disponer de su información. Cada objeto en un cubo puede ser accedido directamente desde internet. Además, cada objeto es una semilla de la red BitTorrent que puede ser utilizada para reducir el ancho de banda utilizado durante la descarga.
+	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, ni de instalacin local, puesto que solo se ofrecen las distintas interfaces de comunicación de esta. Aun así es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
+	La Amazon Simple Storage Service tiene como objetivo ser escalable, tener alta disponibilidad y baja latencia, a un bajo coste. Dispone de tres tipos de interfaces distintas, REST(Representational State Transfer), SOAP(Simple Object Access Protocol) y BitTorrent. Las primera interfaz es la más adoptada, se trata de una interfaz para sistemas distribuidos adoptada ampliamente en la World Wide Web. La segunda es una interfaz que cumple el mismo propósito que REST, pero basándose en tecnología XML. La tercera es una de las conocidas tecnologías P2P existentes.
+	Admite objetos de un tamaño inferior a 5 terabytes de información y los organiza en cubos. Para cada cubo, y objeto, dentro de este, se dispone una lista de control de acceso que permite al usuario disponer de su información. Cada objeto en un cubo puede ser accedido directamente desde internet. Además, cada objeto es una semilla de la red BitTorrent que puede ser utilizada para reducir el ancho de banda utilizado durante la descarga.
 	Puesto que el principal uso de los cubos es almacenar páginas web, cada cubo puede ser configurado para almacenar los registros de acceso en un cubo gemelo, o réplica.
+	Esta solución es capaz de alojar maquinas virtuales que se pueden ejecutar a través de sus interfaces expuestas, y admite redundancia distribuida en su cluster de almacenamiento.
+	Debido a su condición de no tener instalación local, no es posible saber sobre que tipo de host funciona dicha solución.
 	
 2.2 OpenNebula.
 	Aunque la plataforma de Cloud Computing de OpenNebula es compatible con la interfaz Amazon EC2 Query Interface, lo que le ofrece compatibilidad con la plataforma de almacenamiento Amazon S3, dicha plataforma goza de un subsistema de almacenamiento propio. 
 	El subsistema está ideado para almacenar máquinas virtuales únicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gestión de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creación, eliminación y modificación de las máquinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonación y enlace.
+	Los drivers de transferencia proveen a esta solución de una interfaz REST, y no es posible separar los subsistemas de comunicación de los de gestión de almacenamiento y operación de esta nube. No se especifica que disponga de persistencia de datos replicandolos a lo largo del cluster formado por la nube. Los tipos de host donde pueden ser alojada esta solución deben ser servidores Linux.
 
 2.3 Nimbus.
-	La plataforma Nimbus utiliza una implementación propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento.
+	La plataforma Nimbus utiliza una implementación propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento. Las interfaces que ofrece dicha implementación son de tipo REST y SOAP, y no es posible separar la interfaz de comunicación del almacenamiento subyaciente. Su almacenamiento, al igual que OpenNebula está basado en máquinas virtuales que gestionan sus propios discos, no siendo posible definir un almacenamiento sin sistema operativo. Esta solución permite, sin embargo, realizar replicación distribuida de datos para garantizar la persistencia. Los host que soportan esta solución deben ser servidores Linux.
 
 2.4 OpenStack.
 	Dicha solución se divide en tres partes bien diferenciadas para ofrecer una nube personal, estas son Nova, para la ejecución de software, Swift, para el almacenamiento, y Glance, para la gestión de imágenes virtuales. Esto le ofrece la capacidad de poder instalar solo el componente necesario para las necesidades del usuario. Swift es capaz de almacenar objetos o bloques indistintamente, permitiendo no solo el almacenamiento de imágenes virtuales, sino de cualquier tipo de información. 
-	Esta solución es escalable, distribuida, admite redundancia de datos, y propone al usuario una API de programación. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnética, o una imagen virtual) pueda añadirse al sistema de almacenamiento distribuido de forma transparente.
+	Esta solución es escalable, distribuida, admite redundancia de datos, y propone al usuario una API de programación. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. Debido a esto, admite comunicaciones a través de una interfaz REST o SOAP. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnética, o una imagen virtual) pueda añadirse al sistema de almacenamiento distribuido de forma transparente.
 	Su organización se basa en clusteres de almacenamiento, y cada objeto se distribuye entre diferentes nodos de la red. El sistema garantiza la persistencia de bloques y capacidad de realizar instantaneas(snapshots) del almacenamiento para labores de salvaguardas.
+	Una vez más el tipo de servidor que es capaz de alojarlo es un servidor Linux.
 
 2.5 OpenQRM.
-	En  el caso de OpenQRM nos encontramos con una solución propia, basada en el sistema de plugins para la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas máquinas. Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage, 
+	En  el caso de OpenQRM nos encontramos con una solución propia, basada en el sistema de plugins para la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas máquinas. Para ello, proveen al usuario de una interfaz SOAP. Su tipo de almacenamiento es basado en máquinas virtuales y no admite replicación de datos a lo largo del cluster.
+	Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage.
+	Dicha solución debe ser instalada sobre un servidor Linux.
 
 2.6 Eucalyptus.
-	Entre los distintos componentes de esta solución de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3.
+	Entre los distintos componentes de esta solución de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3. Esta implementación le permite utilizar las interfaces REST, SOAP y Bittorrent para manejar el almacenamiento, y en este caso es posible separar el subsistema de comunicación del de almacenamiento en servidores distintos.
+	Los hosts que soportan dicha solución deben ser servidores Linux.
 
 2.7 CloudStack.
-	Esta plataforma se nutre de la solución de almacenamiento de OpenStack, Swift, estudiada anteriormente.
+	Esta plataforma se nutre de la solución de almacenamiento de OpenStack, Swift, estudiada anteriormente, por tanto, ofrece interfaces REST y SOAP para su comunicación, cualquier tipo de almacenamiento, almacenamiento distribuido a lo largo del cluster, y, a diferencia de OpenStack, es capaz de instalarse sin sistema operativo servidor.
 
 2.8 Abiquo Open source edition.
 	En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o genérico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento genérico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una máquina virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
+	Esta solución solo ofrece una interfaz REST al usuario, y no ofrece replicación distribuida de forma automática. En este caso no se requiere de ningún sistema operativo para alojar la nube.
 
-3. Swiftness.
+3. Comparación de soluciones.
+	La mayor parte de las soluciones estudiadas implementan al menos alguna de las interfaces de comunicación propuestas por la nube de Amazon, además de compartir su tipo de almacenamiento, y, al menos, ofrecen al usuario de almacenamiento basado en máquinas virtuales, sin embargo, no todas ofrecen la oportunidad de realizar una instalación minimalista orientada al almacenamiento. Exceptuando la nube de Abiquo, y por razones obvias, la solución de Amazon, todas deben ser alojadas en servidores Linux, no soportándose la instalación nativa sobre un servidor, o la instalación sobre servidores Windows.
+	De este amplio abanico de soluciones es necesario destacar el soporte de las tres interfaces habituales por parte de Eucalyptus, y su soporte para distintos tipos de almacenamiento, admitiendo flexibilidad de instalación. Sin embargo, esta poderosa nube está orientada a ofrecer todos los servicios disponibles en cualquier nube habitual(computación, virtualización y almacenamiento), y no es especialmente cómoda para realizar una instalación minimalista, orientada al almacenamiento.
+	La solución Nimbus, a través de su servidor Cumulus, ofrece una imagen de sencillez si el objetivo perseguido es configurar una nube de almacenamiento, sin embargo su fuerte orientación a requerir máquinas virtuales con sistemas operativos propios hacen que la solución pierda atractivo. OpenNebula y OpenQRM, disponen de características similares, conformando las soluciones más rígidas de todas, pero a la vez las más sencillas de administrar. Además, su implementación basada en drivers o plugins les ofrece facilidad de desarrollo de código y alta modularidad.
+	Las soluciones Openstack y Cloudstack ofrecen alta flexibilidad de instalación, una modularización aceptable, y por tanto, facilidad de mantenimiento de código, y la posibilidad de hacer instalaciones minimalistas orientadas a cada uno de sus servicios por separado. Esta última característica las convierten en plataformas adecuadas para cualquier tipo de desarrollo sobre cualquiera de sus servicios.
+	Las características de las distintas plataformas se resumen en la siguiente tabla:
+
+	Introducir tabla aquí.
+
+4. Swiftness.
 	El objetivo principal de Swiftness es ofrecer drivers de código abierto, para los distintos sistemas operativos existentes, y para la administración de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computación en la nube o administración de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de máquinas virtuales, Swift se convierte en una solución perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiéndose plantear un modelo de negocio basado en la instalación y mantenimiento de nubes privadas, de almacenamiento o de computación. Swiftness permitirá acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
 	Para ello Swiftness propone una capa de abstracción de software que se interpondrá entre el núcleo del sistema operativo y el sistema de ficheros del cliente.
 
-4. Swift.
+5. Swift.
 	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacción, el cliente deberá solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondrá de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier petición, el cual ejerce de fachada aislando al resto de servidores. La organización de estos seria la siguiente:
 	
 	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribución de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
 	
-4.1 Swift proxy server.
+5.1 Swift proxy server.
 	La comunicación con este componente, se basa en el envio de peticiones HTTP. Dichas peticiones se gestionan mediante el uso de la operación GET, y deben contener unas cabeceras específicas para reconocer los distintos tipos de peticiones. Dichas peticiones disponen de una serie de restricciones detalladas a continuación:
 
 El numero máximo de cabeceras por petición es 90.
@@ -75,9 +92,9 @@ Eliminación de objetos.
 
 	NOTA! Se añadirán operaciones conforme se descubra su necesidad.
 
-4.2 Operaciones en la API.
+5.2 Operaciones en la API.
 	Como ya adelantábamos, para interactuar con el servidor proxy se utiliza una interfaz REST, es decir, el servidor espera peticiones HTTP para servir cualquier tipo de fichero disponible, y realizar el control de acceso al almacenamiento.
-4.2.1. Identificación.
+5.2.1. Identificación.
 	Esta operación es, por razones de seguridad, la primera a realizar de todas las posibles. Para ello hace falta proveer al servidor de un usuario válido y su contraseña a través de la operación GET de la versión 1.1 de HTTP. El servidor nos devolverá un identificador único necesario para realizar cualquier posterior operación. La solicitud es la siguiente:
 
 	GET /<api version> HTTP/1.1
@@ -93,7 +110,7 @@ Eliminación de objetos.
 	Content-Length: 0
 	Content-Type: text/plain; charset=UTF-8
 
-4.2.2. Listado de contenedores.
+5.2.2. Listado de contenedores.
 	La operación de listado de contenedores no requiere ningún parametro en especial, más que el indentificador de sesión obtenido durante la identificación, sin embargo, existen un par de variables configurables de interés general para dicha operación. Las variables se concatenan a la dirección solicitada en la operación GET, separando el listado de variables de la dirección por un interrogante('?'). Dichas variables sirven para describir el formato en que se recibirá el listado,siendo válidos los valores format=json y format=xml, el límite de contenedores que se quieren recibir, configurando la variable limit=N, y la coincidencia desde la cual quiere comenzarse el listado con la variable marker.
 	
 	GET /<api version>/<account>?var1=val1& ? & varN=valN HTTP/1.1
@@ -127,7 +144,7 @@ Eliminación de objetos.
 	    <bytes>17</bytes>
 	  </container>
 	</account>
-4.2.3. Listado de objetos.
+5.2.3. Listado de objetos.
 	En el caso de los listados de objetos, se dispone de algunas variables de configuración adicionales, además de las ya descritas para los listados de contenedores. Estas nuevas variables son  end_marker, para devolver un listado terminado en el valor especificado, prefix, para ofrecer un prefijo que preceda al nombre del objeto y delimiter, para mostrar las ocurrencias listadas hasta el delimitador, desechando el resto de la dirección. Un ejemplo de uso de delimitador es aquel en el que solo queremos listar los directorios existentes en la raíz del almacenamiento, para lo cual solo requerimos utilizar el delimitador '/' para obtener el resultado deseado.
 	El formato de la petición es el siguiente:
 
@@ -177,7 +194,7 @@ Eliminación de objetos.
 	    <last_modified>2009-02-03T05:26:32.612278</last_modified>
 	  </object>
 	</container>
-4.2.4. Creación de contenedores.
+5.2.4. Creación de contenedores.
 	Los contenedores, no son más que compartimentos donde almacenar los objetos, sin embargo, sus nombres deben cumplir las restricciones de no tener una longitud mayor de 256 caracteres, y no contener el carácter '/'. Un ejemplo de petición de creación de un contenedor es el siguiente:
 
 	PUT /<api version>/<account>/<container> HTTP/1.1
@@ -189,7 +206,7 @@ Eliminación de objetos.
 	Server: Apache
 	Content-Type: text/plain; charset=UTF-8
 
-4.2.5. Eliminación de contenedores.
+5.2.5. Eliminación de contenedores.
 	Para la eliminación de un contenedor, es suficiente con la siguiente petición:
 
 	DELETE /<api version>/<account>/<container> HTTP/1.1
@@ -201,7 +218,7 @@ Eliminación de objetos.
 	 Server: Apache
 	 Content-Length: 0
 	 Content-Type: text/plain; charset=UTF-8
-4.2.6. Recuperación de objetos.
+5.2.6. Recuperación de objetos.
 	Aunque habitualmente se utiliza la operación GET para recuperar objetos del almacenamiento masivo, es posible utilizar las directivas If-Match, If-None-Match, If-Modified-Since y If-Unmodified-Since definidas en el protocolo RFC2616. Como sus nombres indican, su funcionalidad es hacer condicional la recuperación del objeto en cuestión, definiendo si se encuentra un objeto que coincida en nombre, que no, o si ha sido modificado desde una fecha determinada.
 	Existe también un soporte básico para recuperar rangos de memoria dentro del objeto, permitiendo recuperar solo partes de este si no se requiere el objeto completo.
 	Su petición es la siguiente:
@@ -219,7 +236,7 @@ Eliminación de objetos.
 	Content-type: text/html
 	Content-Length: 512000
 	[ ... ]
-4.2.7. Creación, o actualización de objetos.
+5.2.7. Creación, o actualización de objetos.
 	Es posible, y recomendable, que para la creación o actualización de objetos se utilizen sumas MD5 que ayuden a verificar la integridad de este. Está soportada dicha funcionalidad a través  del envío de una cabecera especial llamada Etag. Independientemente de si esta cabecera es incluida en la creación del objeto, al recuperarlo, siempre se devolverá el valor de la suma, para que el usuario pueda comprobar su integridad. Si se desea que el objeto expire en un tiempo determinado, o en una fecha, es posible añadir las cabeceras X-Delete-At y X-Delete-After. Su petición tiene la siguiente forma:
 
 	PUT /<api version>/<account>/<container>/<object> HTTP/1.1
@@ -238,7 +255,7 @@ Eliminación de objetos.
 	ETag: d9f5eb4bba4e2f2f046e54611bc8196b
 	Content-Length: 0
 	Content-Type: text/plain; charset=UTF-8
-4.2.8. Copia de objetos.
+5.2.8. Copia de objetos.
 	De cometerse un error con el nombre del objeto, al subirlo, o sencillamente querer cambiar su nombre, debería eliminarse el objeto y volverlo a subir, produciendo sobrecarga en las comunicaciones. Esto se evita mediante la copia en servidor de objetos. Esta copia puede realizarse de dos formas. A través de la cabecera X-Copy-From, donde se especificará el contenedor y el objeto que se desea copiar, o mediante la operación COPY. Detallamos sus formas a continuación:
 
 	PUT /<api version>/<account>/<container>/<destobject> HTTP/1.1
@@ -250,7 +267,7 @@ Eliminación de objetos.
 	Host: <storage URL>
 	X-Auth-Token: <some-auth-token>
 	Destination: /<container>/<destobject>
-4.2.9. Eliminación de objetos.
+5.2.9. Eliminación de objetos.
 	La eliminación de objetos es inmediata y permanente, toda operación sobre el objeto despues de la operación DELETE, devolverá el conocido error 404 de HTTP, objeto no encontrado. Es posible programar la eliminación mediante el uso de las cabeceras X-Delete-At y X-Delete-After. La petición debe tener la siguiente forma:
 
 	DELETE /<api version>/<account>/<container>/<object> HTTP/1.1
@@ -261,10 +278,10 @@ Eliminación de objetos.
 	Date: Thu, 07 Jun 2010 20:59:39 GMT
 	Server: Apache
 	Content-Type: text/plain; charset=UTF-8
-4.3 Entorno de operación.
+5.3 Entorno de operación.
 	Para poder comprobar que nuestros drivers funcionan correctamente, es necesario preparar un servidor Openstack Swift donde poder realizar las conexiones pertinentes. Para este proyecto, hemos elegido utilizar una máquina virtual utilizando la tecnología de virtualización KVM, propia del núcleo de linux. La máquina ha sido dotada de un sistema operativo Debian GNU/Linux en su versión de pruebas(actualmente Debian GNU/Linux Wheezy), y dispone de dirección IP propia dentro de la red gracias a la compatibilidad de KVM con los puentes virtuales que ofrece Linux. Además del software básico que se instala automáticamente con la distribución, se le ha añadido un servidor OpenSSH para realizar conexiones seguras a la máquina y los paquetes, incluidos en los repositorios de la distribución, de Openstack Swift. De esta forma puede ejecutarse la máquina virtual como si de un servidor del sistema real se tratara, y podemos realizar cualquier prueba pertinente de nuestros drivers. Para la configuración del servidor Swift, hemos seguido las instrucciones detalladas en la documentación de Openstack SAIO(Swift All In One).
 
-5. Linux.
+6. Linux.
 	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el año 1991, los programas en espacio de usuario deben comunicarse con el núcleo a través de módulos que permitan la gestión de dispositivos en el sistema. Dichos módulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
 	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la información transmitida es un flujo de caracteres secuencial, si tecleas una palabra, esta se tratará en su estricto orden, y no en otro distinto. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no necesariamente se acceden de manera secuencial. Por último, los dispositivos de red, se encargan de cualquier tipo de comunicación con el exterior del sistema a través de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
 	Los dispositivos representados no tienen la obligación de ser dispositivos reales, pudiendo permitirse la existencia de dispositivos virtuales que resuelvan un tipo de tarea determinada. Un ejemplo claro de dispositivo virtual es el dispositivo de generación de números aleatorios(accedido desde el fichero /dev/random), el cual no requiere de ningún hardware especifico para desempeñar su función.
@@ -274,11 +291,11 @@ Eliminación de objetos.
 
 	Cabría esperar que la labor de Swiftness fuera la de la traducción de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el módulo nbd(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor swift pueda ser gobernado por el módulo nbd.
 
-5.1 Dispositivos de bloques.
+6.1 Dispositivos de bloques.
 	Los drivers dispositivos de bloques, dentro del código fuente de Linux, se alojan en el directorio drivers/block, y las interfaces que deben cumplir en el directorio include/linux. Como antes adelantábamos, dichos dispositivos disponen de grandes cantidades de información, dividida en bloques que no serán accedidos secuencialmente y es este hecho el que los diferencia de los dispositivos de caracteres. Debido a que tendremos que navegar a lo largo del dispositivo para acceder a la información, estos dispositivos ganan complejidad. La naturaleza de dichos dispositivos hacen al sistema altamente sensible a su disponibilidad.
 	El tamaño de un sector depende del dispositivo en cuestión, y es la unidad minima fundamental de un dispositivo de bloques. Aunque muchos dispositivos de bloques dispongan de un tamaño de sector de 512 bytes, esto no quiere decir que sea un tamaño estándar. El sistema operativo debe cumplir con ciertas restricciones a la ora de acceder a un dispositivo de bloque. Debe acceder a la información en bloques de tamaño múltiplo del tamaño de sector, el tamaño de este bloque, deberá ser potencia de dos(restricción que suele aplicarse también al tamaño de sector),  y el tamaño de bloque no puede ser mayor que el tamaño de una página de información en memoria principal. Los tamaños más habituales son 512 bytes, 1 kilobytes, y 4 kilobytes.
 
-5.1.1. Proceso de una operación.
+6.1.1. Proceso de una operación.
 	La jerarquía de subsistemas para acceder a un dispositivo de bloques, desde que una simple operación de lectura es enviada desde el espacio de usuario, hasta que llega al dispositivo es amplia. Esta contempla desde el sistema de ficheros virtual, hasta el driver del dispositivo de bloques, pasando por las caches de discos, los distintos sistemas de ficheros, conformando la capa de direccionamiento del sistema, la capa genérica del dispositivo de bloques, y el planificador de entrada salida. Debido a esto, resulta interesante estudiar que sucede, paso por paso, cuando una operación sobre el dispositivo está procesandose.
 	Suponemos que se ha llamado a la rutina de servicio read() para hacer un acceso de lectura. Este acceso de lectura provoca que el sistema active la función más adecuada dentro del sistema de ficheros virtual para procesarla. Esta función recibirá el descriptor del fichero abierto a leer y un desplazamiento dentro del fichero, para describir el bloque que quiere leerse. El sistema de ficheros virtual, debe determinar si los datos están ya disponibles en memoria principal, y como se realizará el acceso. 
 	De requerir acceder al dispositivo de bloques, el sistema de ficheros virtual acudirá a la capa de direccionamiento. En esta capa se ejecutarán dos tareas principales. La primera será determinar el tamaño de bloque, para calcular el desplazamiento dentro del fichero en función de este tamaño. Posteriormente se invoca una función del sistema de ficheros real que determine el nodo del fichero y su posición dentro del disco.
@@ -287,7 +304,7 @@ Eliminación de objetos.
 	Finalmente, las peticiones se ofrecen al driver del dispositivo de bloques, que ejecutará la operación real. Todo este largo proceso puede verse resumido en la siguiente figura, donde se observa la jerarquía completa de subsistemas.
 
 
-5.1.2. Estructura genérica de dispositivos de bloque.
+6.1.2. Estructura genérica de dispositivos de bloque.
 	Cada vez que un bloque es alojado en memoria principal, este es asociado a un buffer. Un buffer es un objeto que representa un bloque en memoria, y, dado que el núcleo requiere más información que esta, cada buffer se asociará a un descriptor llamado buffer_head. Esta estructura almacenará datos como el estado del bloque, su página asociada, su tamaño, un puntero al comienzo de los datos, y el dispositivo al que pertenece, entre otros detalles. Puede consultarse la estructura en el fichero "include/linux/buffer_head.h". Aunque mucha de esta información es necesaria para el núcleo, no deja de ser una sobrecarga y un consumo de espacio en memoria.
 	Otra estructura de importancia, es aquella que almacena la información de una operación de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero "include/linux/bio.h"). Las operaciones se descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligación de estar alojadas de forma contigua en memoria principal. De esta forma, el núcleo puede operar con un sector repartido a lo largo de toda la memoria. La información de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la dirección su vector asociado, bi_idx, su posición dentro del vector, y bi_vcnt, el número de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la información relativa a la página de memoria donde se aloja el segmento, su tamaño, y el desplazamiento dentro de la  página.
 	Con esta organización, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia(normalmente por proximidad de páginas dentro del almacenamiento masivo), añadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques. El panorama general se asemejara a la siguiente figura:
@@ -296,7 +313,7 @@ Eliminación de objetos.
 	La forma en la que el sistema de ficheros virtual maneja todas estas estructuras, es a través de una estructura request_queue, que, como cuyo nombre indica, es una cola de peticiones. Mientras la cola no este vacía, el driver del dispositivo de bloques ir retirando peticiones, o estructuras request, de la cabeza de la cola y enviándole dichas peticiones al dispositivo que soporta. La estructura request está compuesta de una o más estructuras bio que operan sobre bloques consecutivos en el dispositivo. Estas estructuras vienen definidas en el fichero "include/linux/blkdev.h".
 	Estas colas de peticiones serán manejadas por los distintos organizadores de las operaciones de entrada/salida. Entre los organizadores más importantes nos encontramos, el ascensor de Linus(Linus Elevator Scheduler), el organizador por plazos(Deadline Scheduler), el organizador anticipado(Anticipatory Scheduler), el organizador de cola completamente justo(Complete Fair Queue Scheduler), y el organizador de no operación(Noop Scheduler).
 
-5.2 Dispositivos de red.
+6.2 Dispositivos de red.
 	Los dispositivos de red en Linux disponen de un comportamiento similar al de un dispositivo de bloques montado. Este debe registrarse en el núcleo del sistema operativo utilizando las estructuras habilitadas para tal efecto antes de que pueda transmitir o recibir ningún paquete. Aún así, parece razonable pensar que existen ciertas diferencias. Los dispositivos de red no disponen de un fichero en el directorio "/dev" que sirva de punto de acceso, puesto que sus operaciones principales ya no van a ser las de leer o escribir, sino las de transmitir o recibir. Además, utiliza un espacio de nombres distintos y provee al usuario de operaciones distintas, que operan sobre objetos diferentes en el núcleo. 
 	Otra diferencia a subrayar es que un dispositivo de bloques actúa en consecuencia de una petición del núcleo, mientras que el dispositivo de red debe pedir al núcleo que procese el paquete que ha recibido asíncronamente. Esto implica que aunque el subsistema de red de este sistema operativo sea independiente del protocolo utilizado, su API sea completamente distinta.
 	La forma en que un dispositivo de red se registra en Linux es insertar una estructura net_device dentro de una lista global de dispositivos de red. Esta estructura se detalla en el fichero "include/linux/netdevice.h", y engloba toda la información relativa a la comunicación del dispositivo de red, además de información relativa a los diferentes protocolos soportados por el sistema. Los campos de dicha estructura más importantes son el nombre, su estado, la estructura net_device del siguiente dispositivo en la lista de dispositivos de red, los campos relativos a su espacio de memoria relacionado, su dirección, puerto, irq y canal de DMA.
@@ -311,7 +328,7 @@ Eliminación de objetos.
 	Es posible liberar el espacio de almacenamiento de un socket buffer mediante las funciones dev_kfree_skb(para contextos de ejecución), dev_kfree_skb_irq(para contextos de nterrupción) y dev_kfree_skb_any(para cualquier contexto).
 	Para la entrada/salida programada, se utiliza una API diferente llamada NAPI(New API) que modela el comportamiento programado del dispositivo. Un driver que implemente esta API debe ser capaz de deshabilitar la interrupción de recepción de paquetes, manteniendo las interrupciones para las transmisiones válidas y otros eventos. Además, deberá implementar una función poll que se dedique a preguntar a la interfaz de red si ha recibido algo. En caso de no recibir nada, se reactivará la interrupción de recepción y se mantendrá al dispositivo a la espera.
 
-5.3 Network Block Device.
+6.3 Network Block Device.
 	Como reza la documentación incluida en el núcleo de Linux, este módulo se encarga de conectar a un servidor remoto que exporte un dispositivo de bloques, con el fin de que la máquina cliente pueda acceder a este como si de un dispositivo local se tratara. Si establecemos una simple comparación con el objetivo de este proyecto, podemos constatar que la única diferencia con este, es que el servidor, no es uno propio, como el nbd-server, sino el servidor Swift de Openstack, luego es razonable pensar que podemos partir de este módulo para alcanzar nuestro objetivo.
 	Este módulo envía las peticiones de un dispositivo de bloques genérico a través de la red, utilizando el protocolo TCP, para que el servidor la procese y envíe la respuesta al cliente de vuelta de la misma forma. Dichas peticiones, tienen la forma de estructuras request como las utilizadas por los dispositivos locales existentes en el sistema. Estas estructuras request se generan a raíz de las estructuras bio y bio_vec(comentadas en el apartado 5.1.2), tomando la información correspondiente al direccionamiento del bloque, y los bloques consecutivos que se quieren extraer.
 	El servidor funciona en espacio de usuario completamente, siendo necesario dicho módulo solamente en el cliente.
@@ -365,7 +382,7 @@ Eliminación de objetos.
 	La función nbd_handle_req añade la petición activa a la cabeza de la cola de peticiones activas, donde esperará su respuesta correspondiente. La función do_nbd_request será la encargada de encolar una nueva petición en la cola waiting_queue antes de ser enviada.
 	Se definen en este módulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo nbd, las cuales no resultan de especial interés para el cometido de este proyecto.
 
-6. Glosario.	
+7. Glosario.	
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
 Agilidad:  capacidad de mover los datos al área adecuada para mejorar su disponibilidad.
@@ -411,6 +428,8 @@ http://en.wikipedia.org/wiki/Cloudstack
 http://en.wikipedia.org/wiki/OpenQRM
 http://en.wikipedia.org/wiki/Abiquo_Enterprise_Edition 
 http://en.wikipedia.org/wiki/OpenStack
+Amazon:
+http://aws.amazon.com/s3/
 OpenNebula:
 http://opennebula.org/documentation:rel3.6
 Nimbus:
