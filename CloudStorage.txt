@@ -488,7 +488,93 @@ Eliminación de objetos.
 	La función nbd_handle_req añade la petición activa a la cabeza de la cola de peticiones activas, donde esperará su respuesta correspondiente. La función do_nbd_request será la encargada de encolar una nueva petición en la cola waiting_queue antes de ser enviada.
 	Se definen en este módulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo nbd, las cuales no resultan de especial interés para el cometido de este proyecto.
 
-7. Glosario.	
+7. Windows.
+	Dentro de la arquitectura del conocido sistema operativo de Microsoft nos encontramos con diversos componentes organizados de la siguiente manera:
+
+	Insertar imagen aquí.
+
+	En la figura podemos diferenciar los subsistemas que trabajan en espacio de usuario y en espacio del núcleo. Dentro del espacio de usuario tendremos:
+
+Procesos de soporte del sistema: ejemplos de este subsistema son el proceso de autenticación, el organizador de sesiones y otros procesos que no son iniciados por el organizador de control de servicios
+Servicios del sistema y aplicaciones de usuario: estos se apoyan en librerías dinámicas del sistema, y los subsistemas de entorno para realizar su cometido.
+Las propias librerías dinámicas: Su cometido es traducir la llamada al sistema realizada por el servicio, o la aplicación de usuario, a la función adecuada dentro del sistema. Para ello, si lo requiere, la librería enviará un mensaje al subsistema de entorno.
+	
+	En el espacio del núcleo, los componentes más importantes son:
+
+El ejecutor de Windows, el cual conforma la base principal del sistema, ofreciendo los servicios mínimos del sistema(uso de memoria, creación de procesos e hilos, seguridad, entrada/salida...)
+El núcleo, que reune las funciones en bajo nivel requeridas para que el ejecutor ofrezca los servicios mínimos
+Los drivers de dispositivos, que se comunicarán con el hardware
+La capa de abstracción de hardware, que aísla el núcleo del ejecutor de Windows. Como se puede observar, el sistema gráfico es independiente del bloque de sistemas antes comentado.
+
+	Analizando en mayor detalle los subsistemas que componen el núcleo, podemos encontrar los siguientes componentes:
+El manejador de entrada salida: dicho subsistema se apoya en los drivers de dispositivos o en los sistemas de ficheros para realizar delegar la tarea encomendada al componente correspondiente.
+El manejador de cache, que se encarga de organizar los datos requeridos recientemente por el espacio de usuario en memoria, manteniendolos en esta para agilizar posteriores accesos.
+El manejador de procesos e hilos, que se encarga de iniciar y finalizar los distintos procesos e hilos y de ofrecerles el soporte requerido.
+El manejador de objetos del núcleo, cuyo objetivo principal es mantener las estructuras necesarias para su correcto funcionamiento.
+El manejador de dispositivos Plug and Play, subsistema que detecta la aparición de un nuevo dispositivo en el sistema y pone en funcionamiento las infraestructuras necesarias del núcleo que permitirán su correcto funcionamiento.
+El monitor de seguridad, que activará las politicas de seguridad de acceso a cualquier medio.
+El manejador de memoria, que se encarga de alojar información en memoria principal, o devolverla al dispositivo de bloques del que proviene.
+El manejador de configuración del sistema, que gestionará el registro de Windows y la informacion contenida en el.
+El manejador de entrada/salida, que implementa una interfaz general de entrada salida independiente del dispositivo.
+Las rutinas  de instrumentación ofrecidas por el servicio WMI de Windows, que permiten a los drivers de los dispositivos publicar información de configuración y estadisticas sobre el dispositivo.
+El invocador de procedimientos avanzado, que realiza las tareas necesarias para la ejecución de cualquier software.
+La interfaz de dispositivos de gráficos, apoyada en sus correspondientes dispositivos, y que realizará la tarea de gestionar el entorno gráfico del sistema.
+
+	Estos subsistemas  están gobernados por el ejecutor de Windows y quedan resumidos en la siguiente imagen:
+
+	Insertar imagen aquí.
+
+	Analizaremos posteriormente en mayor detalle los subsistemas más relevantes.
+
+7.1 Subsistema de entorno y librerías dinámicas.
+	Este componente ofrece aislamiento entre el espacio de usuario y el espacio del núcleo, sin llegar a pertenecer a este último. Actúa como un filtro de primera instancia donde una función de dichas librerías puede actuar de las siguientes formas:
+La función se implementa en la librería, y por tanto, el espacio del núcleo no requiere saber de la llamada a esta función, luego será resuelta por la librería y se continuará con la ejecución normal del sistema.
+La función requiere llamar al ejecutor de Windows para realizar alguna de sus funciones, luego se realizarán algunas tareas puntuales en espacio del núcleo y se continuará el resto de ejecución en espacio de usuario. 
+La función requiere el uso del subsistema de entorno, enviándole un mensaje para que resuelva una tarea concreta, y continúe su ejecución posteriormente.
+
+	Estos comportamientos se resumen en la siguiente figura:
+
+	Insertar imagen aquí.
+
+	Entre los subsistemas de entornos, nos encontramos con el subsistema propio de Windows, y por cuestiones de soporte, el subsistema POSIX(Portable Operating System Interface based on Unix). Puesto que nuestro objetivo se centra en el espacio del núcleo, no estudiaremos en mayor profundidad este componente.
+
+7.2 Ejecutor de Windows.
+	El ejecutor de Windows conforma la primera capa de abstracción con la que una llamada al sistema se encontrará cuando se alcance el espacio del núcleo, haciendo de fachada para el resto del sistema. Está formado por numerosas funciones que pueden ser recogidas en los siguientes tipos:
+
+Funciones exportadas al espacio de usuario, o servicios del sistema, la librería Ntdll se encarga de ofrecerlos. Muchos de los servicios son accesibles desde la API de Windows, o a través del subsistema de entorno.
+Drivers de dispositivos, llamados a través de la función DeviceIOControl y que ofrece una interfaz general al espacio de usuario para llamar a los servicios de un dispositivo.
+Funciones que solo pueden ser llamadas desde el espacio del núcleo. 
+Funciones definidas como símbolos globales, pero que no son exportados al espacio de usuario.
+
+	Además, el ejecutor de Windows contiene cuatro grupos de funciones de soporte para los componentes organizados por este. Los grupos son los siguientes:
+
+Las funciones del manejador de objetos del ejecutor, que crea y destruye los objetos que sirven de infraestructura para el nucleo.
+El ALPC(Advanced Local Procedure Call, lanzador de procedimientos locales avanzados) que se encarga del paso de mensajes entre procesos.
+La librería de funciones comunes del sistema.
+Las rutinas de soporte del ejecutor.
+
+7.3 El núcleo.
+	El núcleo consiste en una serie de funciones contenidas en Ntoskrnl.exe que ofrece los mecanismos principales para el funcionamiento del sistema. Es utilizado por el ejecutor como una arquitectura de hardware a bajo nivel y es completamente dependiente, por tanto, de la arquitectura donde se ejecute.
+	Dentro de el se utilizan objetos de control y primitivas que serán controladas por el ejecutor, el cual expondrá los recursos compartidos utilizando las distintas políticas de seguridad. Además dispone de el control de region del procesador y el bloque de control para almacenar información especifica del procesador y su ejecución en curso.
+
+7.4 Drivers de dispositivos.
+	Los drivers en Windows conforman módulos que pueden cargarse en memoria principal bajo demanda. Pueden ser utilizados en contextos donde un hilo en espacio de usuario utiliza una de sus funciones, en contextos en los que un hilo en espacio del núcleo lo utiliza, o como resultado de una interrupción. Los drivers no utilizan los dispositivos directamente, sino que utilizan las funciones de la capa de abstracción de hardware(HAL, Hardware Abstraction Layer) para cumplir su cometido. Los tipos de drivers existentes son los siguientes:
+Drivers de dispositivos, que utilizan la capa HAL para comunicarse con estos.
+Drivers de sistemas de ficheros, que aceptan peticiones genéricas de entrada salida y las traducen a peticiones de un dispositivo concreto.
+Drivers de filtro de sistemas de ficheros, los cuales son drivers que colaboran con los de sistemas de ficheros para ofrecerle una nueva funcionalidad.
+Redirectores de red y servidores, que, siendo drivers de sistemas de ficheros, transmiten las peticiones de un sistema de ficheros a través de la red y reciben las peticiones.
+Drivers de protocolos, los cuales implementan los protocolos de comunicaciones básicos y más extendidos como TCP/IP, NetBEUI e IPX/SPX.
+Drivers de filtro para flujos de ejecución del nucleo, que implementan el procesos de señalización en grandes  flujos de datos.
+
+	Con esto, el modelo de drivers puede ser resumido en tres tipos concretos:
+
+Drivers de bus, que se encargan de utilizar los controladores de bus, adaptadores, puentes, y cualquier dispositivo capaz de comunicar diferentes dispositivos.
+Drivers de función, que implementan la funcionalidad principal de un dispositivo en cuestión.
+Drivers de filtro, que implementan una funcionalidad añadida a un driver de función.
+
+	Para el desarrollo de estos drivers, la Windows Driver Foundation provee al usuario de las plataformas para drivers en espacio del núcleo(KMDF, Kernel-mode driver framework), y para drivers en espacio de usuario(UMDF, User-mode driver framework).
+	
+8. Glosario.	
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
 Agilidad:  capacidad de mover los datos al área adecuada para mejorar su disponibilidad.
