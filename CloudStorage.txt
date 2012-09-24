@@ -490,8 +490,7 @@ Eliminación de objetos.
 
 7. Windows.
 	Dentro de la arquitectura del conocido sistema operativo de Microsoft nos encontramos con diversos componentes organizados de la siguiente manera:
-
-	Insertar imagen aquí.
+	
 
 	En la figura podemos diferenciar los subsistemas que trabajan en espacio de usuario y en espacio del núcleo. Dentro del espacio de usuario tendremos:
 
@@ -521,8 +520,7 @@ El invocador de procedimientos avanzado, que realiza las tareas necesarias para 
 La interfaz de dispositivos de gráficos, apoyada en sus correspondientes dispositivos, y que realizará la tarea de gestionar el entorno gráfico del sistema.
 
 	Estos subsistemas  están gobernados por el ejecutor de Windows y quedan resumidos en la siguiente imagen:
-
-	Insertar imagen aquí.
+	
 
 	Analizaremos posteriormente en mayor detalle los subsistemas más relevantes.
 
@@ -573,6 +571,37 @@ Drivers de función, que implementan la funcionalidad principal de un dispositivo
 Drivers de filtro, que implementan una funcionalidad añadida a un driver de función.
 
 	Para el desarrollo de estos drivers, la Windows Driver Foundation provee al usuario de las plataformas para drivers en espacio del núcleo(KMDF, Kernel-mode driver framework), y para drivers en espacio de usuario(UMDF, User-mode driver framework).
+
+7.5 Componentes del sistema de entrada/salida.
+	Dentro del sistema de entrada/salida existen una serie de componentes que colaboran habitualmente para ofrecer los servicios de los drivers al espacio de usuario. Estos componentes son el gestor de entrada/salida, el gestor del consumo energético, el gestor de dispositivos Plug and Play, y las rutinas de servicio para el proveedor de instrumentación de Windows.
+	El gestor de entrada salida es el principal componente de este subsistema, cumpliendo el objetivo de conectar dispositivos(virtuales, lógicos y físicos) con el espacio de usuario. Conforma una infraestructura de soporte para los drivers.
+	Los drivers de dispositivos ofrecen una interfaz de comunicación que es direccionada a través del gestor de entrada/salida. Cuando el usuario envía una petición, el gestor de entrada/salida la recoge y decide quien debe responder a esta, direccionando la petición al dispositivo adecuado. 
+	El gestor de dispositivos Plug and Play permanece en contacto continuo con el gestor de entrada/salida y con los drivers de bus. Los drivers de bus le ofrecen alojamiento para los nuevos dispositivos, aparte de avisar de la detección de un nuevo dispositivo, o de su desaparición. Este subsistema cargará los módulos correspondientes y si no dispone de ellos, llamará a un gestor en el espacio de usuario.
+	El gestor de consumo energético realizará las transiciones adecuadas de los dispositivos entre los distintos estados de consumo(encendido, apagado, modo de bajo consumo, etc).
+	Las rutinas de servicio del proveedor de instrumentación de Windows hacen de interfaz de comunicación entre el proveedor de instrumentación y los drivers de los dispositivos.
+	Además de estos componentes, es conveniente recordar que en este subsitema  utiliza el registro de Windows para mantener una base de datos de los dispositivos básicos, los ficheros INF, que sirven para almacenar la información de los drivers instalados en el sistema, y el nivel de abstracción de hardware.
+
+7.5.1. Gestor de entrada/salida.
+	Este subsistema sirve de infraestructura para recoger peticiones de entrada/salida, en forma de paquetes llamados IRP(I/O Request Packet). Su diseño permite que un hilo de procesamiento se encargue de multiples peticiones concurrentemente. El IRP contiene la información necesaria para describir la petición. El gestor de entrada/salida enviará un puntero a la dirección de memoria de la petición al driver correspondiente, donde será procesada. Este mismo puntero se utilizar para recuperar la información de la petición., cuando el driver notifique que la operación ha concluido.
+	Por otro lado este subsistema ofrece un código común para todos los dispositivos, permitiendo que los drivers reduzcan su tamaño, retirándoles el código de las tareas comunes con otros dispositivos.
+	Los drivers disponen de una interfaz modular y uniforme, de forma que el gestor de entrada salida puede tratarlos sin necesidad de tener ningún conocimiento acerca de como procesa las peticiones. De esta forma, el driver solo tiene que encargarse de traducir una petición genérica a una petición especifica del hardware que lo gestiona. Es posible que los drivers se llamen unos a otros para resolver la gestión de la petición en curso.
+	Una operación típica de entrada/salida, es tratada por el gestor de entrada/salida, uno o dos dispositivos, y el nivel de abstracción de hardware. El sistema operativo, enmascara los dispositivos, de forma que el espacio de usuario dispondrá de las operaciones normales en un fichero cualquiera.
+
+7.5.2. Drivers de dispositivos.
+	Atendiendo a la clasificación de si se trata de un driver en espacio de usuario o en espacio de núcleo, podemos constatar que en el espacio de usuario se disponen de tres tipos: Drivers de Dispositivos Virtuales(VDDs), drivers de impresoras, y drivers de la infraestructura de drivers en espacio de usuario.
+	Los drivers de dispositivos virtuales se mantienen por compatibilidad con MS-DOS, ya que emulan aplicaciones de 16 bits, capturando sus llamadas a dispositivos y traduciendolas a los dispositivos reales.
+	Los drivers de impresoras traducen las peticiones de dispositivos de gráficos genéricos a comandos de impresión.
+	Los drivers de la infraestructura de drivers en espacio de usuario son drivers de dispositivos que no requieren ejecución en espacio del núcleo, y que, en caso de necesitar algo, les es suficiente con comunicarse a través de las llamadas a procesos locales avanzados de Windows.
+	En el espacio del nucleo, podemos se dispone de los drivers de sistemas de ficheros, que recogen las peticiones y las envian al dispositivo de bloques, o interfaz de red correspondiente, los drivers de dispositivos Plug and Play(PnP), entre los que se incluyen drivers de dispositivos de almacenamiento masivo, adaptadores de video, dispositivos de en entrada e interfaces de red, y drivers de dispositivos no Plug and Play, que conforman extensiones del núcleo, o nuevas funcionalidades para otros drivers.
+	Por otro lado, se encuentran los drivers pertenecientes al modelo de drivers de Windows(Windows Driver Model). Entre estos encontramos los drivers de bus, los drivers de funcionalidad, y los drivers de filtro comentados anteriormente.
+	Puesto que un driver puede ser dividido en distintos niveles, es posible clasificarlos en otros tres tipos distintos, de clase, de puertos o de minipuertos.
+	Los dispositivos de clase implementan drivers para una clase en particular de driver(drivers de discos, de cintas, de CR-ROM...).
+	Los dispositivos de puertos procesan peticiones para enviarlas por un tipo específico de puerto, como un puerto SCSI, COM, USB. Estos se implementan como librerías del núcleo, ya que son drivers escritos por Microsoft con el sistema operativo.
+	Los drivers de minipuertos traducen una petición genérica a un petición de un puerto concreto, siendo drivers para un dispositivo que importan las funciones de un dispositivo de puerto.
+	Si una petición debiera ser atendida por un driver con diferentes niveles, el gestor de entrada/salida recogería la petición del espacio de usuario, la traduciría a una petición para el driver que conforme el primer nivel, con su respuesta, generaría una nueva petición para el siguiente nivel, y seguiría generando posteriores peticiones sucesivamente hasta llegar a la última. Una vez respondida la última petición, se devolvería la respuesta al espacio de usuario, conformando una cola de peticiones por nivel.
+
+7.5.3. Estructura de un driver.
+
 	
 8. Glosario.	
 
@@ -607,6 +636,7 @@ Socket: Abstracción utilizada en los sistemas operativos Unix para representar u
 Spinlock: Mecanismo de espera activa provocada cuando se requiere adquirir un recurso no disponible.
 Mutex: Mecanismo de concurrencia basado en una variable, que recibe, normalmente, dos valores, abierto y cerrado, y en función de el, detiene la ejecución de código hasta que su valor cambie, reanudandola.
 Jiffies: Unidad de tiempo mínima del núcleo de Linux.
+Dispositivos Plug and Play: dispositivos que, al conectarse al sistema, se configuran automáticamente y se ofrecen sus servicios al usuario sin que este realice ninguna tarea previa.
 	
 	Referencias.
 
