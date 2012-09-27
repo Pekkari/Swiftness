@@ -562,7 +562,7 @@ Drivers de sistemas de ficheros, que aceptan peticiones genéricas de entrada sal
 Drivers de filtro de sistemas de ficheros, los cuales son drivers que colaboran con los de sistemas de ficheros para ofrecerle una nueva funcionalidad.
 Redirectores de red y servidores, que, siendo drivers de sistemas de ficheros, transmiten las peticiones de un sistema de ficheros a través de la red y reciben las peticiones.
 Drivers de protocolos, los cuales implementan los protocolos de comunicaciones básicos y más extendidos como TCP/IP, NetBEUI e IPX/SPX.
-Drivers de filtro para flujos de ejecución del nucleo, que implementan el procesos de señalización en grandes  flujos de datos.
+Drivers de filtro para flujos de ejecución del núcleo, que implementan el procesos de señalización en grandes  flujos de datos.
 
 	Con esto, el modelo de drivers puede ser resumido en tres tipos concretos:
 
@@ -619,6 +619,37 @@ Drivers de filtro, que implementan una funcionalidad añadida a un driver de func
 	Cuando el driver es cargado en memoria, el objeto de driver es creado. Inmediatamente después se llamará a la rutina de inicialización. A partir de entonces es posible crear objetos de dispositivo gobernados por dicho driver. Para ello se utilizan las operaciones IoCreateDevice e IoCreateDeviceSecure, aunque habitualmente los dispositivos utilizarán la rutina add-device y la infraestructura Plug and Play.
 	Al crearse el dispositivo, es posible asignarle un nombre que será almacenado en el gestor del espacio de nombres de objetos, el cual es inaccesible directamente desde el espacio de usuario. Para que sea accesible, debe hacerse un enlace desde el directorio \Global hacia el directorio \Device, del espacio de nombres, donde el nombre del objeto realmente se encuentra. Para exportar las interfaces  se utiliza la función IoRegisterDeviceInterface, y para habilitarla, se utiliza IoSetDeviceInterfaceState. Desde ese momento, el usuario puede utilizar la infraestructura PnP para utilizar la interfaz.
 	Con esta infraestructura, un objeto driver es asociado con los distintos objetos dispositivos. De esta forma, el gestor de entrada/salida no requiere conocer los detalles de un dispositivo concreto.
+
+7.5.5. Estructuras de ficheros.
+	Las estructuras de ficheros cumplen los requisitos de diseño de los objetos en Windows(son recursos compartidos, pueden tener nombre, deben estar protegidos y soportan sincronización). Su única diferencia, es que los objetos compartidos suelen estar alojados en memoria, y en los ficheros, se encuentran en un dispositivo físico. Su representación se compone de los siguientes atributos:
+Nombre de fichero.
+Desplazamiento del byte actual(respecto al comienzo del fichero).
+Modo de compartición.
+Banderas de modo de apertura.
+Puntero al objeto de dispositivo.
+Puntero a la partición.
+Puntero a la sección de punteros de objetos.
+Puntero al mapa privado de cache.
+Lista de paquetes de petición de entrada/salida.
+Contexto de finalización de entrada/salida: de existir, comunica el estado de finalización de la petición en curso sobre el puerto
+Extensiones del objeto de fichero: almacena la prioridad, si requiere chequeos de seguridad, y si contiene extensiones que almacenan información de contexto.
+
+	El nombre y el desplazamiento se utilizarán para posicionarse en la lectura secuencial del fichero. El modo de compartición y las banderas de modo de apertura controlan la seguridad de los accesos. El puntero al dispositivo, a la partición, y a la sección de punteros de objetos identifican el dispositivo físico que aloja el fichero, el mapa de cache y la lista de IRPs para procesar las peticiones. Las extensiones del objeto de fichero pueden ser las siguientes:
+
+Parámetros de transacción.
+Detalles del objeto de dispositivo: Identifica el driver de filtro adecuado.
+Estatus de bloqueo de rango de entrada/salida: permite al espacio de usuario bloquear buffers en el espacio del núcleo optimizando las operaciones asíncronas.
+Genérica: almacena información específica para el driver de filtro.
+Entrada/salida programada del fichero: almacena la reserva de ancho de banda del dispositivo para garantizar el buen funcionamiento de aplicaciones multimedia.
+Enlaces simbólicos: información para resolver enlaces simbólicos.
+
+	Cuando el espacio de usuario pide al núcleo la apertura de un fichero, el gestor de entrada/salida se comunica con el subsistema adecuado(en este caso, el gestor de objetos), para que este, con ayuda del núcleo genere un manejador para el fichero. El gestor de entrada/salida, enviará posteriormente este manejador ala aplicación que la solicitó. Durante este proceso, cualquier chequeo de seguridad debe ser resuelto por el gestor de entrada/salida.
+	El objeto de fichero es alojado en memoria y es una representación de un recurso compartido, no el recurso en sí. Esta representación almacena los datos necesarios para utilizar el fichero, mientras que el fichero almacena los datos a utilizar. Por otro lado, el manejador debe ser único para un proceso, mientras que el fichero no tiene por que serlo(p.e. Varios procesos utilizan el mismo fichero). En caso de escrituras, se evitan los problemas de concurrencia utilizando la función de Windows LockFile.
+	Cuando el fichero se abre, se incluye en el espacio de nombres bajo el directorio "\Device\HarddiskVolumeN", que representa el directorio de la partición abierta, de la que se recibe el fichero. Para que sea compartido directamente con el espacio de usuario, es necesario hacer un enlace simbólico en el directorio "\Global".
+
+7.5.6. Paquetes de peticiones de entrada/salida.
+	
+	
 	
 8. Glosario.	
 
@@ -644,8 +675,11 @@ Transfer manager drivers: Drivers de gestión de transferencias.
 Imagen virtual: fichero que simula el disco duro de un ordenador para, en conjunto con la tecnología de virtualización, se pueda lanzar un sistema operativo con sus aplicaciones propias.
 Sector: Unidad mínima de almacenamiento de un dispositivo de bloques.
 Buffer: zona de memoria para alojar información.
+Cache: memoria pequeña pero muy rápida, dentro de la jerarquía de memorias.
 Puntero: tipo abstracto de dato útil para referenciar direcciones de memoria.
-Memoria principal: almacenamiento de instrucciones y datos principal del sistema físico.
+Memoria principal: almacenamiento de instrucciones y datos principal del sistema físico, habitualmente, la memoria RAM.
+Partición: Zona de almacenamiento alojada dentro de un dispositivo de bloques.
+Enlace simbólico: enlace entre un punto determinado del dispositivo físico y un fichero alojado en otro punto completamente distinto.
 Espacio de nombres: juego de identificadores que permiten la desambiguación de homónimos.
 IRQ: Interrupt request, o número de interrupción del dispositivo para detener la ejecución de código en la CPU.
 DMA: Direct Memory Access, metodo de acceso a memoria en el que se delega la tarea del acceso a la información a un dispositivo intermedio que permita al procesador continuar con sus labores sin apenas provocandole mínimos retrasos.
