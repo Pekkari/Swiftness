@@ -648,8 +648,40 @@ Enlaces simbólicos: información para resolver enlaces simbólicos.
 	Cuando el fichero se abre, se incluye en el espacio de nombres bajo el directorio "\Device\HarddiskVolumeN", que representa el directorio de la partición abierta, de la que se recibe el fichero. Para que sea compartido directamente con el espacio de usuario, es necesario hacer un enlace simbólico en el directorio "\Global".
 
 7.5.6. Paquetes de peticiones de entrada/salida.
-	
-	
+	Las IRPs son las estructuras que Windows utiliza para almacenar la información requerida para realizar una operación sobre un dispositivo. Si un hilo utiliza un servicio de entrada/salida, el gestor de entrada salida generará el IRP correspondiente a la operación solicitada. El sistema gestiona las peticiones utilizando dos colas y una pila, una cola corta para las operaciones que solo utilizen una posición en la pila, y una cola larga para las que utilizen múltiples posiciones en la pila. Para mejorar la gestión de operaciones entre varios procesadores, se añade una lista global además de las anteriores.
+	Por defecto un IRP utiliza 10 posiciones en la pila de IRPs, y, por tanto, se aloja en la lista larga de IRPs. Una vez por minuto, el sistema ajusta cuantas posiciones de la pila requiere, llegando a permitir un máximo de 20 posiciones. Despues de su alojamiento e inicialización, el gestor de entrada/salida almacena un puntero al solicitante del servicio en el IRP.
+	Dentro de un IRP se diferencian dos partes, una cabecera fija y una o varias posiciones en la pila. La información del tipo de operación se almacena en la cabecera, mientras que en las posiciones de la pila se almacena código de una función(llamada función mayor), sus parámetros, y el solicitante del objeto fichero. La función mayor indica que rutina de resolución del driver debe ser llamada por el gestor de entrada/salida cuando el paquete se envie al driver. Opcionalmente, puede almacenarse una función(llamada menor) para que modifique el comportamiento de la función mayor(añadiendo funcionalidades, comunicando con otros subsistemas, etc).
+	Habitualmente se ofrecer rutinas de resolución para las operaciones más habituales(apertura, cierre, lectura, escritura, control de entrada/salida, Plug and Play y alguna rutina para WMI).
+	Una vez almacenado el IRP en la lista correspondiente, el sistema es capaz de encontrarlo y cancelarlo en caso de descontrol.
+	La creación de un IRP se realiza utilizando los servicios NtReadFile, NtWriteFile, o NtDeviceIoControlFile. El gestor de entrada/salida decide si debe participar en la gestión de los buffers de almacenamiento requeridos por la operación. Puede actuar de tres formas. La primera de ellas sería almacenar un buffer del mismo tamaño que el que ofrece la aplicación que solicita el servicio. En caso de escritura, copia el buffer a su almacenamiento privado, y en el caso de lectura copia la información de su buffer al espacio de usuario.
+	Otra opción es realizar entrada/salida directa, bloqueando el buffer en espacio de usuario para que no pueda ser escrito, y desbloqueandolo cuando se finalice la operación.
+	Por último el gestor puede sencillamente no ejercer ninguna gestión de almacenamiento. En este caso, debe ser el driver quien se encargue de estas labores.
+	En cualquier caso, el gestor de entrada/salida inicializará las referencias adecuadas para localizar el almacenamiento. El tipo de gestión utilizado es seleccionado en función de lo que solicite el driver, el cual registra el tipo deseado para la lectura y escritura, mientras que para el control se almacena en un código de control específico.
+	Usualmente, para transferencias menores que una página de memoria(4KB) se utiliza la entrada/salida a través de buffers, y para transferencias mayores la entrada/salida directa. Es poco común utilizar la gestión de almacenamiento desde el driver por la posibilidad de que se pierda la referencia al solicitante. Su uso de reduce entonces a drivers en espacio de usuario que garantizan que las referencias son válidas, y pertenecientes al espacio de usuario
+
+7.5.7. Petición en drivers de una sola capa.
+	Este proceso conlleva siete pasos:
+
+Envío de la petición a través del subsistema de DLLs.
+El subsistema de DLLs solicita el servicio NtWriteFile.
+El gestor de entrada/salida crea el IRP correspondiente y lo envia al driver haciendo uso de IoCallDriver.
+El driver transmite el IRP al dispositivo y comienza la operación de entrada/salida.
+El dispositivo notifica la finalización del servicio mediante una interrupción.
+El driver sirve la interrupción.
+El driver llama al servicio IoCompleteRequest.
+
+	Las interrupciones se sirven en dos partes diferenciadas. Una vez ocurrida, el gestor de interrupción reconoce el estado y  razón de la interrupción para encolarlo en una cola de resolución, donde se gestionará su finalización en un segundo plano, permitiendo que sucedan nuevas interrupciones rápidamente.
+	La rutina de finalización se encarga de copiar la información pertinente hacia el espacio de usuario, y limpiar las estructuras requeridas para gestionar una nueva petición.
+	Debe cuidarse la sincronización al acceder al driver, debido a que el sistema permite que un hilo de mayor prioridad expulse a uno de menor prioridad de su ejecución, que se atienda una interrupción durante esta, o que se ejecute el mismo código en otro procesador de la misma máquina. De esta forma, la información compartida por el driver debe ser consistente para cualquier ejecución en curso.
+
+7.5.8. Petición en drivers de múltiples capas.
+	En este ocasión, el gestor de entrada salida, al igual que en el caso anterior genera un IRP que se pasará al driver del sistema de ficheros. Dependiendo de la petición, el driver la reenvia al driver del dispositivo en cuestión, o genera IRPs adicionales para enviarlas por separado al driver. Solo se reutiliza un IRP en caso de que se traduzca en una sola petición al dispositivo.
+	Como alternativa a reutilizar una petición, el sistema de ficheros puede generar un grupo de IRPs asociados que trabajen en paralelo para atender una sola petición. Este grupo es transmitido al gestor de volumenes, que lo enviará posteriormente al driver del dispositivo.
+
+7.5.9. Infraestructura de drivers en espacio del núcleo.
+
+
+áéíóú
 	
 8. Glosario.	
 
