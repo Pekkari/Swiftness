@@ -699,7 +699,45 @@ Dicha jerarquía se resume en la siguiente figura:
 	Es importante resaltar que se contempla el contexto de un objeto, de forma de que, aunque los objetos sean opacos, estos permiten al driver almacenar su propia información en su objeto padre para mejorar la localización de la información. De hecho, es posible disponer de más de un área de contexto, permitiendo a múltiples niveles de código interactuar con el mismo driver. De esta forma, los niveles trabajan de forma independiente.
 
 7.5.10. Modelo de entrada/salida de KMDF.
-	
+	El modelo de entrada/salida de KMDF utiliza los mismos mecanismos que WDM, las interfaces de WDM y la API del núcleo, de forma que el mismo puede ser observado como un driver de la WDM en sí mismo. Basándose en el modelo de WDM el driver de KMDF realizará alguna de las siguientes tres operaciones:
+
+Enviar el paquete de petición al gestor de entrada/salida.
+Enviar el paquete al sistema de Plug and Play y el gestor de consumo para procesarlo y modificar el estado de consumo si es requerido.
+Enviar el paquete al gestor de servicios WMI.
+
+	Estos componentes notificarán al driver los eventos registrados para direccionar la petición hacia el manejador adecuado. De haber terminado KMDF su proceso del IRP, sin haberse satisfecho la petición, KMDF optará entre completar la petición con estado STATUS_INVALID_DEVICE_REQUEST, en caso de tratarse de un driver de bus, o de función, o redireccionar la petición al driver de nivel inferior en caso de utilizar drivers de filtro multinivel.
+	El proceso de paquetes de petición, una vez más, sigue basándose en colas(WDFQUEUE). Esto le ofrece la oportunidad de ordenarlas como requiera
+	Un driver típico de KMDF crea una cola y le asocia uno o varios eventos, además de los callbacks que requiera, los estados de consumo, los métodos de resolución para la cola y si aceptará, o no, buffers vacíos.
+	Las tareas gestionadas por el sistema de gestión de entrada/salida de KMDF(aparte de las habituales de creación, cierre, liberación de recursos, lectura, escritura y control) son:
+La creación de peticiones, notificada a través del evento EvtDeviceFileCreate. Otra opción es crear una cola automática y registrar un callback para el evento EvtIoDefault. De no utilizarse alguno de estos métodos, KMDF devolverán un código de finalización correcta.
+En caso de liberación de recursos y peticiones de cierre, se notificarán los eventos EvtFileCleanup y EvtFileClose respectivamente, y se llamarán a sus callbacks correspondientes.
+
+7.5.11. Gestor de dispositivos Plug and Play.
+	Este gestor ofrece la habilidad de reconocer y adaptar los cambios de configuraciones de hardware,  instalando y eliminando dispositivos. Para ello se sirve de la cooperación con el hardware, su driver, y los distintos niveles dentro del sistema operativo. Además, se apoya sobre un estándar de identificación de dispositivos alojados en los distintos buses. Este estándar ofrece las siguientes capacidades al sistema de PnP:
+
+Reconocimiento automático de dispositivos inñstalados(enumerando los existentes en el proceso de inicio y detectando los añadidos y eliminados después de este).
+Alojamiento de recursos requeridos por el hardware(reuniendo los requerimientos, y asignándolos(o reasignándolos si es necesario) a través del arbitrador de recursos.
+Carga del driver requerido en memoria. Si este driver no estuvieera instalado, el subsistema de PnP en espacio del núcleo pedirá al subsistema de PnP en espacio de usuario que instale el dispositivo, con ayuda del usuario.
+Mecanismos de detección y configuración de hardware para drivers y aplicaciones.
+Almacenamiento para los estados del dispositivo.
+Gestión de dispositivos conectados en la red.
+
+	Es importante resaltar que tanto el driver, como el dispositivo deben soportar PnP, de no hacerlo alguno de los dos, el sistema puede verse comprometido. Es posible, aún así, realizar un soporte parcial del sistema PnP sobre un dispositivo que no lo soporte, si el driver si implementa los requerimientos de este sistema.
+	Para ofrecer soporte al sistema, debe implementarse una rutina de resolución para este sistema, otra para el sistema de control de consumo, y una rutina de añadido del dispositivo. Es importante saber que el soporte de PnP en un driver de bus, será distinto que en un driver de función o de filtro. El driver de bus debe describir de forma única los dispositivos alojados en el bus que representa, cargar su driver de función y llamar a la rutina de añadido de dispositivo.
+	Los drivers de función y de filtro, deben prepararse para utilizar el dispositivo en la rutina de añadido del dispositivo, sin necesidad de comunicarse con el. Para comunicarse espera a que el gestor de PnP le envíe un comando de comienzo del dispositivo para pasar el control a la rutina de resolución adecuada. Es entonces cuando se configura el dispositivo. Si una aplicación trata de abrir el dispositivo que no ha finalizado de iniciarse recibirá un código de error indicando que el dispositivo no existe.
+	Una vez inicializado el dispositivo, el gestor de PnP puede enviar diversos comandos, como por ejemplo, el de eliminación del dispositivo, o reasignación de recursos. Estos comandos guiarán al driver a través de una tabla de transición de estados bien definida.
+
+7.5.12. Carga, inicialización e instalación de drivers.
+	Existen dos tipos de inicialización, la explícita, y la basada en enumeración(utilizando los servicios de Windows). Todo driver dispone de valores de registro en la rama de servicios del conjunto de control actual. Estos valores definen el tipo de imagen, la localización del driver, los valores de control, o el orden de inicialización del servicio. Las diferencias entre la carga explicita frente a la carga a través de servicios de Windows son que el driver puede especificar un valor de comienzo para el comando boot-start(0, se carga durante la inicialización del subsistema de ejecución) o system-start(1, se carga después de la inicialización del subsistema de ejecución), y que el driver puede usar los valores de control Group y Tag para ser ordenados en la fase de inicio, pero no pueden usar los valores DependOnGroup o DependOnServices. El valor de registro Group se compara con el valor de registro "HKLM\SYSTEM\CurrentControlSet\Control\ServiceGroupOrder\List" para determinar en que orden de inicializan los grupos durante el inicio. Para refinar el orden de carga dentro del grupo se utiliza la etiqueta Tag y el registro "HKML\SYSTEM\CurrentControlSet\Control\GroupOrderList" que define la preferencia dentro del grupo.
+	Las guías utilizadas para otorgar un valor de comienzo son las siguiente:
+
+Drivers no Plug and Play reciben el valor de carga en inicio que requieran.
+Cualquier driver(no-PnP o PnP) que requiera inicializarse durante la carga del sistema operativo recibe el valor boot-start(0).
+Si no es requerido para ejecutar el sistema operativo y el driver detecta un dispositivo que los drivers de bus no pueden enumerar, recibe el valor de system-start(1).
+Drivers no-PnP y de sistemas de ficheros que no requieren estar presentes en la ejecución del sistema operativo reciben un valor de auto-start(2).
+Los drivers PnP que o se requieren en el inicio del sistema operativo reciben un valor de demand-start(3).
+
+	Estos valores solo son útiles durante la carga del sistema operativo.
 
 8. Glosario.	
 
@@ -735,6 +773,7 @@ IRQ: Interrupt request, o número de interrupción del dispositivo para detener la
 DMA: Direct Memory Access, metodo de acceso a memoria en el que se delega la tarea del acceso a la información a un dispositivo intermedio que permita al procesador continuar con sus labores sin apenas provocandole mínimos retrasos.
 Socket: Abstracción utilizada en los sistemas operativos Unix para representar una conexión de red.
 Spinlock: Mecanismo de espera activa provocada cuando se requiere adquirir un recurso no disponible.
+Callback: Función ejecutada, tan pronto como es posible, para atender la situación registrada por un nuevo evento.
 Mutex: Mecanismo de concurrencia basado en una variable, que recibe, normalmente, dos valores, abierto y cerrado, y en función de el, detiene la ejecución de código hasta que su valor cambie, reanudandola.
 Jiffies: Unidad de tiempo mínima del núcleo de Linux.
 Dispositivos Plug and Play: dispositivos que, al conectarse al sistema, se configuran automáticamente y se ofrecen sus servicios al usuario sin que este realice ninguna tarea previa.
