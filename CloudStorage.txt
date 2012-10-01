@@ -678,11 +678,29 @@ El driver llama al servicio IoCompleteRequest.
 	En este ocasión, el gestor de entrada salida, al igual que en el caso anterior genera un IRP que se pasará al driver del sistema de ficheros. Dependiendo de la petición, el driver la reenvia al driver del dispositivo en cuestión, o genera IRPs adicionales para enviarlas por separado al driver. Solo se reutiliza un IRP en caso de que se traduzca en una sola petición al dispositivo.
 	Como alternativa a reutilizar una petición, el sistema de ficheros puede generar un grupo de IRPs asociados que trabajen en paralelo para atender una sola petición. Este grupo es transmitido al gestor de volumenes, que lo enviará posteriormente al driver del dispositivo.
 
-7.5.9. Infraestructura de drivers en espacio del núcleo.
+7.5.9. Infraestructura de drivers en espacio del núcleo(KMDF).
+	El modelo de drivers en espacio de núcleo no es muy distinto del modelo de drivers WDM. Esto implica que en su interior disponen de las funciones de inicialización, la rutina de añadido de dispositivo al sistema, y una o más rutinas de eventos, que funcionan como las rutinas de resolución de lo drivers pertenecientes a WDM. Generalmente, estas últimas, crean y gestionan colas de peticiones para la entrada/salida. El driver no tiene la obligación de implementar estas rutinas, puesto que existen rutinas genéricas proveídas por el sistema operativo. En el caso de implementarlas, la rutina debe ser registrada por el sistema operativo para que pueda ser utilizada.
+	El modelo de datos de KMDF, es orientado a objetos. Estos objetos se encapsulan internamente, permitiendo solo la interactuación con ellos a través de una interfaz de manejadores. La infraestructura ofrece rutinas para la creación de estos objetos, recuperación de valores, y actualización de estos(WdfDeviceCreate, Get/Set, Assign/Retrieve).
+	Los objetos de drivers pertenecen a una jerarquía, donde el objeto raíz es el objeto WDFDRIVER, que describe el driver actual, y que es análoga al driver de objeto ofrecido por el gestor de entrada/salida. Todo objeto generado por KMDF para este driver será un hijo de este dentro de la jerarquía. Dentro de la jerarquía podemos destacar los siguientes objetos:
 
+WDFDRIVER: Objeto raíz de la jerarquía.
+WDFREQUEST: Objeto auxiliar de petición.
+WDFIORESREQLIST: Lista de objetos de rangos de direcciones para la entrada/salida(Resource Requirements).
+WDFIORESLIST: Identifica un rango de direcciones para el dispositivo.
+WDFDEVICE: Objeto del dispositivo.
+WDFCHILDLIST: Lista de objetos hijos del dispositivo asociado.
+WDFFILEOBJECT: Objeto fichero.
+WDFIOTARGET: Dispositivo  que debe resolver la petición de entrada/salida.
+WDFKEY: Elemento del registro.
+WDFINTERRUPT: Instancia de interrupción.
 
-áéíóú
+Dicha jerarquía se resume en la siguiente figura:
+
+	Es importante resaltar que se contempla el contexto de un objeto, de forma de que, aunque los objetos sean opacos, estos permiten al driver almacenar su propia información en su objeto padre para mejorar la localización de la información. De hecho, es posible disponer de más de un área de contexto, permitiendo a múltiples niveles de código interactuar con el mismo driver. De esta forma, los niveles trabajan de forma independiente.
+
+7.5.10. Modelo de entrada/salida de KMDF.
 	
+
 8. Glosario.	
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
