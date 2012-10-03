@@ -1,62 +1,63 @@
-1. Cloud Storage.
+Ôªø1. Cloud Storage.
 	
 	El Cloud Storage, o almacenamiento en la nube, es un modelo de almacenamiento basado en redes donde los datos son almacenados en piscinas virtuales de almacenamiento. 
 	En las arquitecturas de almacenamiento en la nube, se persiguen cuatro objetivos, la agilidad, o capacidad de mover los datos al sitio adecuado para mejorar su disponibilidad, la escalabilidad, o capacidad de manejar crecientes cargas de trabajo, o de adaptarse para ser capaces de soportarlas, la elasticidad, o la capacidad de escalarse sin limites razonables, y la capacidad de ser multiusuario.
-	El Cloud Storage debe estar formado por servicios distribuidos que deben comportarse como un conjunto, debe ser tolerante a fallos a travÈs de la redundancia de datos, debe ser duradero, sirviÈndose de la creaciÛn de versiones de los documentos alojados, y debe ser consistente entre las diferentes versiones almacenadas.
-	Las principales preocupaciones de dichas soluciones son la seguridad ante posibles accesos indebidos, la estabilidad de la empresa proveedora, la accesibilidad de la informaciÛn, y los costes hardware de la soluciÛn utilizada.
+	El Cloud Storage debe estar formado por servicios distribuidos que deben comportarse como un conjunto, debe ser tolerante a fallos a trav√©s de la redundancia de datos, debe ser duradero, sirvi√©ndose de la creaci√≥n de versiones de los documentos alojados, y debe ser consistente entre las diferentes versiones almacenadas.
+	Las principales preocupaciones de dichas soluciones son la seguridad ante posibles accesos indebidos, la estabilidad de la empresa proveedora, la accesibilidad de la informaci√≥n, y los costes hardware de la soluci√≥n utilizada.
 	Actualmente, existen dos tipos de instalaciones de Cloud Storage, las realizadas en servidores externos, y las instalaciones locales que el administrador puede acomodar a sus necesidades. 
-	En servidores externos, la compaÒÌas que ofrecen este servicio establecen una piscina de servidores virtuales en los que se aloja dicho almacenamiento y los pone a disposiciÛn del usuario. Este tipo de instalaciones goza de las mayores ventajas del Cloud Storage, que se apoyan en la disposiciÛn de grandes servidores de almacenamiento, y la delegaciÛn de la tarea de la administraciÛn y responsabilidades a la compaÒÌa encargada de ofrecer el servicio.
+	En servidores externos, la compa√±√≠as que ofrecen este servicio establecen una piscina de servidores virtuales en los que se aloja dicho almacenamiento y los pone a disposici√≥n del usuario. Este tipo de instalaciones goza de las mayores ventajas del Cloud Storage, que se apoyan en la disposici√≥n de grandes servidores de almacenamiento, y la delegaci√≥n de la tarea de la administraci√≥n y responsabilidades a la compa√±√≠a encargada de ofrecer el servicio.
 	En las instalaciones locales, el usuario debe instalar la plataforma de almacenamiento en la nube, adaptarla a sus necesidades, y administrarla adecuadamente con el fin que persigue. Para el objetivo de este proyecto estudiaremos en mayor profundidad las soluciones locales.
 
 2. Almacenamiento en soluciones libres y locales existentes.
 
 2.1 Amazon S3.
-	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, ni de instalacin local, puesto que solo se ofrecen las distintas interfaces de comunicaciÛn de esta. Aun asÌ es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
-	La Amazon Simple Storage Service tiene como objetivo ser escalable, tener alta disponibilidad y baja latencia, a un bajo coste. Dispone de tres tipos de interfaces distintas, REST(Representational State Transfer), SOAP(Simple Object Access Protocol) y BitTorrent. Las primera interfaz es la m·s adoptada, se trata de una interfaz para sistemas distribuidos adoptada ampliamente en la World Wide Web. La segunda es una interfaz que cumple el mismo propÛsito que REST, pero bas·ndose en tecnologÌa XML. La tercera es una de las conocidas tecnologÌas P2P existentes.
-	Admite objetos de un tamaÒo inferior a 5 terabytes de informaciÛn y los organiza en cubos. Para cada cubo, y objeto, dentro de este, se dispone una lista de control de acceso que permite al usuario disponer de su informaciÛn. Cada objeto en un cubo puede ser accedido directamente desde internet. Adem·s, cada objeto es una semilla de la red BitTorrent que puede ser utilizada para reducir el ancho de banda utilizado durante la descarga.
-	Puesto que el principal uso de los cubos es almacenar p·ginas web, cada cubo puede ser configurado para almacenar los registros de acceso en un cubo gemelo, o rÈplica.
-	Esta soluciÛn es capaz de alojar maquinas virtuales que se pueden ejecutar a travÈs de sus interfaces expuestas, y admite redundancia distribuida en su cluster de almacenamiento.
-	Debido a su condiciÛn de no tener instalaciÛn local, no es posible saber sobre que tipo de host funciona dicha soluciÛn.
+	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, ni de instalacin local, puesto que solo se ofrecen las distintas interfaces de comunicaci√≥n de esta. Aun as√≠ es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
+	La Amazon Simple Storage Service tiene como objetivo ser escalable, tener alta disponibilidad y baja latencia, a un bajo coste. Dispone de tres tipos de interfaces distintas, REST(Representational State Transfer), SOAP(Simple Object Access Protocol) y BitTorrent. Las primera interfaz es la m√°s adoptada, se trata de una interfaz para sistemas distribuidos adoptada ampliamente en la World Wide Web. La segunda es una interfaz que cumple el mismo prop√≥sito que REST, pero bas√°ndose en tecnolog√≠a XML. La tercera es una de las conocidas tecnolog√≠as P2P existentes.
+	Admite objetos de un tama√±o inferior a 5 terabytes de informaci√≥n y los organiza en cubos. Para cada cubo, y objeto, dentro de este, se dispone una lista de control de acceso que permite al usuario disponer de su informaci√≥n. Cada objeto en un cubo puede ser accedido directamente desde internet. Adem√°s, cada objeto es una semilla de la red BitTorrent que puede ser utilizada para reducir el ancho de banda utilizado durante la descarga.
+	Puesto que el principal uso de los cubos es almacenar p√°ginas web, cada cubo puede ser configurado para almacenar los registros de acceso en un cubo gemelo, o r√©plica.
+	Esta soluci√≥n es capaz de alojar maquinas virtuales que se pueden ejecutar a trav√©s de sus interfaces expuestas, y admite redundancia distribuida en su cluster de almacenamiento.
+	Debido a su condici√≥n de no tener instalaci√≥n local, no es posible saber sobre que tipo de host funciona dicha soluci√≥n.
 	
 2.2 OpenNebula.
 	Aunque la plataforma de Cloud Computing de OpenNebula es compatible con la interfaz Amazon EC2 Query Interface, lo que le ofrece compatibilidad con la plataforma de almacenamiento Amazon S3, dicha plataforma goza de un subsistema de almacenamiento propio. 
-	El subsistema est· ideado para almacenar m·quinas virtuales ˙nicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gestiÛn de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creaciÛn, eliminaciÛn y modificaciÛn de las m·quinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonaciÛn y enlace.
-	Los drivers de transferencia proveen a esta soluciÛn de una interfaz REST, y no es posible separar los subsistemas de comunicaciÛn de los de gestiÛn de almacenamiento y operaciÛn de esta nube. No se especifica que disponga de persistencia de datos replicandolos a lo largo del cluster formado por la nube. Los tipos de host donde pueden ser alojada esta soluciÛn deben ser servidores Linux.
+	El subsistema est√° ideado para almacenar m√°quinas virtuales √∫nicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gesti√≥n de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creaci√≥n, eliminaci√≥n y modificaci√≥n de las m√°quinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonaci√≥n y enlace.
+	Los drivers de transferencia proveen a esta soluci√≥n de una interfaz REST, y no es posible separar los subsistemas de comunicaci√≥n de los de gesti√≥n de almacenamiento y operaci√≥n de esta nube. No se especifica que disponga de persistencia de datos replicandolos a lo largo del cluster formado por la nube. Los tipos de host donde pueden ser alojada esta soluci√≥n deben ser servidores Linux.
 
 2.3 Nimbus.
-	La plataforma Nimbus utiliza una implementaciÛn propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento. Las interfaces que ofrece dicha implementaciÛn son de tipo REST y SOAP, y no es posible separar la interfaz de comunicaciÛn del almacenamiento subyaciente. Su almacenamiento, al igual que OpenNebula est· basado en m·quinas virtuales que gestionan sus propios discos, no siendo posible definir un almacenamiento sin sistema operativo. Esta soluciÛn permite, sin embargo, realizar replicaciÛn distribuida de datos para garantizar la persistencia. Los host que soportan esta soluciÛn deben ser servidores Linux.
+	La plataforma Nimbus utiliza una implementaci√≥n propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento. Las interfaces que ofrece dicha implementaci√≥n son de tipo REST y SOAP, y no es posible separar la interfaz de comunicaci√≥n del almacenamiento subyaciente. Su almacenamiento, al igual que OpenNebula est√° basado en m√°quinas virtuales que gestionan sus propios discos, no siendo posible definir un almacenamiento sin sistema operativo. Esta soluci√≥n permite, sin embargo, realizar replicaci√≥n distribuida de datos para garantizar la persistencia. Los host que soportan esta soluci√≥n deben ser servidores Linux.
 
 2.4 OpenStack.
-	Dicha soluciÛn se divide en tres partes bien diferenciadas para ofrecer una nube personal, estas son Nova, para la ejecuciÛn de software, Swift, para el almacenamiento, y Glance, para la gestiÛn de im·genes virtuales. Esto le ofrece la capacidad de poder instalar solo el componente necesario para las necesidades del usuario. Swift es capaz de almacenar objetos o bloques indistintamente, permitiendo no solo el almacenamiento de im·genes virtuales, sino de cualquier tipo de informaciÛn. 
-	Esta soluciÛn es escalable, distribuida, admite redundancia de datos, y propone al usuario una API de programaciÛn. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. Debido a esto, admite comunicaciones a travÈs de una interfaz REST o SOAP. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnÈtica, o una imagen virtual) pueda aÒadirse al sistema de almacenamiento distribuido de forma transparente.
-	Su organizaciÛn se basa en clusteres de almacenamiento, y cada objeto se distribuye entre diferentes nodos de la red. El sistema garantiza la persistencia de bloques y capacidad de realizar instantaneas(snapshots) del almacenamiento para labores de salvaguardas.
-	Una vez m·s el tipo de servidor que es capaz de alojarlo es un servidor Linux.
+	Dicha soluci√≥n se divide en tres partes bien diferenciadas para ofrecer una nube personal, estas son Nova, para la ejecuci√≥n de software, Swift, para el almacenamiento, y Glance, para la gesti√≥n de im√°genes virtuales. Esto le ofrece la capacidad de poder instalar solo el componente necesario para las necesidades del usuario. Swift es capaz de almacenar objetos o bloques indistintamente, permitiendo no solo el almacenamiento de im√°genes virtuales, sino de cualquier tipo de informaci√≥n. 
+	Esta soluci√≥n es escalable, distribuida, admite redundancia de datos, y propone al usuario una API de programaci√≥n. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. Debido a esto, admite comunicaciones a trav√©s de una interfaz REST o SOAP. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magn√©tica, o una imagen virtual) pueda a√±adirse al sistema de almacenamiento distribuido de forma transparente.
+	Su organizaci√≥n se basa en clusteres de almacenamiento, y cada objeto se distribuye entre diferentes nodos de la red. El sistema garantiza la persistencia de bloques y capacidad de realizar instantaneas(snapshots) del almacenamiento para labores de salvaguardas.
+	Una vez m√°s el tipo de servidor que es capaz de alojarlo es un servidor Linux.
 
 2.5 OpenQRM.
-	En  el caso de OpenQRM nos encontramos con una soluciÛn propia, basada en el sistema de plugins para la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas m·quinas. Para ello, proveen al usuario de una interfaz SOAP. Su tipo de almacenamiento es basado en m·quinas virtuales y no admite replicaciÛn de datos a lo largo del cluster.
+	En  el caso de OpenQRM nos encontramos con una soluci√≥n propia, basada en el sistema de plugins para la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas m√°quinas. Para ello, proveen al usuario de una interfaz SOAP. Su tipo de almacenamiento es basado en m√°quinas virtuales y no admite replicaci√≥n de datos a lo largo del cluster.
 	Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage.
-	Dicha soluciÛn debe ser instalada sobre un servidor Linux.
+	Dicha soluci√≥n debe ser instalada sobre un servidor Linux.
 
 2.6 Eucalyptus.
-	Entre los distintos componentes de esta soluciÛn de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3. Esta implementaciÛn le permite utilizar las interfaces REST, SOAP y Bittorrent para manejar el almacenamiento, y en este caso es posible separar el subsistema de comunicaciÛn del de almacenamiento en servidores distintos.
-	Los hosts que soportan dicha soluciÛn deben ser servidores Linux.
+	Entre los distintos componentes de esta soluci√≥n de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3. Esta implementaci√≥n le permite utilizar las interfaces REST, SOAP y Bittorrent para manejar el almacenamiento, y en este caso es posible separar el subsistema de comunicaci√≥n del de almacenamiento en servidores distintos.
+	Los hosts que soportan dicha soluci√≥n deben ser servidores Linux.
 
 2.7 CloudStack.
-	Esta plataforma se nutre de la soluciÛn de almacenamiento de OpenStack, Swift, estudiada anteriormente, por tanto, ofrece interfaces REST y SOAP para su comunicaciÛn, cualquier tipo de almacenamiento, almacenamiento distribuido a lo largo del cluster, y, a diferencia de OpenStack, es capaz de instalarse sin sistema operativo servidor.
+	Esta plataforma se nutre de la soluci√≥n de almacenamiento de OpenStack, Swift, estudiada anteriormente, por tanto, ofrece interfaces REST y SOAP para su comunicaci√≥n, cualquier tipo de almacenamiento, almacenamiento distribuido a lo largo del cluster, y, a diferencia de OpenStack, es capaz de instalarse sin sistema operativo servidor.
 
 2.8 Abiquo Open source edition.
-	En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o genÈrico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento genÈrico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una m·quina virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
-	Esta soluciÛn solo ofrece una interfaz REST al usuario, y no ofrece replicaciÛn distribuida de forma autom·tica. En este caso no se requiere de ning˙n sistema operativo para alojar la nube.
+	En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o gen√©rico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento gen√©rico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una m√°quina virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
+	Esta soluci√≥n solo ofrece una interfaz REST al usuario, y no ofrece replicaci√≥n distribuida de forma autom√°tica. En este caso no se requiere de ning√∫n sistema operativo para alojar la nube.
 
-3. ComparaciÛn de soluciones.
-	La mayor parte de las soluciones estudiadas implementan al menos alguna de las interfaces de comunicaciÛn propuestas por la nube de Amazon, adem·s de compartir su tipo de almacenamiento, y, al menos, ofrecen al usuario de almacenamiento basado en m·quinas virtuales, sin embargo, no todas ofrecen la oportunidad de realizar una instalaciÛn minimalista orientada al almacenamiento. Exceptuando la nube de Abiquo, y por razones obvias, la soluciÛn de Amazon, todas deben ser alojadas en servidores Linux, no soport·ndose la instalaciÛn nativa sobre un servidor, o la instalaciÛn sobre servidores Windows.
-	De este amplio abanico de soluciones es necesario destacar el soporte de las tres interfaces habituales por parte de Eucalyptus, y su soporte para distintos tipos de almacenamiento, admitiendo flexibilidad de instalaciÛn. Sin embargo, esta poderosa nube est· orientada a ofrecer todos los servicios disponibles en cualquier nube habitual(computaciÛn, virtualizaciÛn y almacenamiento), y no es especialmente cÛmoda para realizar una instalaciÛn minimalista, orientada al almacenamiento.
-	La soluciÛn Nimbus, a travÈs de su servidor Cumulus, ofrece una imagen de sencillez si el objetivo perseguido es configurar una nube de almacenamiento, sin embargo su fuerte orientaciÛn a requerir m·quinas virtuales con sistemas operativos propios hacen que la soluciÛn pierda atractivo. OpenNebula y OpenQRM, disponen de caracterÌsticas similares, conformando las soluciones m·s rÌgidas de todas, pero a la vez las m·s sencillas de administrar. Adem·s, su implementaciÛn basada en drivers o plugins les ofrece facilidad de desarrollo de cÛdigo y alta modularidad.
-	Las soluciones Openstack y Cloudstack ofrecen alta flexibilidad de instalaciÛn, una modularizaciÛn aceptable, y por tanto, facilidad de mantenimiento de cÛdigo, y la posibilidad de hacer instalaciones minimalistas orientadas a cada uno de sus servicios por separado. Esta ˙ltima caracterÌstica las convierten en plataformas adecuadas para cualquier tipo de desarrollo sobre cualquiera de sus servicios.
-	Las caracterÌsticas de las distintas plataformas se resumen en la siguiente tabla:
+3. Comparaci√≥n de soluciones.
+
+	La mayor parte de las soluciones estudiadas implementan al menos alguna de las interfaces de comunicaci√≥n propuestas por la nube de Amazon, adem√°s de compartir su tipo de almacenamiento, y, al menos, ofrecen al usuario de almacenamiento basado en m√°quinas virtuales, sin embargo, no todas ofrecen la oportunidad de realizar una instalaci√≥n minimalista orientada al almacenamiento. Exceptuando la nube de Abiquo, y por razones obvias, la soluci√≥n de Amazon, todas deben ser alojadas en servidores Linux, no soport√°ndose la instalaci√≥n nativa sobre un servidor, o la instalaci√≥n sobre servidores Windows.
+	De este amplio abanico de soluciones es necesario destacar el soporte de las tres interfaces habituales por parte de Eucalyptus, y su soporte para distintos tipos de almacenamiento, admitiendo flexibilidad de instalaci√≥n. Sin embargo, esta poderosa nube est√° orientada a ofrecer todos los servicios disponibles en cualquier nube habitual(computaci√≥n, virtualizaci√≥n y almacenamiento), y no es especialmente c√≥moda para realizar una instalaci√≥n minimalista, orientada al almacenamiento.
+	La soluci√≥n Nimbus, a trav√©s de su servidor Cumulus, ofrece una imagen de sencillez si el objetivo perseguido es configurar una nube de almacenamiento, sin embargo su fuerte orientaci√≥n a requerir m√°quinas virtuales con sistemas operativos propios hacen que la soluci√≥n pierda atractivo. OpenNebula y OpenQRM, disponen de caracter√≠sticas similares, conformando las soluciones m√°s r√≠gidas de todas, pero a la vez las m√°s sencillas de administrar. Adem√°s, su implementaci√≥n basada en drivers o plugins les ofrece facilidad de desarrollo de c√≥digo y alta modularidad.
+	Las soluciones Openstack y Cloudstack ofrecen alta flexibilidad de instalaci√≥n, una modularizaci√≥n aceptable, y por tanto, facilidad de mantenimiento de c√≥digo, y la posibilidad de hacer instalaciones minimalistas orientadas a cada uno de sus servicios por separado. Esta √∫ltima caracter√≠stica las convierten en plataformas adecuadas para cualquier tipo de desarrollo sobre cualquiera de sus servicios.
+	Las caracter√≠sticas de las distintas plataformas se resumen en la siguiente tabla:
 
 	
-CaracterÌstica / Nube
+Caracter√≠stica / Nube
  
 Amazon S3
 OpenNebula
@@ -96,7 +97,7 @@ No
 Si
 No
 No
-ComunicaciÛn independiente de almacenamiento
+Comunicaci√≥n independiente de almacenamiento
 No
 Si
 No
@@ -125,7 +126,7 @@ No
 Si
 Si
 Si
-Cluster de replicaciÛn
+Cluster de replicaci√≥n
 Si
 No
 Si
@@ -166,62 +167,64 @@ No
 No
 
 4. Swiftness.
-	El objetivo principal de Swiftness es ofrecer drivers de cÛdigo abierto, para los distintos sistemas operativos existentes, y para la administraciÛn de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computaciÛn en la nube o administraciÛn de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de m·quinas virtuales, Swift se convierte en una soluciÛn perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiÈndose plantear un modelo de negocio basado en la instalaciÛn y mantenimiento de nubes privadas, de almacenamiento o de computaciÛn. Swiftness permitir· acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
-	Para ello Swiftness propone una capa de abstracciÛn de software que se interpondr· entre el n˙cleo del sistema operativo y el sistema de ficheros del cliente.
+
+	El objetivo principal de Swiftness es ofrecer drivers de c√≥digo abierto, para los distintos sistemas operativos existentes, y para la administraci√≥n de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computaci√≥n en la nube o administraci√≥n de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de m√°quinas virtuales, Swift se convierte en una soluci√≥n perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudi√©ndose plantear un modelo de negocio basado en la instalaci√≥n y mantenimiento de nubes privadas, de almacenamiento o de computaci√≥n. Swiftness permitir√° acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
+	Para ello Swiftness propone una capa de abstracci√≥n de software que se interpondr√° entre el n√∫cleo del sistema operativo y el sistema de ficheros del cliente.
 
 5. Swift.
-	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacciÛn, el cliente deber· solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondr· de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier peticiÛn, el cual ejerce de fachada aislando al resto de servidores. La organizaciÛn de estos seria la siguiente:
+
+	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacci√≥n, el cliente deber√° solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondr√° de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier petici√≥n, el cual ejerce de fachada aislando al resto de servidores. La organizaci√≥n de estos seria la siguiente:
 	
-	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribuciÛn de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
+	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribuci√≥n de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
 	
 5.1 Swift proxy server.
-	La comunicaciÛn con este componente, se basa en el envio de peticiones HTTP. Dichas peticiones se gestionan mediante el uso de la operaciÛn GET, y deben contener unas cabeceras especÌficas para reconocer los distintos tipos de peticiones. Dichas peticiones disponen de una serie de restricciones detalladas a continuaciÛn:
+	La comunicaci√≥n con este componente, se basa en el envio de peticiones HTTP. Dichas peticiones se gestionan mediante el uso de la operaci√≥n GET, y deben contener unas cabeceras espec√≠ficas para reconocer los distintos tipos de peticiones. Dichas peticiones disponen de una serie de restricciones detalladas a continuaci√≥n:
 
-El numero m·ximo de cabeceras por peticiÛn es 90.
-La m·xima longitud de las cabeceras es 4096 bytes.
-Cada linea de peticiÛn no debe tener m·s de 8192 bytes.
-Una peticiÛn no debe exceder el tamaÒo de 5 gigabytes.
+El numero m√°ximo de cabeceras por petici√≥n es 90.
+La m√°xima longitud de las cabeceras es 4096 bytes.
+Cada linea de petici√≥n no debe tener m√°s de 8192 bytes.
+Una petici√≥n no debe exceder el tama√±o de 5 gigabytes.
 El nombre de un contenedor no puede ser mayor de 256 bytes.
 El nombre de un objeto no puede ser mayor que 1024 bytes.
 
-	La operaciones posibles sobre el almacenamiento se dividen entre los tres servidores de gestiÛn de este. Detallamos a continuaciÛn las operaciones relevantes:
+	La operaciones posibles sobre el almacenamiento se dividen entre los tres servidores de gesti√≥n de este. Detallamos a continuaci√≥n las operaciones relevantes:
 
 Servidor de cuentas.
 Listado de contenedores.
 Servidor de contenedores.
 Listado de objetos en el contenedor.
-CreaciÛn de contenedores.
-EliminaciÛn de contenedores.
+Creaci√≥n de contenedores.
+Eliminaci√≥n de contenedores.
 Servidor de objetos.
-RecuperaciÛn de objetos.
-CreaciÛn/actualizaciÛn de objetos.
+Recuperaci√≥n de objetos.
+Creaci√≥n/actualizaci√≥n de objetos.
 Copia de objetos.
-EliminaciÛn de objetos.
+Eliminaci√≥n de objetos.
 
 5.2 Operaciones en la API.
-	Como ya adelant·bamos, para interactuar con el servidor proxy se utiliza una interfaz REST, es decir, el servidor espera peticiones HTTP para servir cualquier tipo de fichero disponible, y realizar el control de acceso al almacenamiento.
-5.2.1. IdentificaciÛn.
-	Esta operaciÛn es, por razones de seguridad, la primera a realizar de todas las posibles. Para ello hace falta proveer al servidor de un usuario v·lido y su contraseÒa a travÈs de la operaciÛn GET de la versiÛn 1.1 de HTTP. El servidor nos devolver· un identificador ˙nico necesario para realizar cualquier posterior operaciÛn. La solicitud es la siguiente:
+	Como ya adelant√°bamos, para interactuar con el servidor proxy se utiliza una interfaz REST, es decir, el servidor espera peticiones HTTP para servir cualquier tipo de fichero disponible, y realizar el control de acceso al almacenamiento.
+5.2.1. Identificaci√≥n.
+	Esta operaci√≥n es, por razones de seguridad, la primera a realizar de todas las posibles. Para ello hace falta proveer al servidor de un usuario v√°lido y su contrase√±a a trav√©s de la operaci√≥n GET de la versi√≥n 1.1 de HTTP. El servidor nos devolver√° un identificador √∫nico necesario para realizar cualquier posterior operaci√≥n. La solicitud es la siguiente:
 
 	GET /<api version> HTTP/1.1
 	Host: <Servidor proxy>
 	X-Auth-User: <usuario>
-	X-Auth-Key: <contraseÒa>
+	X-Auth-Key: <contrase√±a>
 	La respuesta tiene la siguiente forma:
 	HTTP/1.1 204 No Content
 	Date: <fecha>
 	Server: <servidor web>
-	X-Storage-Url: <direcciÛn para posteriores accesos>
+	X-Storage-Url: <direcci√≥n para posteriores accesos>
 	X-Auth-Token: <identificador para posteriores accesos>
 	Content-Length: 0
 	Content-Type: text/plain; charset=UTF-8
 
 5.2.2. Listado de contenedores.
-	La operaciÛn de listado de contenedores no requiere ning˙n parametro en especial, m·s que el indentificador de sesiÛn obtenido durante la identificaciÛn, sin embargo, existen un par de variables configurables de interÈs general para dicha operaciÛn. Las variables se concatenan a la direcciÛn solicitada en la operaciÛn GET, separando el listado de variables de la direcciÛn por un interrogante('?'). Dichas variables sirven para describir el formato en que se recibir· el listado,siendo v·lidos los valores format=json y format=xml, el lÌmite de contenedores que se quieren recibir, configurando la variable limit=N, y la coincidencia desde la cual quiere comenzarse el listado con la variable marker.
+	La operaci√≥n de listado de contenedores no requiere ning√∫n parametro en especial, m√°s que el indentificador de sesi√≥n obtenido durante la identificaci√≥n, sin embargo, existen un par de variables configurables de inter√©s general para dicha operaci√≥n. Las variables se concatenan a la direcci√≥n solicitada en la operaci√≥n GET, separando el listado de variables de la direcci√≥n por un interrogante('?'). Dichas variables sirven para describir el formato en que se recibir√° el listado,siendo v√°lidos los valores format=json y format=xml, el l√≠mite de contenedores que se quieren recibir, configurando la variable limit=N, y la coincidencia desde la cual quiere comenzarse el listado con la variable marker.
 	
-	GET /<api version>/<account>?var1=val1& ? & varN=valN HTTP/1.1
-	Host: <direcciÛn del servidor>
- 	X-Auth-Token: <identificador de sesiÛn>
+	GET /<api version>/<account>?var1=val1& ‚Ä¶ & varN=valN HTTP/1.1
+	Host: <direcci√≥n del servidor>
+ 	X-Auth-Token: <identificador de sesi√≥n>
 	Un ejemplo de respuesta en formato JSON es el siguiente:
 	HTTP/1.1 200 OK
 	Date: Tue, 25 Nov 2008 19:39:13 GMT
@@ -231,7 +234,7 @@ EliminaciÛn de objetos.
 	  {"name":"test_container_1", "count":2, "bytes":78},
 	  {"name":"test_container_2", "count":1, "bytes":17}
 	] 
-	En formato XML la respuesta serÌa de la siguiente forma:
+	En formato XML la respuesta ser√≠a de la siguiente forma:
 	  HTTP/1.1 200 OK
 	Date: Tue, 25 Nov 2008 19:42:35 GMT
 	Server: Apache
@@ -251,8 +254,8 @@ EliminaciÛn de objetos.
 	  </container>
 	</account>
 5.2.3. Listado de objetos.
-	En el caso de los listados de objetos, se dispone de algunas variables de configuraciÛn adicionales, adem·s de las ya descritas para los listados de contenedores. Estas nuevas variables son  end_marker, para devolver un listado terminado en el valor especificado, prefix, para ofrecer un prefijo que preceda al nombre del objeto y delimiter, para mostrar las ocurrencias listadas hasta el delimitador, desechando el resto de la direcciÛn. Un ejemplo de uso de delimitador es aquel en el que solo queremos listar los directorios existentes en la raÌz del almacenamiento, para lo cual solo requerimos utilizar el delimitador '/' para obtener el resultado deseado.
-	El formato de la peticiÛn es el siguiente:
+	En el caso de los listados de objetos, se dispone de algunas variables de configuraci√≥n adicionales, adem√°s de las ya descritas para los listados de contenedores. Estas nuevas variables son  end_marker, para devolver un listado terminado en el valor especificado, prefix, para ofrecer un prefijo que preceda al nombre del objeto y delimiter, para mostrar las ocurrencias listadas hasta el delimitador, desechando el resto de la direcci√≥n. Un ejemplo de uso de delimitador es aquel en el que solo queremos listar los directorios existentes en la ra√≠z del almacenamiento, para lo cual solo requerimos utilizar el delimitador '/' para obtener el resultado deseado.
+	El formato de la petici√≥n es el siguiente:
 
 	GET /<api version>/<account>/<container>[?parm=value] HTTP/1.1
 	Host: <servidor>
@@ -276,7 +279,7 @@ EliminaciÛn de objetos.
 	   "content_type":"application\/octet-stream",
 	   "last_modified":"2009-02-03T05:26:32.612278"},
 	]
-	En formato XML el servidor responderÌa lo siguiente:
+	En formato XML el servidor responder√≠a lo siguiente:
 	HTTP/1.1 200 OK
 	Date: Tue, 25 Nov 2008 19:42:35 GMT
 	Server: Apache
@@ -300,39 +303,39 @@ EliminaciÛn de objetos.
 	    <last_modified>2009-02-03T05:26:32.612278</last_modified>
 	  </object>
 	</container>
-5.2.4. CreaciÛn de contenedores.
-	Los contenedores, no son m·s que compartimentos donde almacenar los objetos, sin embargo, sus nombres deben cumplir las restricciones de no tener una longitud mayor de 256 caracteres, y no contener el car·cter '/'. Un ejemplo de peticiÛn de creaciÛn de un contenedor es el siguiente:
+5.2.4. Creaci√≥n de contenedores.
+	Los contenedores, no son m√°s que compartimentos donde almacenar los objetos, sin embargo, sus nombres deben cumplir las restricciones de no tener una longitud mayor de 256 caracteres, y no contener el car√°cter '/'. Un ejemplo de petici√≥n de creaci√≥n de un contenedor es el siguiente:
 
 	PUT /<api version>/<account>/<container> HTTP/1.1
 	Host: <servidor>
-	X-Auth-Token: <identificador de sesiÛn>
+	X-Auth-Token: <identificador de sesi√≥n>
 	La respuesta en este caso:
 	HTTP/1.1 201 Created
 	Date: Thu, 07 Jun 2010 18:50:19 GMT
 	Server: Apache
 	Content-Type: text/plain; charset=UTF-8
 
-5.2.5. EliminaciÛn de contenedores.
-	Para la eliminaciÛn de un contenedor, es suficiente con la siguiente peticiÛn:
+5.2.5. Eliminaci√≥n de contenedores.
+	Para la eliminaci√≥n de un contenedor, es suficiente con la siguiente petici√≥n:
 
 	DELETE /<api version>/<account>/<container> HTTP/1.1
 	Host: <server>
-	X-Auth-Token: <identificador de sesiÛn>
-	Sin embargo deben suceder que el contenedor estÈ vacio para que este pueda ser eliminado. Su borrado es permanente. Su respuesta pudiera ser la siguiente:
+	X-Auth-Token: <identificador de sesi√≥n>
+	Sin embargo deben suceder que el contenedor est√© vacio para que este pueda ser eliminado. Su borrado es permanente. Su respuesta pudiera ser la siguiente:
 	 HTTP/1.1 204 No Content
 	 Date: Thu, 07 Jun 2010 18:57:07 GMT
 	 Server: Apache
 	 Content-Length: 0
 	 Content-Type: text/plain; charset=UTF-8
-5.2.6. RecuperaciÛn de objetos.
-	Aunque habitualmente se utiliza la operaciÛn GET para recuperar objetos del almacenamiento masivo, es posible utilizar las directivas If-Match, If-None-Match, If-Modified-Since y If-Unmodified-Since definidas en el protocolo RFC2616. Como sus nombres indican, su funcionalidad es hacer condicional la recuperaciÛn del objeto en cuestiÛn, definiendo si se encuentra un objeto que coincida en nombre, que no, o si ha sido modificado desde una fecha determinada.
-	Existe tambiÈn un soporte b·sico para recuperar rangos de memoria dentro del objeto, permitiendo recuperar solo partes de este si no se requiere el objeto completo.
-	Su peticiÛn es la siguiente:
+5.2.6. Recuperaci√≥n de objetos.
+	Aunque habitualmente se utiliza la operaci√≥n GET para recuperar objetos del almacenamiento masivo, es posible utilizar las directivas If-Match, If-None-Match, If-Modified-Since y If-Unmodified-Since definidas en el protocolo RFC2616. Como sus nombres indican, su funcionalidad es hacer condicional la recuperaci√≥n del objeto en cuesti√≥n, definiendo si se encuentra un objeto que coincida en nombre, que no, o si ha sido modificado desde una fecha determinada.
+	Existe tambi√©n un soporte b√°sico para recuperar rangos de memoria dentro del objeto, permitiendo recuperar solo partes de este si no se requiere el objeto completo.
+	Su petici√≥n es la siguiente:
 	
 	GET /<api version>/<account>/<container>/<object> HTTP/1.1
 	Host: <servidor>
-	X-Auth-Token: <identificador de sesiÛn>
-	Su posible respuesta correspondiente serÌa:
+	X-Auth-Token: <identificador de sesi√≥n>
+	Su posible respuesta correspondiente ser√≠a:
 
 	HTTP/1.1 200 Ok
 	Date: Wed, 11 Jul 2010 19:37:41 GMT
@@ -342,18 +345,18 @@ EliminaciÛn de objetos.
 	Content-type: text/html
 	Content-Length: 512000
 	[ ... ]
-5.2.7. CreaciÛn, o actualizaciÛn de objetos.
-	Es posible, y recomendable, que para la creaciÛn o actualizaciÛn de objetos se utilizen sumas MD5 que ayuden a verificar la integridad de este. Est· soportada dicha funcionalidad a travÈs  del envÌo de una cabecera especial llamada Etag. Independientemente de si esta cabecera es incluida en la creaciÛn del objeto, al recuperarlo, siempre se devolver· el valor de la suma, para que el usuario pueda comprobar su integridad. Si se desea que el objeto expire en un tiempo determinado, o en una fecha, es posible aÒadir las cabeceras X-Delete-At y X-Delete-After. Su peticiÛn tiene la siguiente forma:
+5.2.7. Creaci√≥n, o actualizaci√≥n de objetos.
+	Es posible, y recomendable, que para la creaci√≥n o actualizaci√≥n de objetos se utilizen sumas MD5 que ayuden a verificar la integridad de este. Est√° soportada dicha funcionalidad a trav√©s  del env√≠o de una cabecera especial llamada Etag. Independientemente de si esta cabecera es incluida en la creaci√≥n del objeto, al recuperarlo, siempre se devolver√° el valor de la suma, para que el usuario pueda comprobar su integridad. Si se desea que el objeto expire en un tiempo determinado, o en una fecha, es posible a√±adir las cabeceras X-Delete-At y X-Delete-After. Su petici√≥n tiene la siguiente forma:
 
 	PUT /<api version>/<account>/<container>/<object> HTTP/1.1
 	Host: <servidor>
-	X-Auth-Token: <identificador de sesiÛn>
+	X-Auth-Token: <identificador de sesi√≥n>
 	ETag: <suma MD5>
 	Content-Length: <longitud en bytes>
 	X-Object-Meta-PIN: 1234
 	[ ... ]
 
-	Su posible respuesta serÌa:
+	Su posible respuesta ser√≠a:
 	
 	HTTP/1.1 201 Created
 	Date: Thu, 07 Jun 2010 18:57:07 GMT
@@ -362,7 +365,7 @@ EliminaciÛn de objetos.
 	Content-Length: 0
 	Content-Type: text/plain; charset=UTF-8
 5.2.8. Copia de objetos.
-	De cometerse un error con el nombre del objeto, al subirlo, o sencillamente querer cambiar su nombre, deberÌa eliminarse el objeto y volverlo a subir, produciendo sobrecarga en las comunicaciones. Esto se evita mediante la copia en servidor de objetos. Esta copia puede realizarse de dos formas. A travÈs de la cabecera X-Copy-From, donde se especificar· el contenedor y el objeto que se desea copiar, o mediante la operaciÛn COPY. Detallamos sus formas a continuaciÛn:
+	De cometerse un error con el nombre del objeto, al subirlo, o sencillamente querer cambiar su nombre, deber√≠a eliminarse el objeto y volverlo a subir, produciendo sobrecarga en las comunicaciones. Esto se evita mediante la copia en servidor de objetos. Esta copia puede realizarse de dos formas. A trav√©s de la cabecera X-Copy-From, donde se especificar√° el contenedor y el objeto que se desea copiar, o mediante la operaci√≥n COPY. Detallamos sus formas a continuaci√≥n:
 
 	PUT /<api version>/<account>/<container>/<destobject> HTTP/1.1
 	Host: <storage URL>
@@ -373,72 +376,72 @@ EliminaciÛn de objetos.
 	Host: <storage URL>
 	X-Auth-Token: <some-auth-token>
 	Destination: /<container>/<destobject>
-5.2.9. EliminaciÛn de objetos.
-	La eliminaciÛn de objetos es inmediata y permanente, toda operaciÛn sobre el objeto despues de la operaciÛn DELETE, devolver· el conocido error 404 de HTTP, objeto no encontrado. Es posible programar la eliminaciÛn mediante el uso de las cabeceras X-Delete-At y X-Delete-After. La peticiÛn debe tener la siguiente forma:
+5.2.9. Eliminaci√≥n de objetos.
+	La eliminaci√≥n de objetos es inmediata y permanente, toda operaci√≥n sobre el objeto despues de la operaci√≥n DELETE, devolver√° el conocido error 404 de HTTP, objeto no encontrado. Es posible programar la eliminaci√≥n mediante el uso de las cabeceras X-Delete-At y X-Delete-After. La petici√≥n debe tener la siguiente forma:
 
 	DELETE /<api version>/<account>/<container>/<object> HTTP/1.1
 	Host: <servidor>
-	X-Auth-Token: <identificador de sesiÛn>
-	Su respuesta se asemajar· a la detallada a continuaciÛn:
+	X-Auth-Token: <identificador de sesi√≥n>
+	Su respuesta se asemajar√° a la detallada a continuaci√≥n:
 	HTTP/1.1 204 No Content
 	Date: Thu, 07 Jun 2010 20:59:39 GMT
 	Server: Apache
 	Content-Type: text/plain; charset=UTF-8
-5.3 Entorno de operaciÛn.
-	Para poder comprobar que nuestros drivers funcionan correctamente, es necesario preparar un servidor Openstack Swift donde poder realizar las conexiones pertinentes. Para este proyecto, hemos elegido utilizar una m·quina virtual utilizando la tecnologÌa de virtualizaciÛn KVM, propia del n˙cleo de linux. La m·quina ha sido dotada de un sistema operativo Debian GNU/Linux en su versiÛn de pruebas(actualmente Debian GNU/Linux Wheezy), y dispone de direcciÛn IP propia dentro de la red gracias a la compatibilidad de KVM con los puentes virtuales que ofrece Linux. Adem·s del software b·sico que se instala autom·ticamente con la distribuciÛn, se le ha aÒadido un servidor OpenSSH para realizar conexiones seguras a la m·quina y los paquetes, incluidos en los repositorios de la distribuciÛn, de Openstack Swift. De esta forma puede ejecutarse la m·quina virtual como si de un servidor del sistema real se tratara, y podemos realizar cualquier prueba pertinente de nuestros drivers. Para la configuraciÛn del servidor Swift, hemos seguido las instrucciones detalladas en la documentaciÛn de Openstack SAIO(Swift All In One).
+5.3 Entorno de operaci√≥n.
+	Para poder comprobar que nuestros drivers funcionan correctamente, es necesario preparar un servidor Openstack Swift donde poder realizar las conexiones pertinentes. Para este proyecto, hemos elegido utilizar una m√°quina virtual utilizando la tecnolog√≠a de virtualizaci√≥n KVM, propia del n√∫cleo de linux. La m√°quina ha sido dotada de un sistema operativo Debian GNU/Linux en su versi√≥n de pruebas(actualmente Debian GNU/Linux Wheezy), y dispone de direcci√≥n IP propia dentro de la red gracias a la compatibilidad de KVM con los puentes virtuales que ofrece Linux. Adem√°s del software b√°sico que se instala autom√°ticamente con la distribuci√≥n, se le ha a√±adido un servidor OpenSSH para realizar conexiones seguras a la m√°quina y los paquetes, incluidos en los repositorios de la distribuci√≥n, de Openstack Swift. De esta forma puede ejecutarse la m√°quina virtual como si de un servidor del sistema real se tratara, y podemos realizar cualquier prueba pertinente de nuestros drivers. Para la configuraci√≥n del servidor Swift, hemos seguido las instrucciones detalladas en la documentaci√≥n de Openstack SAIO(Swift All In One).
 
 6. Linux.
-	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el aÒo 1991, los programas en espacio de usuario deben comunicarse con el n˙cleo a travÈs de mÛdulos que permitan la gestiÛn de dispositivos en el sistema. Dichos mÛdulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
-	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la informaciÛn transmitida es un flujo de caracteres secuencial, si tecleas una palabra, esta se tratar· en su estricto orden, y no en otro distinto. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no necesariamente se acceden de manera secuencial. Por ˙ltimo, los dispositivos de red, se encargan de cualquier tipo de comunicaciÛn con el exterior del sistema a travÈs de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
-	Los dispositivos representados no tienen la obligaciÛn de ser dispositivos reales, pudiendo permitirse la existencia de dispositivos virtuales que resuelvan un tipo de tarea determinada. Un ejemplo claro de dispositivo virtual es el dispositivo de generaciÛn de n˙meros aleatorios(accedido desde el fichero /dev/random), el cual no requiere de ning˙n hardware especifico para desempeÒar su funciÛn.
-	La intenciÛn principal de Swiftness es proveer de un dispositivo de bloques que sea capaz de acceder al servidor Swift de Openstack, como si de un dispositivo local se tratara. Esto conlleva la clara diferencia de que, si detr·s de un driver de dispositivo de bloques solemos encontrar dispositivos de almacenamiento fÌsicos(como por ejemplo, un disco duro, una cinta magnÈtica o un CD-ROM), en este caso nos encontraremos con una interfaz de red que debe saber comunicarse con el servidor.
 
-	
+	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el a√±o 1991, los programas en espacio de usuario deben comunicarse con el n√∫cleo a trav√©s de m√≥dulos que permitan la gesti√≥n de dispositivos en el sistema. Dichos m√≥dulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
+	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la informaci√≥n transmitida es un flujo de caracteres secuencial, si tecleas una palabra, esta se tratar√° en su estricto orden, y no en otro distinto. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no necesariamente se acceden de manera secuencial. Por √∫ltimo, los dispositivos de red, se encargan de cualquier tipo de comunicaci√≥n con el exterior del sistema a trav√©s de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
+	Los dispositivos representados no tienen la obligaci√≥n de ser dispositivos reales, pudiendo permitirse la existencia de dispositivos virtuales que resuelvan un tipo de tarea determinada. Un ejemplo claro de dispositivo virtual es el dispositivo de generaci√≥n de n√∫meros aleatorios(accedido desde el fichero /dev/random), el cual no requiere de ning√∫n hardware especifico para desempe√±ar su funci√≥n.
+	La intenci√≥n principal de Swiftness es proveer de un dispositivo de bloques que sea capaz de acceder al servidor Swift de Openstack, como si de un dispositivo local se tratara. Esto conlleva la clara diferencia de que, si detr√°s de un driver de dispositivo de bloques solemos encontrar dispositivos de almacenamiento f√≠sicos(como por ejemplo, un disco duro, una cinta magn√©tica o un CD-ROM), en este caso nos encontraremos con una interfaz de red que debe saber comunicarse con el servidor.
 
-	CabrÌa esperar que la labor de Swiftness fuera la de la traducciÛn de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el mÛdulo nbd(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor swift pueda ser gobernado por el mÛdulo nbd.
+
+	Cabr√≠a esperar que la labor de Swiftness fuera la de la traducci√≥n de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el m√≥dulo nbd(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor swift pueda ser gobernado por el m√≥dulo nbd.
 
 6.1 Dispositivos de bloques.
-	Los drivers dispositivos de bloques, dentro del cÛdigo fuente de Linux, se alojan en el directorio drivers/block, y las interfaces que deben cumplir en el directorio include/linux. Como antes adelant·bamos, dichos dispositivos disponen de grandes cantidades de informaciÛn, dividida en bloques que no ser·n accedidos secuencialmente y es este hecho el que los diferencia de los dispositivos de caracteres. Debido a que tendremos que navegar a lo largo del dispositivo para acceder a la informaciÛn, estos dispositivos ganan complejidad. La naturaleza de dichos dispositivos hacen al sistema altamente sensible a su disponibilidad.
-	El tamaÒo de un sector depende del dispositivo en cuestiÛn, y es la unidad minima fundamental de un dispositivo de bloques. Aunque muchos dispositivos de bloques dispongan de un tamaÒo de sector de 512 bytes, esto no quiere decir que sea un tamaÒo est·ndar. El sistema operativo debe cumplir con ciertas restricciones a la ora de acceder a un dispositivo de bloque. Debe acceder a la informaciÛn en bloques de tamaÒo m˙ltiplo del tamaÒo de sector, el tamaÒo de este bloque, deber· ser potencia de dos(restricciÛn que suele aplicarse tambiÈn al tamaÒo de sector),  y el tamaÒo de bloque no puede ser mayor que el tamaÒo de una p·gina de informaciÛn en memoria principal. Los tamaÒos m·s habituales son 512 bytes, 1 kilobytes, y 4 kilobytes.
+	Los drivers dispositivos de bloques, dentro del c√≥digo fuente de Linux, se alojan en el directorio drivers/block, y las interfaces que deben cumplir en el directorio include/linux. Como antes adelant√°bamos, dichos dispositivos disponen de grandes cantidades de informaci√≥n, dividida en bloques que no ser√°n accedidos secuencialmente y es este hecho el que los diferencia de los dispositivos de caracteres. Debido a que tendremos que navegar a lo largo del dispositivo para acceder a la informaci√≥n, estos dispositivos ganan complejidad. La naturaleza de dichos dispositivos hacen al sistema altamente sensible a su disponibilidad.
+	El tama√±o de un sector depende del dispositivo en cuesti√≥n, y es la unidad minima fundamental de un dispositivo de bloques. Aunque muchos dispositivos de bloques dispongan de un tama√±o de sector de 512 bytes, esto no quiere decir que sea un tama√±o est√°ndar. El sistema operativo debe cumplir con ciertas restricciones a la ora de acceder a un dispositivo de bloque. Debe acceder a la informaci√≥n en bloques de tama√±o m√∫ltiplo del tama√±o de sector, el tama√±o de este bloque, deber√° ser potencia de dos(restricci√≥n que suele aplicarse tambi√©n al tama√±o de sector),  y el tama√±o de bloque no puede ser mayor que el tama√±o de una p√°gina de informaci√≥n en memoria principal. Los tama√±os m√°s habituales son 512 bytes, 1 kilobytes, y 4 kilobytes.
 
-6.1.1. Proceso de una operaciÛn.
-	La jerarquÌa de subsistemas para acceder a un dispositivo de bloques, desde que una simple operaciÛn de lectura es enviada desde el espacio de usuario, hasta que llega al dispositivo es amplia. Esta contempla desde el sistema de ficheros virtual, hasta el driver del dispositivo de bloques, pasando por las caches de discos, los distintos sistemas de ficheros, conformando la capa de direccionamiento del sistema, la capa genÈrica del dispositivo de bloques, y el planificador de entrada salida. Debido a esto, resulta interesante estudiar que sucede, paso por paso, cuando una operaciÛn sobre el dispositivo est· procesandose.
-	Suponemos que se ha llamado a la rutina de servicio read() para hacer un acceso de lectura. Este acceso de lectura provoca que el sistema active la funciÛn m·s adecuada dentro del sistema de ficheros virtual para procesarla. Esta funciÛn recibir· el descriptor del fichero abierto a leer y un desplazamiento dentro del fichero, para describir el bloque que quiere leerse. El sistema de ficheros virtual, debe determinar si los datos est·n ya disponibles en memoria principal, y como se realizar· el acceso. 
-	De requerir acceder al dispositivo de bloques, el sistema de ficheros virtual acudir· a la capa de direccionamiento. En esta capa se ejecutar·n dos tareas principales. La primera ser· determinar el tamaÒo de bloque, para calcular el desplazamiento dentro del fichero en funciÛn de este tamaÒo. Posteriormente se invoca una funciÛn del sistema de ficheros real que determine el nodo del fichero y su posiciÛn dentro del disco.
-	Tras estas operaciones, el n˙cleo acceder· a la capa genÈrica de dispositivos de bloque para comenzar la operaciÛn de entrada/salida. AquÌ se crear·n e inicializar·n las estructuras necesarias que se ofrecer·n al planificador de accesos.
-	El planificador encola y ordena los accesos a los distintos bloques dentro del dispositivo con el fin de optimizar el acceso al dispositivo de bloques real, ya que, de una sola operaciÛn en el, accederemos a diversos bloques, y, debido a la lentitud del acceso a este tipo de dispositivos, es necesario asegurarse de que el n˙mero de accesos se reduzca todo lo posible.
-	Finalmente, las peticiones se ofrecen al driver del dispositivo de bloques, que ejecutar· la operaciÛn real. Todo este largo proceso puede verse resumido en la siguiente figura, donde se observa la jerarquÌa completa de subsistemas.
-
-
-6.1.2. Estructura genÈrica de dispositivos de bloque.
-	Cada vez que un bloque es alojado en memoria principal, este es asociado a un buffer. Un buffer es un objeto que representa un bloque en memoria, y, dado que el n˙cleo requiere m·s informaciÛn que esta, cada buffer se asociar· a un descriptor llamado buffer_head. Esta estructura almacenar· datos como el estado del bloque, su p·gina asociada, su tamaÒo, un puntero al comienzo de los datos, y el dispositivo al que pertenece, entre otros detalles. Puede consultarse la estructura en el fichero "include/linux/buffer_head.h". Aunque mucha de esta informaciÛn es necesaria para el n˙cleo, no deja de ser una sobrecarga y un consumo de espacio en memoria.
-	Otra estructura de importancia, es aquella que almacena la informaciÛn de una operaciÛn de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero "include/linux/bio.h"). Las operaciones se descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligaciÛn de estar alojadas de forma contigua en memoria principal. De esta forma, el n˙cleo puede operar con un sector repartido a lo largo de toda la memoria. La informaciÛn de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la direcciÛn su vector asociado, bi_idx, su posiciÛn dentro del vector, y bi_vcnt, el n˙mero de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la informaciÛn relativa a la p·gina de memoria donde se aloja el segmento, su tamaÒo, y el desplazamiento dentro de la  p·gina.
-	Con esta organizaciÛn, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia(normalmente por proximidad de p·ginas dentro del almacenamiento masivo), aÒadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques. El panorama general se asemejara a la siguiente figura:
+6.1.1. Proceso de una operaci√≥n.
+	La jerarqu√≠a de subsistemas para acceder a un dispositivo de bloques, desde que una simple operaci√≥n de lectura es enviada desde el espacio de usuario, hasta que llega al dispositivo es amplia. Esta contempla desde el sistema de ficheros virtual, hasta el driver del dispositivo de bloques, pasando por las caches de discos, los distintos sistemas de ficheros, conformando la capa de direccionamiento del sistema, la capa gen√©rica del dispositivo de bloques, y el planificador de entrada salida. Debido a esto, resulta interesante estudiar que sucede, paso por paso, cuando una operaci√≥n sobre el dispositivo est√° procesandose.
+	Suponemos que se ha llamado a la rutina de servicio read() para hacer un acceso de lectura. Este acceso de lectura provoca que el sistema active la funci√≥n m√°s adecuada dentro del sistema de ficheros virtual para procesarla. Esta funci√≥n recibir√° el descriptor del fichero abierto a leer y un desplazamiento dentro del fichero, para describir el bloque que quiere leerse. El sistema de ficheros virtual, debe determinar si los datos est√°n ya disponibles en memoria principal, y como se realizar√° el acceso. 
+	De requerir acceder al dispositivo de bloques, el sistema de ficheros virtual acudir√° a la capa de direccionamiento. En esta capa se ejecutar√°n dos tareas principales. La primera ser√° determinar el tama√±o de bloque, para calcular el desplazamiento dentro del fichero en funci√≥n de este tama√±o. Posteriormente se invoca una funci√≥n del sistema de ficheros real que determine el nodo del fichero y su posici√≥n dentro del disco.
+	Tras estas operaciones, el n√∫cleo acceder√° a la capa gen√©rica de dispositivos de bloque para comenzar la operaci√≥n de entrada/salida. Aqu√≠ se crear√°n e inicializar√°n las estructuras necesarias que se ofrecer√°n al planificador de accesos.
+	El planificador encola y ordena los accesos a los distintos bloques dentro del dispositivo con el fin de optimizar el acceso al dispositivo de bloques real, ya que, de una sola operaci√≥n en el, accederemos a diversos bloques, y, debido a la lentitud del acceso a este tipo de dispositivos, es necesario asegurarse de que el n√∫mero de accesos se reduzca todo lo posible.
+	Finalmente, las peticiones se ofrecen al driver del dispositivo de bloques, que ejecutar√° la operaci√≥n real. Todo este largo proceso puede verse resumido en la siguiente figura, donde se observa la jerarqu√≠a completa de subsistemas.
 
 
-	La forma en la que el sistema de ficheros virtual maneja todas estas estructuras, es a travÈs de una estructura request_queue, que, como cuyo nombre indica, es una cola de peticiones. Mientras la cola no este vacÌa, el driver del dispositivo de bloques ir retirando peticiones, o estructuras request, de la cabeza de la cola y envi·ndole dichas peticiones al dispositivo que soporta. La estructura request est· compuesta de una o m·s estructuras bio que operan sobre bloques consecutivos en el dispositivo. Estas estructuras vienen definidas en el fichero "include/linux/blkdev.h".
-	Estas colas de peticiones ser·n manejadas por los distintos organizadores de las operaciones de entrada/salida. Entre los organizadores m·s importantes nos encontramos, el ascensor de Linus(Linus Elevator Scheduler), el organizador por plazos(Deadline Scheduler), el organizador anticipado(Anticipatory Scheduler), el organizador de cola completamente justo(Complete Fair Queue Scheduler), y el organizador de no operaciÛn(Noop Scheduler).
+6.1.2. Estructura gen√©rica de dispositivos de bloque.
+	Cada vez que un bloque es alojado en memoria principal, este es asociado a un buffer. Un buffer es un objeto que representa un bloque en memoria, y, dado que el n√∫cleo requiere m√°s informaci√≥n que esta, cada buffer se asociar√° a un descriptor llamado buffer_head. Esta estructura almacenar√° datos como el estado del bloque, su p√°gina asociada, su tama√±o, un puntero al comienzo de los datos, y el dispositivo al que pertenece, entre otros detalles. Puede consultarse la estructura en el fichero ‚Äúinclude/linux/buffer_head.h‚Äù. Aunque mucha de esta informaci√≥n es necesaria para el n√∫cleo, no deja de ser una sobrecarga y un consumo de espacio en memoria.
+	Otra estructura de importancia, es aquella que almacena la informaci√≥n de una operaci√≥n de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero ‚Äúinclude/linux/bio.h‚Äù). Las operaciones se descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligaci√≥n de estar alojadas de forma contigua en memoria principal. De esta forma, el n√∫cleo puede operar con un sector repartido a lo largo de toda la memoria. La informaci√≥n de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la direcci√≥n su vector asociado, bi_idx, su posici√≥n dentro del vector, y bi_vcnt, el n√∫mero de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la informaci√≥n relativa a la p√°gina de memoria donde se aloja el segmento, su tama√±o, y el desplazamiento dentro de la  p√°gina.
+	Con esta organizaci√≥n, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia(normalmente por proximidad de p√°ginas dentro del almacenamiento masivo), a√±adir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques. El panorama general se asemejara a la siguiente figura:
+
+
+	La forma en la que el sistema de ficheros virtual maneja todas estas estructuras, es a trav√©s de una estructura request_queue, que, como cuyo nombre indica, es una cola de peticiones. Mientras la cola no este vac√≠a, el driver del dispositivo de bloques ir retirando peticiones, o estructuras request, de la cabeza de la cola y envi√°ndole dichas peticiones al dispositivo que soporta. La estructura request est√° compuesta de una o m√°s estructuras bio que operan sobre bloques consecutivos en el dispositivo. Estas estructuras vienen definidas en el fichero ‚Äúinclude/linux/blkdev.h‚Äù.
+	Estas colas de peticiones ser√°n manejadas por los distintos organizadores de las operaciones de entrada/salida. Entre los organizadores m√°s importantes nos encontramos, el ascensor de Linus(Linus Elevator Scheduler), el organizador por plazos(Deadline Scheduler), el organizador anticipado(Anticipatory Scheduler), el organizador de cola completamente justo(Complete Fair Queue Scheduler), y el organizador de no operaci√≥n(Noop Scheduler).
 
 6.2 Dispositivos de red.
-	Los dispositivos de red en Linux disponen de un comportamiento similar al de un dispositivo de bloques montado. Este debe registrarse en el n˙cleo del sistema operativo utilizando las estructuras habilitadas para tal efecto antes de que pueda transmitir o recibir ning˙n paquete. A˙n asÌ, parece razonable pensar que existen ciertas diferencias. Los dispositivos de red no disponen de un fichero en el directorio "/dev" que sirva de punto de acceso, puesto que sus operaciones principales ya no van a ser las de leer o escribir, sino las de transmitir o recibir. Adem·s, utiliza un espacio de nombres distintos y provee al usuario de operaciones distintas, que operan sobre objetos diferentes en el n˙cleo. 
-	Otra diferencia a subrayar es que un dispositivo de bloques act˙a en consecuencia de una peticiÛn del n˙cleo, mientras que el dispositivo de red debe pedir al n˙cleo que procese el paquete que ha recibido asÌncronamente. Esto implica que aunque el subsistema de red de este sistema operativo sea independiente del protocolo utilizado, su API sea completamente distinta.
-	La forma en que un dispositivo de red se registra en Linux es insertar una estructura net_device dentro de una lista global de dispositivos de red. Esta estructura se detalla en el fichero "include/linux/netdevice.h", y engloba toda la informaciÛn relativa a la comunicaciÛn del dispositivo de red, adem·s de informaciÛn relativa a los diferentes protocolos soportados por el sistema. Los campos de dicha estructura m·s importantes son el nombre, su estado, la estructura net_device del siguiente dispositivo en la lista de dispositivos de red, los campos relativos a su espacio de memoria relacionado, su direcciÛn, puerto, irq y canal de DMA.
-	Para alojar din·micamente la estructura se dispone de la funciÛn alloc_netdev, registrando el dispositivo en el n˙cleo. Sin embargo, tambien es posible hacer este registro mediante las funciones alloc_etherdev(Ethernet devices, "include/linux/etherdevice.h"), alloc_fcdev(Fiber-channel, "include/linux/fcdevice.h"), alloc_fddidev(FDDI devices, "include/linux/fddidevice.h") o alloc_trdev(Token ring devices, "include/linux/trdevice.h"). La inicializaciÛn de las estructuras es realizada por dichas funciones, colocando unos par·metros por defecto que pueden ser modificados posteriormente. Dicha inicializacin la realiza la funciÛn ether_setup en el caso de llamar a alloc_etherdev.
-	En el caso de descargar el mÛdulo de la memoria, debe utilizarse las funciones unregister_netdev y free_netdev para liberar todos los recursos registrados durante la inicializaciÛn del modulo.
-	Durante la apertura y cierre del dispositivo cabe destacar la necesidad de activar y desactivar el bit IFF_UP, del campo flag de la estructura netdevice, para cada correspondiente operaciÛn., la necesidad de copiar la direcciÛn MAC del dispositivo a la estructura, y el uso de las funciones net_if_start_queue y net_if_stop_queue, para iniciar o detener las transferencias.
-	En las transmisiones de paquetes se dispone de la funciÛn hard_start_xmit, que encola el envio de un paquete de datos almacenado en la estructura socket buffer(struct sk_buff, detallada en el fichero "include/linux/sk_buff.h"). Cualquier paquete que se vaya a transmitir por la interfaz de red debe pertenecer a un socket, puesto que el almacenamiento de entrada/salida  de esta estructura son listas de estructuras sk_buff. El paquete debe de estar almacenado en la estructura tal y como deba aparecer en la interfaz fÌsica de red desde la que se vaya a enviar.
-	Es necesario que durante las transmisiones de controle el acceso concurrente a la funciÛn hard_start_xmit. Para ello se utiliza el mecanismo de spinlock. Si el dispositivo dispone de memoria limitada, debe controlarse adem·s la detenciÛn y reanudaciÛn de la cola de transmisiÛn. Esto se realiza mediante las funciones netif_stop_queue y netif_wake_queue. 
-	Dichos dispositivos deben contemplar la posibilidad de fallo en las transmisiones a travÈs de temporizadores, sin embargo, no es necesario que sea el driver quien se encargue de preparar este mecanismo. El driver solo requiere indicar el periodo de espera del temporizador anot·ndolo en el campo watchdog_timeo de la estructura net_device. Esta temporizaciÛn se mide en Jiffies. En caso de expirar este tiempo, se llama al mÈtodo tx_timeout.
-	La recepciÛn de paquetes se controla de dos formas, mediante entrada/salida por interrupciones, o, en caso de redes de gran ancho de banda, por entrada/salida programada. Esto ˙ltimo se debe a que en este tipo de redes, la sobrecarga de pasar de contextos de ejecuciÛn, a un contexto de interrupciÛn impide que se aproveche adecuadamente el ancho de banda disponible. 
-	Para la recepciÛn controlada por interrupciones, se define una funciÛn de recepciÛn que utilize la funciÛn dev_alloc_skb para reservar espacio para un paquete en memoria. Esta funciÛn ser· llamada por el manejador de interrupciÛn del dispositivo, contexto de interrupciÛn, para almacenar el paquete en memoria principal, donde ser· procesado posteriormente.
-	Es posible liberar el espacio de almacenamiento de un socket buffer mediante las funciones dev_kfree_skb(para contextos de ejecuciÛn), dev_kfree_skb_irq(para contextos de nterrupciÛn) y dev_kfree_skb_any(para cualquier contexto).
-	Para la entrada/salida programada, se utiliza una API diferente llamada NAPI(New API) que modela el comportamiento programado del dispositivo. Un driver que implemente esta API debe ser capaz de deshabilitar la interrupciÛn de recepciÛn de paquetes, manteniendo las interrupciones para las transmisiones v·lidas y otros eventos. Adem·s, deber· implementar una funciÛn poll que se dedique a preguntar a la interfaz de red si ha recibido algo. En caso de no recibir nada, se reactivar· la interrupciÛn de recepciÛn y se mantendr· al dispositivo a la espera.
+	Los dispositivos de red en Linux disponen de un comportamiento similar al de un dispositivo de bloques montado. Este debe registrarse en el n√∫cleo del sistema operativo utilizando las estructuras habilitadas para tal efecto antes de que pueda transmitir o recibir ning√∫n paquete. A√∫n as√≠, parece razonable pensar que existen ciertas diferencias. Los dispositivos de red no disponen de un fichero en el directorio ‚Äú/dev‚Äù que sirva de punto de acceso, puesto que sus operaciones principales ya no van a ser las de leer o escribir, sino las de transmitir o recibir. Adem√°s, utiliza un espacio de nombres distintos y provee al usuario de operaciones distintas, que operan sobre objetos diferentes en el n√∫cleo. 
+	Otra diferencia a subrayar es que un dispositivo de bloques act√∫a en consecuencia de una petici√≥n del n√∫cleo, mientras que el dispositivo de red debe pedir al n√∫cleo que procese el paquete que ha recibido as√≠ncronamente. Esto implica que aunque el subsistema de red de este sistema operativo sea independiente del protocolo utilizado, su API sea completamente distinta.
+	La forma en que un dispositivo de red se registra en Linux es insertar una estructura net_device dentro de una lista global de dispositivos de red. Esta estructura se detalla en el fichero ‚Äúinclude/linux/netdevice.h‚Äù, y engloba toda la informaci√≥n relativa a la comunicaci√≥n del dispositivo de red, adem√°s de informaci√≥n relativa a los diferentes protocolos soportados por el sistema. Los campos de dicha estructura m√°s importantes son el nombre, su estado, la estructura net_device del siguiente dispositivo en la lista de dispositivos de red, los campos relativos a su espacio de memoria relacionado, su direcci√≥n, puerto, irq y canal de DMA.
+	Para alojar din√°micamente la estructura se dispone de la funci√≥n alloc_netdev, registrando el dispositivo en el n√∫cleo. Sin embargo, tambien es posible hacer este registro mediante las funciones alloc_etherdev(Ethernet devices, ‚Äúinclude/linux/etherdevice.h‚Äù), alloc_fcdev(Fiber-channel, ‚Äúinclude/linux/fcdevice.h‚Äù), alloc_fddidev(FDDI devices, ‚Äúinclude/linux/fddidevice.h‚Äù) o alloc_trdev(Token ring devices, ‚Äúinclude/linux/trdevice.h‚Äù). La inicializaci√≥n de las estructuras es realizada por dichas funciones, colocando unos par√°metros por defecto que pueden ser modificados posteriormente. Dicha inicializacin la realiza la funci√≥n ether_setup en el caso de llamar a alloc_etherdev.
+	En el caso de descargar el m√≥dulo de la memoria, debe utilizarse las funciones unregister_netdev y free_netdev para liberar todos los recursos registrados durante la inicializaci√≥n del modulo.
+	Durante la apertura y cierre del dispositivo cabe destacar la necesidad de activar y desactivar el bit IFF_UP, del campo flag de la estructura netdevice, para cada correspondiente operaci√≥n., la necesidad de copiar la direcci√≥n MAC del dispositivo a la estructura, y el uso de las funciones net_if_start_queue y net_if_stop_queue, para iniciar o detener las transferencias.
+	En las transmisiones de paquetes se dispone de la funci√≥n hard_start_xmit, que encola el envio de un paquete de datos almacenado en la estructura socket buffer(struct sk_buff, detallada en el fichero ‚Äùinclude/linux/sk_buff.h‚Äù). Cualquier paquete que se vaya a transmitir por la interfaz de red debe pertenecer a un socket, puesto que el almacenamiento de entrada/salida  de esta estructura son listas de estructuras sk_buff. El paquete debe de estar almacenado en la estructura tal y como deba aparecer en la interfaz f√≠sica de red desde la que se vaya a enviar.
+	Es necesario que durante las transmisiones de controle el acceso concurrente a la funci√≥n hard_start_xmit. Para ello se utiliza el mecanismo de spinlock. Si el dispositivo dispone de memoria limitada, debe controlarse adem√°s la detenci√≥n y reanudaci√≥n de la cola de transmisi√≥n. Esto se realiza mediante las funciones netif_stop_queue y netif_wake_queue. 
+	Dichos dispositivos deben contemplar la posibilidad de fallo en las transmisiones a trav√©s de temporizadores, sin embargo, no es necesario que sea el driver quien se encargue de preparar este mecanismo. El driver solo requiere indicar el periodo de espera del temporizador anot√°ndolo en el campo watchdog_timeo de la estructura net_device. Esta temporizaci√≥n se mide en Jiffies. En caso de expirar este tiempo, se llama al m√©todo tx_timeout.
+	La recepci√≥n de paquetes se controla de dos formas, mediante entrada/salida por interrupciones, o, en caso de redes de gran ancho de banda, por entrada/salida programada. Esto √∫ltimo se debe a que en este tipo de redes, la sobrecarga de pasar de contextos de ejecuci√≥n, a un contexto de interrupci√≥n impide que se aproveche adecuadamente el ancho de banda disponible. 
+	Para la recepci√≥n controlada por interrupciones, se define una funci√≥n de recepci√≥n que utilize la funci√≥n dev_alloc_skb para reservar espacio para un paquete en memoria. Esta funci√≥n ser√° llamada por el manejador de interrupci√≥n del dispositivo, contexto de interrupci√≥n, para almacenar el paquete en memoria principal, donde ser√° procesado posteriormente.
+	Es posible liberar el espacio de almacenamiento de un socket buffer mediante las funciones dev_kfree_skb(para contextos de ejecuci√≥n), dev_kfree_skb_irq(para contextos de nterrupci√≥n) y dev_kfree_skb_any(para cualquier contexto).
+	Para la entrada/salida programada, se utiliza una API diferente llamada NAPI(New API) que modela el comportamiento programado del dispositivo. Un driver que implemente esta API debe ser capaz de deshabilitar la interrupci√≥n de recepci√≥n de paquetes, manteniendo las interrupciones para las transmisiones v√°lidas y otros eventos. Adem√°s, deber√° implementar una funci√≥n poll que se dedique a preguntar a la interfaz de red si ha recibido algo. En caso de no recibir nada, se reactivar√° la interrupci√≥n de recepci√≥n y se mantendr√° al dispositivo a la espera.
 
 6.3 Network Block Device.
-	Como reza la documentaciÛn incluida en el n˙cleo de Linux, este mÛdulo se encarga de conectar a un servidor remoto que exporte un dispositivo de bloques, con el fin de que la m·quina cliente pueda acceder a este como si de un dispositivo local se tratara. Si establecemos una simple comparaciÛn con el objetivo de este proyecto, podemos constatar que la ˙nica diferencia con este, es que el servidor, no es uno propio, como el nbd-server, sino el servidor Swift de Openstack, luego es razonable pensar que podemos partir de este mÛdulo para alcanzar nuestro objetivo.
-	Este mÛdulo envÌa las peticiones de un dispositivo de bloques genÈrico a travÈs de la red, utilizando el protocolo TCP, para que el servidor la procese y envÌe la respuesta al cliente de vuelta de la misma forma. Dichas peticiones, tienen la forma de estructuras request como las utilizadas por los dispositivos locales existentes en el sistema. Estas estructuras request se generan a raÌz de las estructuras bio y bio_vec(comentadas en el apartado 5.1.2), tomando la informaciÛn correspondiente al direccionamiento del bloque, y los bloques consecutivos que se quieren extraer.
-	El servidor funciona en espacio de usuario completamente, siendo necesario dicho mÛdulo solamente en el cliente.
-	En el fichero <include/linux/nbd.h> podemos encontrar tres estructuras que definen el dispositivo de bloques, la peticiÛn y la respuesta. La estructura del dispositivo es la siguiente:
+	Como reza la documentaci√≥n incluida en el n√∫cleo de Linux, este m√≥dulo se encarga de conectar a un servidor remoto que exporte un dispositivo de bloques, con el fin de que la m√°quina cliente pueda acceder a este como si de un dispositivo local se tratara. Si establecemos una simple comparaci√≥n con el objetivo de este proyecto, podemos constatar que la √∫nica diferencia con este, es que el servidor, no es uno propio, como el nbd-server, sino el servidor Swift de Openstack, luego es razonable pensar que podemos partir de este m√≥dulo para alcanzar nuestro objetivo.
+	Este m√≥dulo env√≠a las peticiones de un dispositivo de bloques gen√©rico a trav√©s de la red, utilizando el protocolo TCP, para que el servidor la procese y env√≠e la respuesta al cliente de vuelta de la misma forma. Dichas peticiones, tienen la forma de estructuras request como las utilizadas por los dispositivos locales existentes en el sistema. Estas estructuras request se generan a ra√≠z de las estructuras bio y bio_vec(comentadas en el apartado 5.1.2), tomando la informaci√≥n correspondiente al direccionamiento del bloque, y los bloques consecutivos que se quieren extraer.
+	El servidor funciona en espacio de usuario completamente, siendo necesario dicho m√≥dulo solamente en el cliente.
+	En el fichero <include/linux/nbd.h> podemos encontrar tres estructuras que definen el dispositivo de bloques, la petici√≥n y la respuesta. La estructura del dispositivo es la siguiente:
 
 	struct nbd_device {
 	int flags;
@@ -462,7 +465,7 @@ EliminaciÛn de objetos.
 	int xmit_timeout;
 	};
 
-	Sus campos m·s destacables son el entero flags para configurar sus par·metros, la estructura socket que realiza el envio y recepciÛn de peticiones, la estructura file que define el fichero del dispositivo y las dos colas de peticiones active_wq y waiting_wq. El driver se apoya en dichas colas para ejercer sus funciones. Una peticiÛn nueva, es encolada en la cola waiting_wq. Cuando llega su turno en la cola, la peticiÛn se envÌa y pasa a la cola active_wq para esperar su respuesta. Estas operaciones sobre las listas suceden tras la protecciÛn de concurrencia del mecanismo de spinlock. Ademas, con el fin de evitar problemas de concurrencia, se protege la transferencia de estructuras mediante un mutex.
+	Sus campos m√°s destacables son el entero flags para configurar sus par√°metros, la estructura socket que realiza el envio y recepci√≥n de peticiones, la estructura file que define el fichero del dispositivo y las dos colas de peticiones active_wq y waiting_wq. El driver se apoya en dichas colas para ejercer sus funciones. Una petici√≥n nueva, es encolada en la cola waiting_wq. Cuando llega su turno en la cola, la petici√≥n se env√≠a y pasa a la cola active_wq para esperar su respuesta. Estas operaciones sobre las listas suceden tras la protecci√≥n de concurrencia del mecanismo de spinlock. Ademas, con el fin de evitar problemas de concurrencia, se protege la transferencia de estructuras mediante un mutex.
 	La estructura request de nbd es la siguiente:
 
 	struct nbd_request {
@@ -473,7 +476,7 @@ EliminaciÛn de objetos.
 	__be32 len;
 	} __attribute__((packed));
 
-	Esta estructura dispone de un n˙mero m·gico(o n˙mero ˙nico) para asegurar la consistencia de la peticiÛn, un tipo(lectura o escritura), el campo handle, que se utiliza para almacenar la direcciÛn del manejador de la peticiÛn en curso, from, para almacenar la posiciÛn dentro del dispositivo donde se encuentra el fichero a tratar, y len, el tamaÒo de la peticiÛn, en multiplos de bloques.
+	Esta estructura dispone de un n√∫mero m√°gico(o n√∫mero √∫nico) para asegurar la consistencia de la petici√≥n, un tipo(lectura o escritura), el campo handle, que se utiliza para almacenar la direcci√≥n del manejador de la petici√≥n en curso, from, para almacenar la posici√≥n dentro del dispositivo donde se encuentra el fichero a tratar, y len, el tama√±o de la petici√≥n, en multiplos de bloques.
 	Finalmente la estructura reply se compone de lo siguiente:
 	
 	struct nbd_reply {
@@ -482,301 +485,328 @@ EliminaciÛn de objetos.
 	char handle[8];		/* handle you got from request	*/
 	};
 	
-	Podemos observar que se dispone de campos similares al de la estructura request, exceptuando que, en vez de denotar un tipo de respuesta, se almacena un posible cÛdigo de error. Tampoco se requiere la posiciÛn de los bloques solicitados.
-	De entre todas las funciones que conforman dicho driver, alojado en <drivers/block/nbd.c> nos interesan mayoritariamente las funciones que se encargan de transmitir y recibir paquetes a travÈs de la red, y las funciones que creen o procesen dichos paquetes pues son las funciones susceptibles de modificaciÛn. Entre ellas, encontramos la funciÛn sock_xmit, que se encarga de transmitir un buffer utilizando el socket propio del dispositivo. Gracias a que su objetivo es muy simple, esta funciÛn no requiere ning˙n cambio, suponiendo una base de la comunicaciÛn imprescindible. Sin embargo, podemos observar las funciones sock_send_bvec y nbd_send_req, que se encargan de utilizar sock_xmit para enviar la estructura request y las estructuras bio_vec requeridas para procesar la operaciÛn en curso, y que con toda probabilidad deber·n ser modificadas para permitir la comunicaciÛn con el servidor Swift. Estas dos funciones componen la comunicaciÛn en el sentido cliente-servidor.
-	Las funciones sock_recv_bvec y nbd_read_stat son el equivalente a las funciones  sock_send_bvec y nbd_send_req en el sentido opuesto de la comunicaciÛn, es decir, la comunicaciÛn servidor-cliente. La primera de ellas recibe las estructuras bio_vec requeridas, y la segunda se encarga de procesar la respuesta. Con el diseÒo adecuado, dichas funciones no deberÌan ser susceptibles de cambio.
-	La funciÛn nbd_handle_req aÒade la peticiÛn activa a la cabeza de la cola de peticiones activas, donde esperar· su respuesta correspondiente. La funciÛn do_nbd_request ser· la encargada de encolar una nueva peticiÛn en la cola waiting_queue antes de ser enviada.
-	Se definen en este mÛdulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo nbd, las cuales no resultan de especial interÈs para el cometido de este proyecto.
+	Podemos observar que se dispone de campos similares al de la estructura request, exceptuando que, en vez de denotar un tipo de respuesta, se almacena un posible c√≥digo de error. Tampoco se requiere la posici√≥n de los bloques solicitados.
+	De entre todas las funciones que conforman dicho driver, alojado en <drivers/block/nbd.c> nos interesan mayoritariamente las funciones que se encargan de transmitir y recibir paquetes a trav√©s de la red, y las funciones que creen o procesen dichos paquetes pues son las funciones susceptibles de modificaci√≥n. Entre ellas, encontramos la funci√≥n sock_xmit, que se encarga de transmitir un buffer utilizando el socket propio del dispositivo. Gracias a que su objetivo es muy simple, esta funci√≥n no requiere ning√∫n cambio, suponiendo una base de la comunicaci√≥n imprescindible. Sin embargo, podemos observar las funciones sock_send_bvec y nbd_send_req, que se encargan de utilizar sock_xmit para enviar la estructura request y las estructuras bio_vec requeridas para procesar la operaci√≥n en curso, y que con toda probabilidad deber√°n ser modificadas para permitir la comunicaci√≥n con el servidor Swift. Estas dos funciones componen la comunicaci√≥n en el sentido cliente-servidor.
+	Las funciones sock_recv_bvec y nbd_read_stat son el equivalente a las funciones  sock_send_bvec y nbd_send_req en el sentido opuesto de la comunicaci√≥n, es decir, la comunicaci√≥n servidor-cliente. La primera de ellas recibe las estructuras bio_vec requeridas, y la segunda se encarga de procesar la respuesta. Con el dise√±o adecuado, dichas funciones no deber√≠an ser susceptibles de cambio.
+	La funci√≥n nbd_handle_req a√±ade la petici√≥n activa a la cabeza de la cola de peticiones activas, donde esperar√° su respuesta correspondiente. La funci√≥n do_nbd_request ser√° la encargada de encolar una nueva petici√≥n en la cola waiting_queue antes de ser enviada.
+	Se definen en este m√≥dulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo nbd, las cuales no resultan de especial inter√©s para el cometido de este proyecto.
 
 7. Windows.
+
 	Dentro de la arquitectura del conocido sistema operativo de Microsoft nos encontramos con diversos componentes organizados de la siguiente manera:
 	
+	En la figura podemos diferenciar los subsistemas que trabajan en espacio de usuario y en espacio del n√∫cleo. Dentro del espacio de usuario tendremos:
 
-	En la figura podemos diferenciar los subsistemas que trabajan en espacio de usuario y en espacio del n˙cleo. Dentro del espacio de usuario tendremos:
-
-Procesos de soporte del sistema: ejemplos de este subsistema son el proceso de autenticaciÛn, el organizador de sesiones y otros procesos que no son iniciados por el organizador de control de servicios
-Servicios del sistema y aplicaciones de usuario: estos se apoyan en librerÌas din·micas del sistema, y los subsistemas de entorno para realizar su cometido.
-Las propias librerÌas din·micas: Su cometido es traducir la llamada al sistema realizada por el servicio, o la aplicaciÛn de usuario, a la funciÛn adecuada dentro del sistema. Para ello, si lo requiere, la librerÌa enviar· un mensaje al subsistema de entorno.
+Procesos de soporte del sistema: ejemplos de este subsistema son el proceso de autenticaci√≥n, el organizador de sesiones y otros procesos que no son iniciados por el organizador de control de servicios
+Servicios del sistema y aplicaciones de usuario: estos se apoyan en librer√≠as din√°micas del sistema, y los subsistemas de entorno para realizar su cometido.
+Las propias librer√≠as din√°micas: Su cometido es traducir la llamada al sistema realizada por el servicio, o la aplicaci√≥n de usuario, a la funci√≥n adecuada dentro del sistema. Para ello, si lo requiere, la librer√≠a enviar√° un mensaje al subsistema de entorno.
 	
-	En el espacio del n˙cleo, los componentes m·s importantes son:
+	En el espacio del n√∫cleo, los componentes m√°s importantes son:
 
-El ejecutor de Windows, el cual conforma la base principal del sistema, ofreciendo los servicios mÌnimos del sistema(uso de memoria, creaciÛn de procesos e hilos, seguridad, entrada/salida...)
-El n˙cleo, que reune las funciones en bajo nivel requeridas para que el ejecutor ofrezca los servicios mÌnimos
-Los drivers de dispositivos, que se comunicar·n con el hardware
-La capa de abstracciÛn de hardware, que aÌsla el n˙cleo del ejecutor de Windows. Como se puede observar, el sistema gr·fico es independiente del bloque de sistemas antes comentado.
+El ejecutor de Windows, el cual conforma la base principal del sistema, ofreciendo los servicios m√≠nimos del sistema(uso de memoria, creaci√≥n de procesos e hilos, seguridad, entrada/salida...)
+El n√∫cleo, que reune las funciones en bajo nivel requeridas para que el ejecutor ofrezca los servicios m√≠nimos
+Los drivers de dispositivos, que se comunicar√°n con el hardware
+La capa de abstracci√≥n de hardware, que a√≠sla el n√∫cleo del ejecutor de Windows. Como se puede observar, el sistema gr√°fico es independiente del bloque de sistemas antes comentado.
 
-	Analizando en mayor detalle los subsistemas que componen el n˙cleo, podemos encontrar los siguientes componentes:
+	Analizando en mayor detalle los subsistemas que componen el n√∫cleo, podemos encontrar los siguientes componentes:
 El manejador de entrada salida: dicho subsistema se apoya en los drivers de dispositivos o en los sistemas de ficheros para realizar delegar la tarea encomendada al componente correspondiente.
 El manejador de cache, que se encarga de organizar los datos requeridos recientemente por el espacio de usuario en memoria, manteniendolos en esta para agilizar posteriores accesos.
 El manejador de procesos e hilos, que se encarga de iniciar y finalizar los distintos procesos e hilos y de ofrecerles el soporte requerido.
-El manejador de objetos del n˙cleo, cuyo objetivo principal es mantener las estructuras necesarias para su correcto funcionamiento.
-El manejador de dispositivos Plug and Play, subsistema que detecta la apariciÛn de un nuevo dispositivo en el sistema y pone en funcionamiento las infraestructuras necesarias del n˙cleo que permitir·n su correcto funcionamiento.
-El monitor de seguridad, que activar· las politicas de seguridad de acceso a cualquier medio.
-El manejador de memoria, que se encarga de alojar informaciÛn en memoria principal, o devolverla al dispositivo de bloques del que proviene.
-El manejador de configuraciÛn del sistema, que gestionar· el registro de Windows y la informacion contenida en el.
+El manejador de objetos del n√∫cleo, cuyo objetivo principal es mantener las estructuras necesarias para su correcto funcionamiento.
+El manejador de dispositivos Plug and Play, subsistema que detecta la aparici√≥n de un nuevo dispositivo en el sistema y pone en funcionamiento las infraestructuras necesarias del n√∫cleo que permitir√°n su correcto funcionamiento.
+El monitor de seguridad, que activar√° las politicas de seguridad de acceso a cualquier medio.
+El manejador de memoria, que se encarga de alojar informaci√≥n en memoria principal, o devolverla al dispositivo de bloques del que proviene.
+El manejador de configuraci√≥n del sistema, que gestionar√° el registro de Windows y la informacion contenida en el.
 El manejador de entrada/salida, que implementa una interfaz general de entrada salida independiente del dispositivo.
-Las rutinas  de instrumentaciÛn ofrecidas por el servicio WMI de Windows, que permiten a los drivers de los dispositivos publicar informaciÛn de configuraciÛn y estadisticas sobre el dispositivo.
-El invocador de procedimientos avanzado, que realiza las tareas necesarias para la ejecuciÛn de cualquier software.
-La interfaz de dispositivos de gr·ficos, apoyada en sus correspondientes dispositivos, y que realizar· la tarea de gestionar el entorno gr·fico del sistema.
+Las rutinas  de instrumentaci√≥n ofrecidas por el servicio WMI de Windows, que permiten a los drivers de los dispositivos publicar informaci√≥n de configuraci√≥n y estadisticas sobre el dispositivo.
+El invocador de procedimientos avanzado, que realiza las tareas necesarias para la ejecuci√≥n de cualquier software.
+La interfaz de dispositivos de gr√°ficos, apoyada en sus correspondientes dispositivos, y que realizar√° la tarea de gestionar el entorno gr√°fico del sistema.
 
-	Estos subsistemas  est·n gobernados por el ejecutor de Windows y quedan resumidos en la siguiente imagen:
+	Estos subsistemas  est√°n gobernados por el ejecutor de Windows y quedan resumidos en la siguiente imagen:
 	
 
-	Analizaremos posteriormente en mayor detalle los subsistemas m·s relevantes.
+	Analizaremos posteriormente en mayor detalle los subsistemas m√°s relevantes.
 
-7.1 Subsistema de entorno y librerÌas din·micas.
-	Este componente ofrece aislamiento entre el espacio de usuario y el espacio del n˙cleo, sin llegar a pertenecer a este ˙ltimo. Act˙a como un filtro de primera instancia donde una funciÛn de dichas librerÌas puede actuar de las siguientes formas:
-La funciÛn se implementa en la librerÌa, y por tanto, el espacio del n˙cleo no requiere saber de la llamada a esta funciÛn, luego ser· resuelta por la librerÌa y se continuar· con la ejecuciÛn normal del sistema.
-La funciÛn requiere llamar al ejecutor de Windows para realizar alguna de sus funciones, luego se realizar·n algunas tareas puntuales en espacio del n˙cleo y se continuar· el resto de ejecuciÛn en espacio de usuario. 
-La funciÛn requiere el uso del subsistema de entorno, envi·ndole un mensaje para que resuelva una tarea concreta, y contin˙e su ejecuciÛn posteriormente.
+7.1 Subsistema de entorno y librer√≠as din√°micas.
+	Este componente ofrece aislamiento entre el espacio de usuario y el espacio del n√∫cleo, sin llegar a pertenecer a este √∫ltimo. Act√∫a como un filtro de primera instancia donde una funci√≥n de dichas librer√≠as puede actuar de las siguientes formas:
+La funci√≥n se implementa en la librer√≠a, y por tanto, el espacio del n√∫cleo no requiere saber de la llamada a esta funci√≥n, luego ser√° resuelta por la librer√≠a y se continuar√° con la ejecuci√≥n normal del sistema.
+La funci√≥n requiere llamar al ejecutor de Windows para realizar alguna de sus funciones, luego se realizar√°n algunas tareas puntuales en espacio del n√∫cleo y se continuar√° el resto de ejecuci√≥n en espacio de usuario. 
+La funci√≥n requiere el uso del subsistema de entorno, envi√°ndole un mensaje para que resuelva una tarea concreta, y contin√∫e su ejecuci√≥n posteriormente.
 
 	Estos comportamientos se resumen en la siguiente figura:
 
-	Insertar imagen aquÌ.
+	Insertar imagen aqu√≠.
 
-	Entre los subsistemas de entornos, nos encontramos con el subsistema propio de Windows, y por cuestiones de soporte, el subsistema POSIX(Portable Operating System Interface based on Unix). Puesto que nuestro objetivo se centra en el espacio del n˙cleo, no estudiaremos en mayor profundidad este componente.
+	Entre los subsistemas de entornos, nos encontramos con el subsistema propio de Windows, y por cuestiones de soporte, el subsistema POSIX(Portable Operating System Interface based on Unix). Puesto que nuestro objetivo se centra en el espacio del n√∫cleo, no estudiaremos en mayor profundidad este componente.
 
 7.2 Ejecutor de Windows.
-	El ejecutor de Windows conforma la primera capa de abstracciÛn con la que una llamada al sistema se encontrar· cuando se alcance el espacio del n˙cleo, haciendo de fachada para el resto del sistema. Est· formado por numerosas funciones que pueden ser recogidas en los siguientes tipos:
+	El ejecutor de Windows conforma la primera capa de abstracci√≥n con la que una llamada al sistema se encontrar√° cuando se alcance el espacio del n√∫cleo, haciendo de fachada para el resto del sistema. Est√° formado por numerosas funciones que pueden ser recogidas en los siguientes tipos:
 
-Funciones exportadas al espacio de usuario, o servicios del sistema, la librerÌa Ntdll se encarga de ofrecerlos. Muchos de los servicios son accesibles desde la API de Windows, o a travÈs del subsistema de entorno.
-Drivers de dispositivos, llamados a travÈs de la funciÛn DeviceIOControl y que ofrece una interfaz general al espacio de usuario para llamar a los servicios de un dispositivo.
-Funciones que solo pueden ser llamadas desde el espacio del n˙cleo. 
-Funciones definidas como sÌmbolos globales, pero que no son exportados al espacio de usuario.
+Funciones exportadas al espacio de usuario, o servicios del sistema, la librer√≠a Ntdll se encarga de ofrecerlos. Muchos de los servicios son accesibles desde la API de Windows, o a trav√©s del subsistema de entorno.
+Drivers de dispositivos, llamados a trav√©s de la funci√≥n DeviceIOControl y que ofrece una interfaz general al espacio de usuario para llamar a los servicios de un dispositivo.
+Funciones que solo pueden ser llamadas desde el espacio del n√∫cleo. 
+Funciones definidas como s√≠mbolos globales, pero que no son exportados al espacio de usuario.
 
-	Adem·s, el ejecutor de Windows contiene cuatro grupos de funciones de soporte para los componentes organizados por este. Los grupos son los siguientes:
+	Adem√°s, el ejecutor de Windows contiene cuatro grupos de funciones de soporte para los componentes organizados por este. Los grupos son los siguientes:
 
 Las funciones del manejador de objetos del ejecutor, que crea y destruye los objetos que sirven de infraestructura para el nucleo.
 El ALPC(Advanced Local Procedure Call, lanzador de procedimientos locales avanzados) que se encarga del paso de mensajes entre procesos.
-La librerÌa de funciones comunes del sistema.
+La librer√≠a de funciones comunes del sistema.
 Las rutinas de soporte del ejecutor.
 
-7.3 El n˙cleo.
-	El n˙cleo consiste en una serie de funciones contenidas en Ntoskrnl.exe que ofrece los mecanismos principales para el funcionamiento del sistema. Es utilizado por el ejecutor como una arquitectura de hardware a bajo nivel y es completamente dependiente, por tanto, de la arquitectura donde se ejecute.
-	Dentro de el se utilizan objetos de control y primitivas que ser·n controladas por el ejecutor, el cual expondr· los recursos compartidos utilizando las distintas polÌticas de seguridad. Adem·s dispone de el control de region del procesador y el bloque de control para almacenar informaciÛn especifica del procesador y su ejecuciÛn en curso.
+7.3 El n√∫cleo.
+	El n√∫cleo consiste en una serie de funciones contenidas en Ntoskrnl.exe que ofrece los mecanismos principales para el funcionamiento del sistema. Es utilizado por el ejecutor como una arquitectura de hardware a bajo nivel y es completamente dependiente, por tanto, de la arquitectura donde se ejecute.
+	Dentro de el se utilizan objetos de control y primitivas que ser√°n controladas por el ejecutor, el cual expondr√° los recursos compartidos utilizando las distintas pol√≠ticas de seguridad. Adem√°s dispone de el control de region del procesador y el bloque de control para almacenar informaci√≥n especifica del procesador y su ejecuci√≥n en curso.
 
 7.4 Drivers de dispositivos.
-	Los drivers en Windows conforman mÛdulos que pueden cargarse en memoria principal bajo demanda. Pueden ser utilizados en contextos donde un hilo en espacio de usuario utiliza una de sus funciones, en contextos en los que un hilo en espacio del n˙cleo lo utiliza, o como resultado de una interrupciÛn. Los drivers no utilizan los dispositivos directamente, sino que utilizan las funciones de la capa de abstracciÛn de hardware(HAL, Hardware Abstraction Layer) para cumplir su cometido. Los tipos de drivers existentes son los siguientes:
+	Los drivers en Windows conforman m√≥dulos que pueden cargarse en memoria principal bajo demanda. Pueden ser utilizados en contextos donde un hilo en espacio de usuario utiliza una de sus funciones, en contextos en los que un hilo en espacio del n√∫cleo lo utiliza, o como resultado de una interrupci√≥n. Los drivers no utilizan los dispositivos directamente, sino que utilizan las funciones de la capa de abstracci√≥n de hardware(HAL, Hardware Abstraction Layer) para cumplir su cometido. Los tipos de drivers existentes son los siguientes:
 Drivers de dispositivos, que utilizan la capa HAL para comunicarse con estos.
-Drivers de sistemas de ficheros, que aceptan peticiones genÈricas de entrada salida y las traducen a peticiones de un dispositivo concreto.
+Drivers de sistemas de ficheros, que aceptan peticiones gen√©ricas de entrada salida y las traducen a peticiones de un dispositivo concreto.
 Drivers de filtro de sistemas de ficheros, los cuales son drivers que colaboran con los de sistemas de ficheros para ofrecerle una nueva funcionalidad.
-Redirectores de red y servidores, que, siendo drivers de sistemas de ficheros, transmiten las peticiones de un sistema de ficheros a travÈs de la red y reciben las peticiones.
-Drivers de protocolos, los cuales implementan los protocolos de comunicaciones b·sicos y m·s extendidos como TCP/IP, NetBEUI e IPX/SPX.
-Drivers de filtro para flujos de ejecuciÛn del n˙cleo, que implementan el procesos de seÒalizaciÛn en grandes  flujos de datos.
+Redirectores de red y servidores, que, siendo drivers de sistemas de ficheros, transmiten las peticiones de un sistema de ficheros a trav√©s de la red y reciben las peticiones.
+Drivers de protocolos, los cuales implementan los protocolos de comunicaciones b√°sicos y m√°s extendidos como TCP/IP, NetBEUI e IPX/SPX.
+Drivers de filtro para flujos de ejecuci√≥n del n√∫cleo, que implementan el procesos de se√±alizaci√≥n en grandes  flujos de datos.
 
 	Con esto, el modelo de drivers puede ser resumido en tres tipos concretos:
 
 Drivers de bus, que se encargan de utilizar los controladores de bus, adaptadores, puentes, y cualquier dispositivo capaz de comunicar diferentes dispositivos.
-Drivers de funciÛn, que implementan la funcionalidad principal de un dispositivo en cuestiÛn.
-Drivers de filtro, que implementan una funcionalidad aÒadida a un driver de funciÛn.
+Drivers de funci√≥n, que implementan la funcionalidad principal de un dispositivo en cuesti√≥n.
+Drivers de filtro, que implementan una funcionalidad a√±adida a un driver de funci√≥n.
 
-	Para el desarrollo de estos drivers, la Windows Driver Foundation provee al usuario de las plataformas para drivers en espacio del n˙cleo(KMDF, Kernel-mode driver framework), y para drivers en espacio de usuario(UMDF, User-mode driver framework).
+	Para el desarrollo de estos drivers, la Windows Driver Foundation provee al usuario de las plataformas para drivers en espacio del n√∫cleo(KMDF, Kernel-mode driver framework), y para drivers en espacio de usuario(UMDF, User-mode driver framework).
 
 7.5 Componentes del sistema de entrada/salida.
-	Dentro del sistema de entrada/salida existen una serie de componentes que colaboran habitualmente para ofrecer los servicios de los drivers al espacio de usuario. Estos componentes son el gestor de entrada/salida, el gestor del consumo energÈtico, el gestor de dispositivos Plug and Play, y las rutinas de servicio para el proveedor de instrumentaciÛn de Windows.
-	El gestor de entrada salida es el principal componente de este subsistema, cumpliendo el objetivo de conectar dispositivos(virtuales, lÛgicos y fÌsicos) con el espacio de usuario. Conforma una infraestructura de soporte para los drivers.
-	Los drivers de dispositivos ofrecen una interfaz de comunicaciÛn que es direccionada a travÈs del gestor de entrada/salida. Cuando el usuario envÌa una peticiÛn, el gestor de entrada/salida la recoge y decide quien debe responder a esta, direccionando la peticiÛn al dispositivo adecuado. 
-	El gestor de dispositivos Plug and Play permanece en contacto continuo con el gestor de entrada/salida y con los drivers de bus. Los drivers de bus le ofrecen alojamiento para los nuevos dispositivos, aparte de avisar de la detecciÛn de un nuevo dispositivo, o de su desapariciÛn. Este subsistema cargar· los mÛdulos correspondientes y si no dispone de ellos, llamar· a un gestor en el espacio de usuario.
-	El gestor de consumo energÈtico realizar· las transiciones adecuadas de los dispositivos entre los distintos estados de consumo(encendido, apagado, modo de bajo consumo, etc).
-	Las rutinas de servicio del proveedor de instrumentaciÛn de Windows hacen de interfaz de comunicaciÛn entre el proveedor de instrumentaciÛn y los drivers de los dispositivos.
-	Adem·s de estos componentes, es conveniente recordar que en este subsitema  utiliza el registro de Windows para mantener una base de datos de los dispositivos b·sicos, los ficheros INF, que sirven para almacenar la informaciÛn de los drivers instalados en el sistema, y el nivel de abstracciÛn de hardware.
+	Dentro del sistema de entrada/salida existen una serie de componentes que colaboran habitualmente para ofrecer los servicios de los drivers al espacio de usuario. Estos componentes son el gestor de entrada/salida, el gestor del consumo energ√©tico, el gestor de dispositivos Plug and Play, y las rutinas de servicio para el proveedor de instrumentaci√≥n de Windows.
+	El gestor de entrada salida es el principal componente de este subsistema, cumpliendo el objetivo de conectar dispositivos(virtuales, l√≥gicos y f√≠sicos) con el espacio de usuario. Conforma una infraestructura de soporte para los drivers.
+	Los drivers de dispositivos ofrecen una interfaz de comunicaci√≥n que es direccionada a trav√©s del gestor de entrada/salida. Cuando el usuario env√≠a una petici√≥n, el gestor de entrada/salida la recoge y decide quien debe responder a esta, direccionando la petici√≥n al dispositivo adecuado. 
+	El gestor de dispositivos Plug and Play permanece en contacto continuo con el gestor de entrada/salida y con los drivers de bus. Los drivers de bus le ofrecen alojamiento para los nuevos dispositivos, aparte de avisar de la detecci√≥n de un nuevo dispositivo, o de su desaparici√≥n. Este subsistema cargar√° los m√≥dulos correspondientes y si no dispone de ellos, llamar√° a un gestor en el espacio de usuario.
+	El gestor de consumo energ√©tico realizar√° las transiciones adecuadas de los dispositivos entre los distintos estados de consumo(encendido, apagado, modo de bajo consumo, etc).
+	Las rutinas de servicio del proveedor de instrumentaci√≥n de Windows hacen de interfaz de comunicaci√≥n entre el proveedor de instrumentaci√≥n y los drivers de los dispositivos.
+	Adem√°s de estos componentes, es conveniente recordar que en este subsitema  utiliza el registro de Windows para mantener una base de datos de los dispositivos b√°sicos, los ficheros INF, que sirven para almacenar la informaci√≥n de los drivers instalados en el sistema, y el nivel de abstracci√≥n de hardware.
 
 7.5.1. Gestor de entrada/salida.
-	Este subsistema sirve de infraestructura para recoger peticiones de entrada/salida, en forma de paquetes llamados IRP(I/O Request Packet). Su diseÒo permite que un hilo de procesamiento se encargue de multiples peticiones concurrentemente. El IRP contiene la informaciÛn necesaria para describir la peticiÛn. El gestor de entrada/salida enviar· un puntero a la direcciÛn de memoria de la peticiÛn al driver correspondiente, donde ser· procesada. Este mismo puntero se utilizar para recuperar la informaciÛn de la peticiÛn., cuando el driver notifique que la operaciÛn ha concluido.
-	Por otro lado este subsistema ofrece un cÛdigo com˙n para todos los dispositivos, permitiendo que los drivers reduzcan su tamaÒo, retir·ndoles el cÛdigo de las tareas comunes con otros dispositivos.
-	Los drivers disponen de una interfaz modular y uniforme, de forma que el gestor de entrada salida puede tratarlos sin necesidad de tener ning˙n conocimiento acerca de como procesa las peticiones. De esta forma, el driver solo tiene que encargarse de traducir una peticiÛn genÈrica a una peticiÛn especifica del hardware que lo gestiona. Es posible que los drivers se llamen unos a otros para resolver la gestiÛn de la peticiÛn en curso.
-	Una operaciÛn tÌpica de entrada/salida, es tratada por el gestor de entrada/salida, uno o dos dispositivos, y el nivel de abstracciÛn de hardware. El sistema operativo, enmascara los dispositivos, de forma que el espacio de usuario dispondr· de las operaciones normales en un fichero cualquiera.
+	Este subsistema sirve de infraestructura para recoger peticiones de entrada/salida, en forma de paquetes llamados IRP(I/O Request Packet). Su dise√±o permite que un hilo de procesamiento se encargue de multiples peticiones concurrentemente. El IRP contiene la informaci√≥n necesaria para describir la petici√≥n. El gestor de entrada/salida enviar√° un puntero a la direcci√≥n de memoria de la petici√≥n al driver correspondiente, donde ser√° procesada. Este mismo puntero se utilizar para recuperar la informaci√≥n de la petici√≥n., cuando el driver notifique que la operaci√≥n ha concluido.
+	Por otro lado este subsistema ofrece un c√≥digo com√∫n para todos los dispositivos, permitiendo que los drivers reduzcan su tama√±o, retir√°ndoles el c√≥digo de las tareas comunes con otros dispositivos.
+	Los drivers disponen de una interfaz modular y uniforme, de forma que el gestor de entrada salida puede tratarlos sin necesidad de tener ning√∫n conocimiento acerca de como procesa las peticiones. De esta forma, el driver solo tiene que encargarse de traducir una petici√≥n gen√©rica a una petici√≥n especifica del hardware que lo gestiona. Es posible que los drivers se llamen unos a otros para resolver la gesti√≥n de la petici√≥n en curso.
+	Una operaci√≥n t√≠pica de entrada/salida, es tratada por el gestor de entrada/salida, uno o dos dispositivos, y el nivel de abstracci√≥n de hardware. El sistema operativo, enmascara los dispositivos, de forma que el espacio de usuario dispondr√° de las operaciones normales en un fichero cualquiera.
 
 7.5.2. Drivers de dispositivos.
-	Atendiendo a la clasificaciÛn de si se trata de un driver en espacio de usuario o en espacio de n˙cleo, podemos constatar que en el espacio de usuario se disponen de tres tipos: Drivers de Dispositivos Virtuales(VDDs), drivers de impresoras, y drivers de la infraestructura de drivers en espacio de usuario.
+	Atendiendo a la clasificaci√≥n de si se trata de un driver en espacio de usuario o en espacio de n√∫cleo, podemos constatar que en el espacio de usuario se disponen de tres tipos: Drivers de Dispositivos Virtuales(VDDs), drivers de impresoras, y drivers de la infraestructura de drivers en espacio de usuario.
 	Los drivers de dispositivos virtuales se mantienen por compatibilidad con MS-DOS, ya que emulan aplicaciones de 16 bits, capturando sus llamadas a dispositivos y traduciendolas a los dispositivos reales.
-	Los drivers de impresoras traducen las peticiones de dispositivos de gr·ficos genÈricos a comandos de impresiÛn.
-	Los drivers de la infraestructura de drivers en espacio de usuario son drivers de dispositivos que no requieren ejecuciÛn en espacio del n˙cleo, y que, en caso de necesitar algo, les es suficiente con comunicarse a travÈs de las llamadas a procesos locales avanzados de Windows.
-	En el espacio del nucleo, podemos se dispone de los drivers de sistemas de ficheros, que recogen las peticiones y las envian al dispositivo de bloques, o interfaz de red correspondiente, los drivers de dispositivos Plug and Play(PnP), entre los que se incluyen drivers de dispositivos de almacenamiento masivo, adaptadores de video, dispositivos de en entrada e interfaces de red, y drivers de dispositivos no Plug and Play, que conforman extensiones del n˙cleo, o nuevas funcionalidades para otros drivers.
+	Los drivers de impresoras traducen las peticiones de dispositivos de gr√°ficos gen√©ricos a comandos de impresi√≥n.
+	Los drivers de la infraestructura de drivers en espacio de usuario son drivers de dispositivos que no requieren ejecuci√≥n en espacio del n√∫cleo, y que, en caso de necesitar algo, les es suficiente con comunicarse a trav√©s de las llamadas a procesos locales avanzados de Windows.
+	En el espacio del nucleo, podemos se dispone de los drivers de sistemas de ficheros, que recogen las peticiones y las envian al dispositivo de bloques, o interfaz de red correspondiente, los drivers de dispositivos Plug and Play(PnP), entre los que se incluyen drivers de dispositivos de almacenamiento masivo, adaptadores de video, dispositivos de en entrada e interfaces de red, y drivers de dispositivos no Plug and Play, que conforman extensiones del n√∫cleo, o nuevas funcionalidades para otros drivers.
 	Por otro lado, se encuentran los drivers pertenecientes al modelo de drivers de Windows(Windows Driver Model). Entre estos encontramos los drivers de bus, los drivers de funcionalidad, y los drivers de filtro comentados anteriormente.
 	Puesto que un driver puede ser dividido en distintos niveles, es posible clasificarlos en otros tres tipos distintos, de clase, de puertos o de minipuertos.
 	Los dispositivos de clase implementan drivers para una clase en particular de driver(drivers de discos, de cintas, de CR-ROM...).
-	Los dispositivos de puertos procesan peticiones para enviarlas por un tipo especÌfico de puerto, como un puerto SCSI, COM, USB. Estos se implementan como librerÌas del n˙cleo, ya que son drivers escritos por Microsoft con el sistema operativo.
-	Los drivers de minipuertos traducen una peticiÛn genÈrica a un peticiÛn de un puerto concreto, siendo drivers para un dispositivo que importan las funciones de un dispositivo de puerto.
-	Si una peticiÛn debiera ser atendida por un driver con diferentes niveles, el gestor de entrada/salida recogerÌa la peticiÛn del espacio de usuario, la traducirÌa a una peticiÛn para el driver que conforme el primer nivel, con su respuesta, generarÌa una nueva peticiÛn para el siguiente nivel, y seguirÌa generando posteriores peticiones sucesivamente hasta llegar a la ˙ltima. Una vez respondida la ˙ltima peticiÛn, se devolverÌa la respuesta al espacio de usuario, conformando una cola de peticiones por nivel.
+	Los dispositivos de puertos procesan peticiones para enviarlas por un tipo espec√≠fico de puerto, como un puerto SCSI, COM, USB. Estos se implementan como librer√≠as del n√∫cleo, ya que son drivers escritos por Microsoft con el sistema operativo.
+	Los drivers de minipuertos traducen una petici√≥n gen√©rica a un petici√≥n de un puerto concreto, siendo drivers para un dispositivo que importan las funciones de un dispositivo de puerto.
+	Si una petici√≥n debiera ser atendida por un driver con diferentes niveles, el gestor de entrada/salida recoger√≠a la petici√≥n del espacio de usuario, la traducir√≠a a una petici√≥n para el driver que conforme el primer nivel, con su respuesta, generar√≠a una nueva petici√≥n para el siguiente nivel, y seguir√≠a generando posteriores peticiones sucesivamente hasta llegar a la √∫ltima. Una vez respondida la √∫ltima petici√≥n, se devolver√≠a la respuesta al espacio de usuario, conformando una cola de peticiones por nivel.
 
 7.5.3. Estructura de un driver.
-	Dentro de un driver se encuentran una serie de funciones que resuelven las diversas tareas que requiere el sistema operativo para ofrecer el resultado de las operaciones al espacio de usuario. Pueden dividirse en dos subgrupos, las funciones principales, que se encuentran en todo driver, y las funciones auxiliares, que seg˙n las infraestructuras que requiera el driver, aparecer·n, o no lo har·n.
-	Dentro de las rutinas principales, o imprescindibles tenemos las rutinas de inicializaciÛn del driver(DriverEntry) que se utilizan recien cargado el driver en memoria principal, e inicializa las estructuras principales del driver.
-	Para el buen funcionamiento de la infraestructura PnP se incluye una rutina de aÒadido de dispositivo(add-device routine) que recibe la notificaciÛn del gestor PnP y aloja el objeto del dispositivo descubierto en el n˙cleo.
-	Es posible encontrar una serie de rutinas dentro del driver que conforman las operaciones que puede realizar el usuario sobre el dispositivo. Las principales suelen ser las rutinas de apertura, cierre, lectura y escritura, aunque pueden existir otras en funciÛn de las operaciones que ofrezca el dispositivo.
-	Si el driver se sirve de las colas de gestiÛn proveidas por gestor de entrada/salida, definir· una operaciÛn start que iniciar· la transferencia de peticiones. El gestor de entrada/salida se encargar· entonces de serializar las peticiones y enviarlas una a una al dispositivo.
-	Por ˙ltimo se definen dos funciones relacionadas con el uso de interrupciones, la rutina de servicio de interrupciÛn(ISR), y la rutina de resoluciÛn para el servicio de interrupciÛn.  La primera completar· las labores mÌnimas de procesado, pues su ejecuciÛn debe ser lo m·s r·pida posible. Habitualmente encola la peticiÛn, para que sea procesado posteriormente en la rutina de proceso del servicio de interrupciÛn.
-	El resto de rutinas que detallamos a continuaciÛn, pertenecen al segundo grupo antes comentado, es decir, estas rutinas aparecen en funciÛn de ciertas condiciones que debe cumplir el driver, y de no cumplirse no existe la necesidad de implementarla.
-	Si el driver dispone de diferentes niveles encontraremos en este al menos una, aunque pueden ser varias, rutinas de finalizaciÛn. Estas rutinas avisan a los niveles superiores de la resoluciÛn de la operaciÛn en niveles inferiores, y del estado de esta(correcta, incorrecta, cancelada).
-	El driver puede ofrecer una o varias rutinas de cancelaciÛn. Si la peticiÛn puede ser cancelada, esta incluir· la rutina que debe ejecutarse en caso de recibir una peticiÛn de cancelaciÛn. Esta rutina realizar· labores de limpieza para que el driver pase a un estado consistente para procesar nuevas peticiones.
-	Si el driver est· preparado para comunicarse con el gestor de cache, debe implementar una rutina de resoluciÛn r·pida. Esta rutina pemitir· resolver la peticiÛn a travÈs de la cache del sistema, evitando realizar nuevas operaciones de entrada salida.
-	Es posible, pero no necesario, que el driver disponga de una rutina de descarga, para realizar las labores de liberaciÛn de memoria y recursos que este utilizara durante su ejecuciÛn. Adem·s, es posible que definir una rutina, aparte, para la limpieza de las infraestructuras en el apagado del sistema.
-	Por ˙ltimo, puede definirse una rutina de registro de errores.
+	Dentro de un driver se encuentran una serie de funciones que resuelven las diversas tareas que requiere el sistema operativo para ofrecer el resultado de las operaciones al espacio de usuario. Pueden dividirse en dos subgrupos, las funciones principales, que se encuentran en todo driver, y las funciones auxiliares, que seg√∫n las infraestructuras que requiera el driver, aparecer√°n, o no lo har√°n.
+	Dentro de las rutinas principales, o imprescindibles tenemos las rutinas de inicializaci√≥n del driver(DriverEntry) que se utilizan recien cargado el driver en memoria principal, e inicializa las estructuras principales del driver.
+	Para el buen funcionamiento de la infraestructura PnP se incluye una rutina de a√±adido de dispositivo(add-device routine) que recibe la notificaci√≥n del gestor PnP y aloja el objeto del dispositivo descubierto en el n√∫cleo.
+	Es posible encontrar una serie de rutinas dentro del driver que conforman las operaciones que puede realizar el usuario sobre el dispositivo. Las principales suelen ser las rutinas de apertura, cierre, lectura y escritura, aunque pueden existir otras en funci√≥n de las operaciones que ofrezca el dispositivo.
+	Si el driver se sirve de las colas de gesti√≥n proveidas por gestor de entrada/salida, definir√° una operaci√≥n start que iniciar√° la transferencia de peticiones. El gestor de entrada/salida se encargar√° entonces de serializar las peticiones y enviarlas una a una al dispositivo.
+	Por √∫ltimo se definen dos funciones relacionadas con el uso de interrupciones, la rutina de servicio de interrupci√≥n(ISR), y la rutina de resoluci√≥n para el servicio de interrupci√≥n.  La primera completar√° las labores m√≠nimas de procesado, pues su ejecuci√≥n debe ser lo m√°s r√°pida posible. Habitualmente encola la petici√≥n, para que sea procesado posteriormente en la rutina de proceso del servicio de interrupci√≥n.
+	El resto de rutinas que detallamos a continuaci√≥n, pertenecen al segundo grupo antes comentado, es decir, estas rutinas aparecen en funci√≥n de ciertas condiciones que debe cumplir el driver, y de no cumplirse no existe la necesidad de implementarla.
+	Si el driver dispone de diferentes niveles encontraremos en este al menos una, aunque pueden ser varias, rutinas de finalizaci√≥n. Estas rutinas avisan a los niveles superiores de la resoluci√≥n de la operaci√≥n en niveles inferiores, y del estado de esta(correcta, incorrecta, cancelada).
+	El driver puede ofrecer una o varias rutinas de cancelaci√≥n. Si la petici√≥n puede ser cancelada, esta incluir√° la rutina que debe ejecutarse en caso de recibir una petici√≥n de cancelaci√≥n. Esta rutina realizar√° labores de limpieza para que el driver pase a un estado consistente para procesar nuevas peticiones.
+	Si el driver est√° preparado para comunicarse con el gestor de cache, debe implementar una rutina de resoluci√≥n r√°pida. Esta rutina pemitir√° resolver la petici√≥n a trav√©s de la cache del sistema, evitando realizar nuevas operaciones de entrada salida.
+	Es posible, pero no necesario, que el driver disponga de una rutina de descarga, para realizar las labores de liberaci√≥n de memoria y recursos que este utilizara durante su ejecuci√≥n. Adem√°s, es posible que definir una rutina, aparte, para la limpieza de las infraestructuras en el apagado del sistema.
+	Por √∫ltimo, puede definirse una rutina de registro de errores.
 
 7.5.4. Objetos de drivers y objetos de dispositivos.
-	El gestor de entrada/salida se comunica con dos tipos de objetos que le ofrecen las operaciones disponibles y cualquier informaciÛn que requiera saber para llevarla a cabo. Estos son los objetos de driver, y de dipositivo. Los objetos de drivers representan el driver que puede manejar los distintos dispositivos conectados al sistema, y los de dispositivo, los dispositivos, fÌsicos o lÛgicos que pueden ser gobernados por dicho driver.
-	Cuando el driver es cargado en memoria, el objeto de driver es creado. Inmediatamente despuÈs se llamar· a la rutina de inicializaciÛn. A partir de entonces es posible crear objetos de dispositivo gobernados por dicho driver. Para ello se utilizan las operaciones IoCreateDevice e IoCreateDeviceSecure, aunque habitualmente los dispositivos utilizar·n la rutina add-device y la infraestructura Plug and Play.
-	Al crearse el dispositivo, es posible asignarle un nombre que ser· almacenado en el gestor del espacio de nombres de objetos, el cual es inaccesible directamente desde el espacio de usuario. Para que sea accesible, debe hacerse un enlace desde el directorio \Global hacia el directorio \Device, del espacio de nombres, donde el nombre del objeto realmente se encuentra. Para exportar las interfaces  se utiliza la funciÛn IoRegisterDeviceInterface, y para habilitarla, se utiliza IoSetDeviceInterfaceState. Desde ese momento, el usuario puede utilizar la infraestructura PnP para utilizar la interfaz.
+	El gestor de entrada/salida se comunica con dos tipos de objetos que le ofrecen las operaciones disponibles y cualquier informaci√≥n que requiera saber para llevarla a cabo. Estos son los objetos de driver, y de dipositivo. Los objetos de drivers representan el driver que puede manejar los distintos dispositivos conectados al sistema, y los de dispositivo, los dispositivos, f√≠sicos o l√≥gicos que pueden ser gobernados por dicho driver.
+	Cuando el driver es cargado en memoria, el objeto de driver es creado. Inmediatamente despu√©s se llamar√° a la rutina de inicializaci√≥n. A partir de entonces es posible crear objetos de dispositivo gobernados por dicho driver. Para ello se utilizan las operaciones IoCreateDevice e IoCreateDeviceSecure, aunque habitualmente los dispositivos utilizar√°n la rutina add-device y la infraestructura Plug and Play.
+	Al crearse el dispositivo, es posible asignarle un nombre que ser√° almacenado en el gestor del espacio de nombres de objetos, el cual es inaccesible directamente desde el espacio de usuario. Para que sea accesible, debe hacerse un enlace desde el directorio \Global hacia el directorio \Device, del espacio de nombres, donde el nombre del objeto realmente se encuentra. Para exportar las interfaces  se utiliza la funci√≥n IoRegisterDeviceInterface, y para habilitarla, se utiliza IoSetDeviceInterfaceState. Desde ese momento, el usuario puede utilizar la infraestructura PnP para utilizar la interfaz.
 	Con esta infraestructura, un objeto driver es asociado con los distintos objetos dispositivos. De esta forma, el gestor de entrada/salida no requiere conocer los detalles de un dispositivo concreto.
 
 7.5.5. Estructuras de ficheros.
-	Las estructuras de ficheros cumplen los requisitos de diseÒo de los objetos en Windows(son recursos compartidos, pueden tener nombre, deben estar protegidos y soportan sincronizaciÛn). Su ˙nica diferencia, es que los objetos compartidos suelen estar alojados en memoria, y en los ficheros, se encuentran en un dispositivo fÌsico. Su representaciÛn se compone de los siguientes atributos:
+	Las estructuras de ficheros cumplen los requisitos de dise√±o de los objetos en Windows(son recursos compartidos, pueden tener nombre, deben estar protegidos y soportan sincronizaci√≥n). Su √∫nica diferencia, es que los objetos compartidos suelen estar alojados en memoria, y en los ficheros, se encuentran en un dispositivo f√≠sico. Su representaci√≥n se compone de los siguientes atributos:
 Nombre de fichero.
 Desplazamiento del byte actual(respecto al comienzo del fichero).
-Modo de comparticiÛn.
+Modo de compartici√≥n.
 Banderas de modo de apertura.
 Puntero al objeto de dispositivo.
-Puntero a la particiÛn.
-Puntero a la secciÛn de punteros de objetos.
+Puntero a la partici√≥n.
+Puntero a la secci√≥n de punteros de objetos.
 Puntero al mapa privado de cache.
-Lista de paquetes de peticiÛn de entrada/salida.
-Contexto de finalizaciÛn de entrada/salida: de existir, comunica el estado de finalizaciÛn de la peticiÛn en curso sobre el puerto
-Extensiones del objeto de fichero: almacena la prioridad, si requiere chequeos de seguridad, y si contiene extensiones que almacenan informaciÛn de contexto.
+Lista de paquetes de petici√≥n de entrada/salida.
+Contexto de finalizaci√≥n de entrada/salida: de existir, comunica el estado de finalizaci√≥n de la petici√≥n en curso sobre el puerto
+Extensiones del objeto de fichero: almacena la prioridad, si requiere chequeos de seguridad, y si contiene extensiones que almacenan informaci√≥n de contexto.
 
-	El nombre y el desplazamiento se utilizar·n para posicionarse en la lectura secuencial del fichero. El modo de comparticiÛn y las banderas de modo de apertura controlan la seguridad de los accesos. El puntero al dispositivo, a la particiÛn, y a la secciÛn de punteros de objetos identifican el dispositivo fÌsico que aloja el fichero, el mapa de cache y la lista de IRPs para procesar las peticiones. Las extensiones del objeto de fichero pueden ser las siguientes:
+	El nombre y el desplazamiento se utilizar√°n para posicionarse en la lectura secuencial del fichero. El modo de compartici√≥n y las banderas de modo de apertura controlan la seguridad de los accesos. El puntero al dispositivo, a la partici√≥n, y a la secci√≥n de punteros de objetos identifican el dispositivo f√≠sico que aloja el fichero, el mapa de cache y la lista de IRPs para procesar las peticiones. Las extensiones del objeto de fichero pueden ser las siguientes:
 
-Par·metros de transacciÛn.
+Par√°metros de transacci√≥n.
 Detalles del objeto de dispositivo: Identifica el driver de filtro adecuado.
-Estatus de bloqueo de rango de entrada/salida: permite al espacio de usuario bloquear buffers en el espacio del n˙cleo optimizando las operaciones asÌncronas.
-GenÈrica: almacena informaciÛn especÌfica para el driver de filtro.
+Estatus de bloqueo de rango de entrada/salida: permite al espacio de usuario bloquear buffers en el espacio del n√∫cleo optimizando las operaciones as√≠ncronas.
+Gen√©rica: almacena informaci√≥n espec√≠fica para el driver de filtro.
 Entrada/salida programada del fichero: almacena la reserva de ancho de banda del dispositivo para garantizar el buen funcionamiento de aplicaciones multimedia.
-Enlaces simbÛlicos: informaciÛn para resolver enlaces simbÛlicos.
+Enlaces simb√≥licos: informaci√≥n para resolver enlaces simb√≥licos.
 
-	Cuando el espacio de usuario pide al n˙cleo la apertura de un fichero, el gestor de entrada/salida se comunica con el subsistema adecuado(en este caso, el gestor de objetos), para que este, con ayuda del n˙cleo genere un manejador para el fichero. El gestor de entrada/salida, enviar· posteriormente este manejador ala aplicaciÛn que la solicitÛ. Durante este proceso, cualquier chequeo de seguridad debe ser resuelto por el gestor de entrada/salida.
-	El objeto de fichero es alojado en memoria y es una representaciÛn de un recurso compartido, no el recurso en sÌ. Esta representaciÛn almacena los datos necesarios para utilizar el fichero, mientras que el fichero almacena los datos a utilizar. Por otro lado, el manejador debe ser ˙nico para un proceso, mientras que el fichero no tiene por que serlo(p.e. Varios procesos utilizan el mismo fichero). En caso de escrituras, se evitan los problemas de concurrencia utilizando la funciÛn de Windows LockFile.
-	Cuando el fichero se abre, se incluye en el espacio de nombres bajo el directorio "\Device\HarddiskVolumeN", que representa el directorio de la particiÛn abierta, de la que se recibe el fichero. Para que sea compartido directamente con el espacio de usuario, es necesario hacer un enlace simbÛlico en el directorio "\Global".
+	Cuando el espacio de usuario pide al n√∫cleo la apertura de un fichero, el gestor de entrada/salida se comunica con el subsistema adecuado(en este caso, el gestor de objetos), para que este, con ayuda del n√∫cleo genere un manejador para el fichero. El gestor de entrada/salida, enviar√° posteriormente este manejador ala aplicaci√≥n que la solicit√≥. Durante este proceso, cualquier chequeo de seguridad debe ser resuelto por el gestor de entrada/salida.
+	El objeto de fichero es alojado en memoria y es una representaci√≥n de un recurso compartido, no el recurso en s√≠. Esta representaci√≥n almacena los datos necesarios para utilizar el fichero, mientras que el fichero almacena los datos a utilizar. Por otro lado, el manejador debe ser √∫nico para un proceso, mientras que el fichero no tiene por que serlo(p.e. Varios procesos utilizan el mismo fichero). En caso de escrituras, se evitan los problemas de concurrencia utilizando la funci√≥n de Windows LockFile.
+	Cuando el fichero se abre, se incluye en el espacio de nombres bajo el directorio ‚Äú\Device\HarddiskVolumeN‚Äù, que representa el directorio de la partici√≥n abierta, de la que se recibe el fichero. Para que sea compartido directamente con el espacio de usuario, es necesario hacer un enlace simb√≥lico en el directorio ‚Äú\Global‚Äù.
 
 7.5.6. Paquetes de peticiones de entrada/salida.
-	Las IRPs son las estructuras que Windows utiliza para almacenar la informaciÛn requerida para realizar una operaciÛn sobre un dispositivo. Si un hilo utiliza un servicio de entrada/salida, el gestor de entrada salida generar· el IRP correspondiente a la operaciÛn solicitada. El sistema gestiona las peticiones utilizando dos colas y una pila, una cola corta para las operaciones que solo utilizen una posiciÛn en la pila, y una cola larga para las que utilizen m˙ltiples posiciones en la pila. Para mejorar la gestiÛn de operaciones entre varios procesadores, se aÒade una lista global adem·s de las anteriores.
-	Por defecto un IRP utiliza 10 posiciones en la pila de IRPs, y, por tanto, se aloja en la lista larga de IRPs. Una vez por minuto, el sistema ajusta cuantas posiciones de la pila requiere, llegando a permitir un m·ximo de 20 posiciones. Despues de su alojamiento e inicializaciÛn, el gestor de entrada/salida almacena un puntero al solicitante del servicio en el IRP.
-	Dentro de un IRP se diferencian dos partes, una cabecera fija y una o varias posiciones en la pila. La informaciÛn del tipo de operaciÛn se almacena en la cabecera, mientras que en las posiciones de la pila se almacena cÛdigo de una funciÛn(llamada funciÛn mayor), sus par·metros, y el solicitante del objeto fichero. La funciÛn mayor indica que rutina de resoluciÛn del driver debe ser llamada por el gestor de entrada/salida cuando el paquete se envie al driver. Opcionalmente, puede almacenarse una funciÛn(llamada menor) para que modifique el comportamiento de la funciÛn mayor(aÒadiendo funcionalidades, comunicando con otros subsistemas, etc).
-	Habitualmente se ofrecer rutinas de resoluciÛn para las operaciones m·s habituales(apertura, cierre, lectura, escritura, control de entrada/salida, Plug and Play y alguna rutina para WMI).
+	Las IRPs son las estructuras que Windows utiliza para almacenar la informaci√≥n requerida para realizar una operaci√≥n sobre un dispositivo. Si un hilo utiliza un servicio de entrada/salida, el gestor de entrada salida generar√° el IRP correspondiente a la operaci√≥n solicitada. El sistema gestiona las peticiones utilizando dos colas y una pila, una cola corta para las operaciones que solo utilizen una posici√≥n en la pila, y una cola larga para las que utilizen m√∫ltiples posiciones en la pila. Para mejorar la gesti√≥n de operaciones entre varios procesadores, se a√±ade una lista global adem√°s de las anteriores.
+	Por defecto un IRP utiliza 10 posiciones en la pila de IRPs, y, por tanto, se aloja en la lista larga de IRPs. Una vez por minuto, el sistema ajusta cuantas posiciones de la pila requiere, llegando a permitir un m√°ximo de 20 posiciones. Despues de su alojamiento e inicializaci√≥n, el gestor de entrada/salida almacena un puntero al solicitante del servicio en el IRP.
+	Dentro de un IRP se diferencian dos partes, una cabecera fija y una o varias posiciones en la pila. La informaci√≥n del tipo de operaci√≥n se almacena en la cabecera, mientras que en las posiciones de la pila se almacena c√≥digo de una funci√≥n(llamada funci√≥n mayor), sus par√°metros, y el solicitante del objeto fichero. La funci√≥n mayor indica que rutina de resoluci√≥n del driver debe ser llamada por el gestor de entrada/salida cuando el paquete se envie al driver. Opcionalmente, puede almacenarse una funci√≥n(llamada menor) para que modifique el comportamiento de la funci√≥n mayor(a√±adiendo funcionalidades, comunicando con otros subsistemas, etc).
+	Habitualmente se ofrecer rutinas de resoluci√≥n para las operaciones m√°s habituales(apertura, cierre, lectura, escritura, control de entrada/salida, Plug and Play y alguna rutina para WMI).
 	Una vez almacenado el IRP en la lista correspondiente, el sistema es capaz de encontrarlo y cancelarlo en caso de descontrol.
-	La creaciÛn de un IRP se realiza utilizando los servicios NtReadFile, NtWriteFile, o NtDeviceIoControlFile. El gestor de entrada/salida decide si debe participar en la gestiÛn de los buffers de almacenamiento requeridos por la operaciÛn. Puede actuar de tres formas. La primera de ellas serÌa almacenar un buffer del mismo tamaÒo que el que ofrece la aplicaciÛn que solicita el servicio. En caso de escritura, copia el buffer a su almacenamiento privado, y en el caso de lectura copia la informaciÛn de su buffer al espacio de usuario.
-	Otra opciÛn es realizar entrada/salida directa, bloqueando el buffer en espacio de usuario para que no pueda ser escrito, y desbloqueandolo cuando se finalice la operaciÛn.
-	Por ˙ltimo el gestor puede sencillamente no ejercer ninguna gestiÛn de almacenamiento. En este caso, debe ser el driver quien se encargue de estas labores.
-	En cualquier caso, el gestor de entrada/salida inicializar· las referencias adecuadas para localizar el almacenamiento. El tipo de gestiÛn utilizado es seleccionado en funciÛn de lo que solicite el driver, el cual registra el tipo deseado para la lectura y escritura, mientras que para el control se almacena en un cÛdigo de control especÌfico.
-	Usualmente, para transferencias menores que una p·gina de memoria(4KB) se utiliza la entrada/salida a travÈs de buffers, y para transferencias mayores la entrada/salida directa. Es poco com˙n utilizar la gestiÛn de almacenamiento desde el driver por la posibilidad de que se pierda la referencia al solicitante. Su uso de reduce entonces a drivers en espacio de usuario que garantizan que las referencias son v·lidas, y pertenecientes al espacio de usuario
+	La creaci√≥n de un IRP se realiza utilizando los servicios NtReadFile, NtWriteFile, o NtDeviceIoControlFile. El gestor de entrada/salida decide si debe participar en la gesti√≥n de los buffers de almacenamiento requeridos por la operaci√≥n. Puede actuar de tres formas. La primera de ellas ser√≠a almacenar un buffer del mismo tama√±o que el que ofrece la aplicaci√≥n que solicita el servicio. En caso de escritura, copia el buffer a su almacenamiento privado, y en el caso de lectura copia la informaci√≥n de su buffer al espacio de usuario.
+	Otra opci√≥n es realizar entrada/salida directa, bloqueando el buffer en espacio de usuario para que no pueda ser escrito, y desbloqueandolo cuando se finalice la operaci√≥n.
+	Por √∫ltimo el gestor puede sencillamente no ejercer ninguna gesti√≥n de almacenamiento. En este caso, debe ser el driver quien se encargue de estas labores.
+	En cualquier caso, el gestor de entrada/salida inicializar√° las referencias adecuadas para localizar el almacenamiento. El tipo de gesti√≥n utilizado es seleccionado en funci√≥n de lo que solicite el driver, el cual registra el tipo deseado para la lectura y escritura, mientras que para el control se almacena en un c√≥digo de control espec√≠fico.
+	Usualmente, para transferencias menores que una p√°gina de memoria(4KB) se utiliza la entrada/salida a trav√©s de buffers, y para transferencias mayores la entrada/salida directa. Es poco com√∫n utilizar la gesti√≥n de almacenamiento desde el driver por la posibilidad de que se pierda la referencia al solicitante. Su uso de reduce entonces a drivers en espacio de usuario que garantizan que las referencias son v√°lidas, y pertenecientes al espacio de usuario
 
-7.5.7. PeticiÛn en drivers de una sola capa.
+7.5.7. Petici√≥n en drivers de una sola capa.
 	Este proceso conlleva siete pasos:
 
-EnvÌo de la peticiÛn a travÈs del subsistema de DLLs.
+Env√≠o de la petici√≥n a trav√©s del subsistema de DLLs.
 El subsistema de DLLs solicita el servicio NtWriteFile.
 El gestor de entrada/salida crea el IRP correspondiente y lo envia al driver haciendo uso de IoCallDriver.
-El driver transmite el IRP al dispositivo y comienza la operaciÛn de entrada/salida.
-El dispositivo notifica la finalizaciÛn del servicio mediante una interrupciÛn.
-El driver sirve la interrupciÛn.
+El driver transmite el IRP al dispositivo y comienza la operaci√≥n de entrada/salida.
+El dispositivo notifica la finalizaci√≥n del servicio mediante una interrupci√≥n.
+El driver sirve la interrupci√≥n.
 El driver llama al servicio IoCompleteRequest.
 
-	Las interrupciones se sirven en dos partes diferenciadas. Una vez ocurrida, el gestor de interrupciÛn reconoce el estado y  razÛn de la interrupciÛn para encolarlo en una cola de resoluciÛn, donde se gestionar· su finalizaciÛn en un segundo plano, permitiendo que sucedan nuevas interrupciones r·pidamente.
-	La rutina de finalizaciÛn se encarga de copiar la informaciÛn pertinente hacia el espacio de usuario, y limpiar las estructuras requeridas para gestionar una nueva peticiÛn.
-	Debe cuidarse la sincronizaciÛn al acceder al driver, debido a que el sistema permite que un hilo de mayor prioridad expulse a uno de menor prioridad de su ejecuciÛn, que se atienda una interrupciÛn durante esta, o que se ejecute el mismo cÛdigo en otro procesador de la misma m·quina. De esta forma, la informaciÛn compartida por el driver debe ser consistente para cualquier ejecuciÛn en curso.
+	Las interrupciones se sirven en dos partes diferenciadas. Una vez ocurrida, el gestor de interrupci√≥n reconoce el estado y  raz√≥n de la interrupci√≥n para encolarlo en una cola de resoluci√≥n, donde se gestionar√° su finalizaci√≥n en un segundo plano, permitiendo que sucedan nuevas interrupciones r√°pidamente.
+	La rutina de finalizaci√≥n se encarga de copiar la informaci√≥n pertinente hacia el espacio de usuario, y limpiar las estructuras requeridas para gestionar una nueva petici√≥n.
+	Debe cuidarse la sincronizaci√≥n al acceder al driver, debido a que el sistema permite que un hilo de mayor prioridad expulse a uno de menor prioridad de su ejecuci√≥n, que se atienda una interrupci√≥n durante esta, o que se ejecute el mismo c√≥digo en otro procesador de la misma m√°quina. De esta forma, la informaci√≥n compartida por el driver debe ser consistente para cualquier ejecuci√≥n en curso.
 
-7.5.8. PeticiÛn en drivers de m˙ltiples capas.
-	En este ocasiÛn, el gestor de entrada salida, al igual que en el caso anterior genera un IRP que se pasar· al driver del sistema de ficheros. Dependiendo de la peticiÛn, el driver la reenvia al driver del dispositivo en cuestiÛn, o genera IRPs adicionales para enviarlas por separado al driver. Solo se reutiliza un IRP en caso de que se traduzca en una sola peticiÛn al dispositivo.
-	Como alternativa a reutilizar una peticiÛn, el sistema de ficheros puede generar un grupo de IRPs asociados que trabajen en paralelo para atender una sola peticiÛn. Este grupo es transmitido al gestor de volumenes, que lo enviar· posteriormente al driver del dispositivo.
+7.5.8. Petici√≥n en drivers de m√∫ltiples capas.
+	En este ocasi√≥n, el gestor de entrada salida, al igual que en el caso anterior genera un IRP que se pasar√° al driver del sistema de ficheros. Dependiendo de la petici√≥n, el driver la reenvia al driver del dispositivo en cuesti√≥n, o genera IRPs adicionales para enviarlas por separado al driver. Solo se reutiliza un IRP en caso de que se traduzca en una sola petici√≥n al dispositivo.
+	Como alternativa a reutilizar una petici√≥n, el sistema de ficheros puede generar un grupo de IRPs asociados que trabajen en paralelo para atender una sola petici√≥n. Este grupo es transmitido al gestor de volumenes, que lo enviar√° posteriormente al driver del dispositivo.
 
-7.5.9. Infraestructura de drivers en espacio del n˙cleo(KMDF).
-	El modelo de drivers en espacio de n˙cleo no es muy distinto del modelo de drivers WDM. Esto implica que en su interior disponen de las funciones de inicializaciÛn, la rutina de aÒadido de dispositivo al sistema, y una o m·s rutinas de eventos, que funcionan como las rutinas de resoluciÛn de lo drivers pertenecientes a WDM. Generalmente, estas ˙ltimas, crean y gestionan colas de peticiones para la entrada/salida. El driver no tiene la obligaciÛn de implementar estas rutinas, puesto que existen rutinas genÈricas proveÌdas por el sistema operativo. En el caso de implementarlas, la rutina debe ser registrada por el sistema operativo para que pueda ser utilizada.
-	El modelo de datos de KMDF, es orientado a objetos. Estos objetos se encapsulan internamente, permitiendo solo la interactuaciÛn con ellos a travÈs de una interfaz de manejadores. La infraestructura ofrece rutinas para la creaciÛn de estos objetos, recuperaciÛn de valores, y actualizaciÛn de estos(WdfDeviceCreate, Get/Set, Assign/Retrieve).
-	Los objetos de drivers pertenecen a una jerarquÌa, donde el objeto raÌz es el objeto WDFDRIVER, que describe el driver actual, y que es an·loga al driver de objeto ofrecido por el gestor de entrada/salida. Todo objeto generado por KMDF para este driver ser· un hijo de este dentro de la jerarquÌa. Dentro de la jerarquÌa podemos destacar los siguientes objetos:
+7.5.9. Infraestructura de drivers en espacio del n√∫cleo(KMDF).
+	El modelo de drivers en espacio de n√∫cleo no es muy distinto del modelo de drivers WDM. Esto implica que en su interior disponen de las funciones de inicializaci√≥n, la rutina de a√±adido de dispositivo al sistema, y una o m√°s rutinas de eventos, que funcionan como las rutinas de resoluci√≥n de lo drivers pertenecientes a WDM. Generalmente, estas √∫ltimas, crean y gestionan colas de peticiones para la entrada/salida. El driver no tiene la obligaci√≥n de implementar estas rutinas, puesto que existen rutinas gen√©ricas prove√≠das por el sistema operativo. En el caso de implementarlas, la rutina debe ser registrada por el sistema operativo para que pueda ser utilizada.
+	El modelo de datos de KMDF, es orientado a objetos. Estos objetos se encapsulan internamente, permitiendo solo la interactuaci√≥n con ellos a trav√©s de una interfaz de manejadores. La infraestructura ofrece rutinas para la creaci√≥n de estos objetos, recuperaci√≥n de valores, y actualizaci√≥n de estos(WdfDeviceCreate, Get/Set, Assign/Retrieve).
+	Los objetos de drivers pertenecen a una jerarqu√≠a, donde el objeto ra√≠z es el objeto WDFDRIVER, que describe el driver actual, y que es an√°loga al driver de objeto ofrecido por el gestor de entrada/salida. Todo objeto generado por KMDF para este driver ser√° un hijo de este dentro de la jerarqu√≠a. Dentro de la jerarqu√≠a podemos destacar los siguientes objetos:
 
-WDFDRIVER: Objeto raÌz de la jerarquÌa.
-WDFREQUEST: Objeto auxiliar de peticiÛn.
+WDFDRIVER: Objeto ra√≠z de la jerarqu√≠a.
+WDFREQUEST: Objeto auxiliar de petici√≥n.
 WDFIORESREQLIST: Lista de objetos de rangos de direcciones para la entrada/salida(Resource Requirements).
 WDFIORESLIST: Identifica un rango de direcciones para el dispositivo.
 WDFDEVICE: Objeto del dispositivo.
 WDFCHILDLIST: Lista de objetos hijos del dispositivo asociado.
 WDFFILEOBJECT: Objeto fichero.
-WDFIOTARGET: Dispositivo  que debe resolver la peticiÛn de entrada/salida.
+WDFIOTARGET: Dispositivo  que debe resolver la petici√≥n de entrada/salida.
 WDFKEY: Elemento del registro.
-WDFINTERRUPT: Instancia de interrupciÛn.
+WDFINTERRUPT: Instancia de interrupci√≥n.
 
-Dicha jerarquÌa se resume en la siguiente figura:
+Dicha jerarqu√≠a se resume en la siguiente figura:
 
-	Es importante resaltar que se contempla el contexto de un objeto, de forma de que, aunque los objetos sean opacos, estos permiten al driver almacenar su propia informaciÛn en su objeto padre para mejorar la localizaciÛn de la informaciÛn. De hecho, es posible disponer de m·s de un ·rea de contexto, permitiendo a m˙ltiples niveles de cÛdigo interactuar con el mismo driver. De esta forma, los niveles trabajan de forma independiente.
+	Es importante resaltar que se contempla el contexto de un objeto, de forma de que, aunque los objetos sean opacos, estos permiten al driver almacenar su propia informaci√≥n en su objeto padre para mejorar la localizaci√≥n de la informaci√≥n. De hecho, es posible disponer de m√°s de un √°rea de contexto, permitiendo a m√∫ltiples niveles de c√≥digo interactuar con el mismo driver. De esta forma, los niveles trabajan de forma independiente.
 
 7.5.10. Modelo de entrada/salida de KMDF.
-	El modelo de entrada/salida de KMDF utiliza los mismos mecanismos que WDM, las interfaces de WDM y la API del n˙cleo, de forma que el mismo puede ser observado como un driver de la WDM en sÌ mismo. Bas·ndose en el modelo de WDM el driver de KMDF realizar· alguna de las siguientes tres operaciones:
+	El modelo de entrada/salida de KMDF utiliza los mismos mecanismos que WDM, las interfaces de WDM y la API del n√∫cleo, de forma que el mismo puede ser observado como un driver de la WDM en s√≠ mismo. Bas√°ndose en el modelo de WDM el driver de KMDF realizar√° alguna de las siguientes tres operaciones:
 
-Enviar el paquete de peticiÛn al gestor de entrada/salida.
+Enviar el paquete de petici√≥n al gestor de entrada/salida.
 Enviar el paquete al sistema de Plug and Play y el gestor de consumo para procesarlo y modificar el estado de consumo si es requerido.
 Enviar el paquete al gestor de servicios WMI.
 
-	Estos componentes notificar·n al driver los eventos registrados para direccionar la peticiÛn hacia el manejador adecuado. De haber terminado KMDF su proceso del IRP, sin haberse satisfecho la peticiÛn, KMDF optar· entre completar la peticiÛn con estado STATUS_INVALID_DEVICE_REQUEST, en caso de tratarse de un driver de bus, o de funciÛn, o redireccionar la peticiÛn al driver de nivel inferior en caso de utilizar drivers de filtro multinivel.
-	El proceso de paquetes de peticiÛn, una vez m·s, sigue bas·ndose en colas(WDFQUEUE). Esto le ofrece la oportunidad de ordenarlas como requiera
-	Un driver tÌpico de KMDF crea una cola y le asocia uno o varios eventos, adem·s de los callbacks que requiera, los estados de consumo, los mÈtodos de resoluciÛn para la cola y si aceptar·, o no, buffers vacÌos.
-	Las tareas gestionadas por el sistema de gestiÛn de entrada/salida de KMDF(aparte de las habituales de creaciÛn, cierre, liberaciÛn de recursos, lectura, escritura y control) son:
-La creaciÛn de peticiones, notificada a travÈs del evento EvtDeviceFileCreate. Otra opciÛn es crear una cola autom·tica y registrar un callback para el evento EvtIoDefault. De no utilizarse alguno de estos mÈtodos, KMDF devolver·n un cÛdigo de finalizaciÛn correcta.
-En caso de liberaciÛn de recursos y peticiones de cierre, se notificar·n los eventos EvtFileCleanup y EvtFileClose respectivamente, y se llamar·n a sus callbacks correspondientes.
+	Estos componentes notificar√°n al driver los eventos registrados para direccionar la petici√≥n hacia el manejador adecuado. De haber terminado KMDF su proceso del IRP, sin haberse satisfecho la petici√≥n, KMDF optar√° entre completar la petici√≥n con estado STATUS_INVALID_DEVICE_REQUEST, en caso de tratarse de un driver de bus, o de funci√≥n, o redireccionar la petici√≥n al driver de nivel inferior en caso de utilizar drivers de filtro multinivel.
+	El proceso de paquetes de petici√≥n, una vez m√°s, sigue bas√°ndose en colas(WDFQUEUE). Esto le ofrece la oportunidad de ordenarlas como requiera
+	Un driver t√≠pico de KMDF crea una cola y le asocia uno o varios eventos, adem√°s de los callbacks que requiera, los estados de consumo, los m√©todos de resoluci√≥n para la cola y si aceptar√°, o no, buffers vac√≠os.
+	Las tareas gestionadas por el sistema de gesti√≥n de entrada/salida de KMDF(aparte de las habituales de creaci√≥n, cierre, liberaci√≥n de recursos, lectura, escritura y control) son:
+La creaci√≥n de peticiones, notificada a trav√©s del evento EvtDeviceFileCreate. Otra opci√≥n es crear una cola autom√°tica y registrar un callback para el evento EvtIoDefault. De no utilizarse alguno de estos m√©todos, KMDF devolver√°n un c√≥digo de finalizaci√≥n correcta.
+En caso de liberaci√≥n de recursos y peticiones de cierre, se notificar√°n los eventos EvtFileCleanup y EvtFileClose respectivamente, y se llamar√°n a sus callbacks correspondientes.
 
 7.5.11. Gestor de dispositivos Plug and Play.
-	Este gestor ofrece la habilidad de reconocer y adaptar los cambios de configuraciones de hardware,  instalando y eliminando dispositivos. Para ello se sirve de la cooperaciÛn con el hardware, su driver, y los distintos niveles dentro del sistema operativo. Adem·s, se apoya sobre un est·ndar de identificaciÛn de dispositivos alojados en los distintos buses. Este est·ndar ofrece las siguientes capacidades al sistema de PnP:
+	Este gestor ofrece la habilidad de reconocer y adaptar los cambios de configuraciones de hardware,  instalando y eliminando dispositivos. Para ello se sirve de la cooperaci√≥n con el hardware, su driver, y los distintos niveles dentro del sistema operativo. Adem√°s, se apoya sobre un est√°ndar de identificaci√≥n de dispositivos alojados en los distintos buses. Este est√°ndar ofrece las siguientes capacidades al sistema de PnP:
 
-Reconocimiento autom·tico de dispositivos inÒstalados(enumerando los existentes en el proceso de inicio y detectando los aÒadidos y eliminados despuÈs de este).
-Alojamiento de recursos requeridos por el hardware(reuniendo los requerimientos, y asign·ndolos(o reasign·ndolos si es necesario) a travÈs del arbitrador de recursos.
-Carga del driver requerido en memoria. Si este driver no estuvieera instalado, el subsistema de PnP en espacio del n˙cleo pedir· al subsistema de PnP en espacio de usuario que instale el dispositivo, con ayuda del usuario.
-Mecanismos de detecciÛn y configuraciÛn de hardware para drivers y aplicaciones.
+Reconocimiento autom√°tico de dispositivos in√±stalados(enumerando los existentes en el proceso de inicio y detectando los a√±adidos y eliminados despu√©s de este).
+Alojamiento de recursos requeridos por el hardware(reuniendo los requerimientos, y asign√°ndolos(o reasign√°ndolos si es necesario) a trav√©s del arbitrador de recursos.
+Carga del driver requerido en memoria. Si este driver no estuvieera instalado, el subsistema de PnP en espacio del n√∫cleo pedir√° al subsistema de PnP en espacio de usuario que instale el dispositivo, con ayuda del usuario.
+Mecanismos de detecci√≥n y configuraci√≥n de hardware para drivers y aplicaciones.
 Almacenamiento para los estados del dispositivo.
-GestiÛn de dispositivos conectados en la red.
+Gesti√≥n de dispositivos conectados en la red.
 
-	Es importante resaltar que tanto el driver, como el dispositivo deben soportar PnP, de no hacerlo alguno de los dos, el sistema puede verse comprometido. Es posible, a˙n asÌ, realizar un soporte parcial del sistema PnP sobre un dispositivo que no lo soporte, si el driver si implementa los requerimientos de este sistema.
-	Para ofrecer soporte al sistema, debe implementarse una rutina de resoluciÛn para este sistema, otra para el sistema de control de consumo, y una rutina de aÒadido del dispositivo. Es importante saber que el soporte de PnP en un driver de bus, ser· distinto que en un driver de funciÛn o de filtro. El driver de bus debe describir de forma ˙nica los dispositivos alojados en el bus que representa, cargar su driver de funciÛn y llamar a la rutina de aÒadido de dispositivo.
-	Los drivers de funciÛn y de filtro, deben prepararse para utilizar el dispositivo en la rutina de aÒadido del dispositivo, sin necesidad de comunicarse con el. Para comunicarse espera a que el gestor de PnP le envÌe un comando de comienzo del dispositivo para pasar el control a la rutina de resoluciÛn adecuada. Es entonces cuando se configura el dispositivo. Si una aplicaciÛn trata de abrir el dispositivo que no ha finalizado de iniciarse recibir· un cÛdigo de error indicando que el dispositivo no existe.
-	Una vez inicializado el dispositivo, el gestor de PnP puede enviar diversos comandos, como por ejemplo, el de eliminaciÛn del dispositivo, o reasignaciÛn de recursos. Estos comandos guiar·n al driver a travÈs de una tabla de transiciÛn de estados bien definida.
+	Es importante resaltar que tanto el driver, como el dispositivo deben soportar PnP, de no hacerlo alguno de los dos, el sistema puede verse comprometido. Es posible, a√∫n as√≠, realizar un soporte parcial del sistema PnP sobre un dispositivo que no lo soporte, si el driver si implementa los requerimientos de este sistema.
+	Para ofrecer soporte al sistema, debe implementarse una rutina de resoluci√≥n para este sistema, otra para el sistema de control de consumo, y una rutina de a√±adido del dispositivo. Es importante saber que el soporte de PnP en un driver de bus, ser√° distinto que en un driver de funci√≥n o de filtro. El driver de bus debe describir de forma √∫nica los dispositivos alojados en el bus que representa, cargar su driver de funci√≥n y llamar a la rutina de a√±adido de dispositivo.
+	Los drivers de funci√≥n y de filtro, deben prepararse para utilizar el dispositivo en la rutina de a√±adido del dispositivo, sin necesidad de comunicarse con el. Para comunicarse espera a que el gestor de PnP le env√≠e un comando de comienzo del dispositivo para pasar el control a la rutina de resoluci√≥n adecuada. Es entonces cuando se configura el dispositivo. Si una aplicaci√≥n trata de abrir el dispositivo que no ha finalizado de iniciarse recibir√° un c√≥digo de error indicando que el dispositivo no existe.
+	Una vez inicializado el dispositivo, el gestor de PnP puede enviar diversos comandos, como por ejemplo, el de eliminaci√≥n del dispositivo, o reasignaci√≥n de recursos. Estos comandos guiar√°n al driver a trav√©s de una tabla de transici√≥n de estados bien definida.
 
-7.5.12. Carga, inicializaciÛn e instalaciÛn de drivers.
-	Existen dos tipos de inicializaciÛn, la explÌcita, y la basada en enumeraciÛn(utilizando los servicios de Windows). Todo driver dispone de valores de registro en la rama de servicios del conjunto de control actual. Estos valores definen el tipo de imagen, la localizaciÛn del driver, los valores de control, o el orden de inicializaciÛn del servicio. Las diferencias entre la carga explicita frente a la carga a travÈs de servicios de Windows son que el driver puede especificar un valor de comienzo para el comando boot-start(0, se carga durante la inicializaciÛn del subsistema de ejecuciÛn) o system-start(1, se carga despuÈs de la inicializaciÛn del subsistema de ejecuciÛn), y que el driver puede usar los valores de control Group y Tag para ser ordenados en la fase de inicio, pero no pueden usar los valores DependOnGroup o DependOnServices. El valor de registro Group se compara con el valor de registro "HKLM\SYSTEM\CurrentControlSet\Control\ServiceGroupOrder\List" para determinar en que orden de inicializan los grupos durante el inicio. Para refinar el orden de carga dentro del grupo se utiliza la etiqueta Tag y el registro "HKML\SYSTEM\CurrentControlSet\Control\GroupOrderList" que define la preferencia dentro del grupo.
-	Las guÌas utilizadas para otorgar un valor de comienzo son las siguiente:
+7.5.12. Carga, inicializaci√≥n e instalaci√≥n de drivers.
+	Existen dos tipos de inicializaci√≥n, la expl√≠cita, y la basada en enumeraci√≥n(utilizando los servicios de Windows). Todo driver dispone de valores de registro en la rama de servicios del conjunto de control actual. Estos valores definen el tipo de imagen, la localizaci√≥n del driver, los valores de control, o el orden de inicializaci√≥n del servicio. Las diferencias entre la carga explicita frente a la carga a trav√©s de servicios de Windows son que el driver puede especificar un valor de comienzo para el comando boot-start(0, se carga durante la inicializaci√≥n del subsistema de ejecuci√≥n) o system-start(1, se carga despu√©s de la inicializaci√≥n del subsistema de ejecuci√≥n), y que el driver puede usar los valores de control Group y Tag para ser ordenados en la fase de inicio, pero no pueden usar los valores DependOnGroup o DependOnServices. El valor de registro Group se compara con el valor de registro ‚ÄúHKLM\SYSTEM\CurrentControlSet\Control\ServiceGroupOrder\List‚Äù para determinar en que orden de inicializan los grupos durante el inicio. Para refinar el orden de carga dentro del grupo se utiliza la etiqueta Tag y el registro ‚ÄúHKML\SYSTEM\CurrentControlSet\Control\GroupOrderList‚Äù que define la preferencia dentro del grupo.
+	Las gu√≠as utilizadas para otorgar un valor de comienzo son las siguiente:
 
 Drivers no Plug and Play reciben el valor de carga en inicio que requieran.
 Cualquier driver(no-PnP o PnP) que requiera inicializarse durante la carga del sistema operativo recibe el valor boot-start(0).
 Si no es requerido para ejecutar el sistema operativo y el driver detecta un dispositivo que los drivers de bus no pueden enumerar, recibe el valor de system-start(1).
-Drivers no-PnP y de sistemas de ficheros que no requieren estar presentes en la ejecuciÛn del sistema operativo reciben un valor de auto-start(2).
+Drivers no-PnP y de sistemas de ficheros que no requieren estar presentes en la ejecuci√≥n del sistema operativo reciben un valor de auto-start(2).
 Los drivers PnP que o se requieren en el inicio del sistema operativo reciben un valor de demand-start(3).
 
-	Estos valores solo son ˙tiles durante la carga del sistema operativo.
+	Estos valores solo son √∫tiles durante la carga del sistema operativo.
+	Para la enumeraci√≥n de dispositivos, se hace uso de un driver virtual no-PnP de bus que ejerce de ra√≠z, para representar el sistema, y la capa HAL, comentada anteriormente, y que se nutre de las descripciones ofrecidas por el registro para detectar el bus primario. Dentro de este bus pueden encontrarse dispositivos y otros buses(como el bus USB, PCI, PCI-e...), en los que pueden encontrarse otros dispositivos, de forma que la enumeraci√≥n pueda realizarse de forma recursiva, formando un √°rbol de dispositivos. Los nodos en el √°rbol se llamaran devnodes, y contienen objetos de dispositivos. Los buses alojados en el sistema deben cumplir la interfaz ACPI para el control de consumo. La herramienta para poder ver el √°rbol de dispositivos es el gestor de dispositivos(Device Manager).
+	La carga e inicializaci√≥n de dispositivos sigue los siguientes pasos:
+
+El gestor de entrada/salida invoca la rutina de inicializaci√≥n del driver, para todo driver que deba cargarse en el inicio del sistema. Si dicho driver tiene dispositivos que atender, el gestor de entrada/salida los enumera y notifica su presencia al gestor de PnP. Si se encuentra un dispositivo que no dispone de un driver de carga en el inic√¨o, se crea la estructura devnode, pero ni se carga su driver, ni se inicializa la estructura.
+Despu√©s de la carga de drivers en el inicio, el gestor de PnP recorre el √°rbol de dispositivos, cargando los drivers para las estructuras devnodes que no se cargaron en el paso anterior, y enumera todo dispositivo que sea atendido por el driver. En este paso, se obvia cualquier valor de precedencia para los dispositivos. Al finalizar este paso, todo dispositivo PnP esta listo para usarse.
+Se comienza la carga de los drivers de carga durante el inicio del sistema, que no hayan sido cargados ya. Los dispositivos detectados por estos drivers son no numerables, y el gestor de PnP no iniciar√° los dispositivos hasta que los drivers enumerados sean iniciados y configurados.
+El gestor de servicios de control carga los drivers con valor auto-start.
+
+	El √°rbol de dispositivos servir√° de gu√≠a para el gestor de Plug and Play y el gestor de consumo. Los dispositivos quedar√°n registrados en le entrada ‚ÄúHKLM\SYSTEM\CurrentControlSet\Services‚Äù. La forma en que se almacenan los valores de los dispositivos es ‚ÄúEnumerado\Id. de dispositivo\Id. de instancia‚Äù.
+	Los devnodes se componen de al menos dos objetos de dispositivos. Uno de ellos es un objeto de dispositivo f√≠sico(Physical device object, o PDO) que el gestor de PnP pedir√° crear al driver de bus cuando encuentre un dispositivo que est√© presente en este. Otros de los objetos son los objetos de filtro de dispositivos(filter device objects, o FiDOs) que ofrecen una interfaz entre el dispositivo f√≠sico y los objetos de dispositivos funcionales o FDO, que se crean en el driver y ser√° utilizado por el gestor de PnP para gestionar el dispositivo. Adem√°s, los objetos de funci√≥n de driver, pueden crear algunos objetos de filtro que cumplan una funci√≥n a nivel superior a este.
+
+	Imagen de pila de objetos aqu√≠.
+
+	Aunque exista una pila de objetos para controlas el dispositivo, cualquier petici√≥n puede ir dirigida a cualquier nivel, y no es necesario que pase ni por los niveles superiores, ni por los	
+ inferiores.
+	Para la carga de dispositivos, el gestor de PnP de apoya en el registro. Al enumerarse, el identificador de dispositivo es enviado al gestor junto con un identificador de instancia. Con esta informaci√≥n, el gesto genera una instancia de dispositivo para almacenar los valores dentro de la rama de enumeraci√≥n en el registro. El valor de clase(ClasssUID) se almacena en ‚ÄúHKLM\SYSTEM\CurrentControlSet\Control\Class‚Äù.
+	El orden de carga de dispositivos se apoya en las siguientes reglas:
+
+Primero se cargan los drivers de filtro de bajo nivel especificados en la enumeraci√≥n de dispositivo.
+Despu√©s se cargan los drivers de filtro de bajo nivel especificados en la clase de dispositivo.
+A continuaci√≥n se cargan los drivers de funci√≥n especificados en la enumeraci√≥n de dispositivos.
+Posteriormente se cargan los drivers de filtro de alto nivel especificados en la enumeraci√≥n de dispositivos.
+Por √∫ltimo se cargan los drivers de filtro de alto nivel especificados por la clase de dispositivo.
+
+	Todo drivers quedar√° referenciado en la clave de registro ‚ÄúHKML\SYSTEM\CurrentControlSet\Services‚Äù.
+	En cuanto a la instalaci√≥n de drivers, de no disponerse del driver adecuado para utilizar un dispositivo, deber√° solicitarse al gestor de PnP en espacio de usuario. Si se ha detectado en el inicio del sistema, se definir√° su estructura devnode, pero su carga ser√° postpuesta hasta que el gestor en espacio de usuario resuelva la problem√°tica. Varios componentes entran en juego en este proceso, algunos proveidos por el sistema, y otros por el instalador del driver.
+	El proceso de instalaci√≥n comienza en la notificaci√≥n del driver de bus al gestor de PnP. Este busca en el registro de Windows el driver de funci√≥n correspondiente, y al no encontrarlo, informa al gestor de PnP en espacio de usuario, envi√°ndole el identificador de dispositivo. Este gestor, intentar√° una instalaci√≥n sin la intervenci√≥n del usuario, que de no tener √©xito llamar√° al ejecutale Rundll32.exe para que se inicie la interacci√≥n con el usuario, con la correspondiente comprobaci√≥n de privilegios. El instalador utilizar√° el sistema Setup y CfgMgr para detectar el fichero INF que guarda la informaci√≥n de instalaci√≥n del driver. Inicialmente lo buscar√° en el almac√©n de drivers(%SYSTEMROOT%\System32\DriverStore). Si no dispone de √©l, se le pregunta al usuario para que lo provea, instal√°ndolo en el almac√©n de drivers y ejecutando posteriormente Drvinst.exe para que se guarde constancia del nuevo driver en el registro.
 
 8. Glosario.	
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
-Agilidad:  capacidad de mover los datos al ·rea adecuada para mejorar su disponibilidad.
+Agilidad:  capacidad de mover los datos al √°rea adecuada para mejorar su disponibilidad.
 Escalabilidad: capacidad de manejar crecientes cargas de trabajo, o de adaptarse para ser capaces de soportarlas.
-Elasticidad: capacidad de escalarse mas all· limites impuestos por las condiciones del sistema.
-Latencia: Tiempo de espera, normalmente entre que se realiza una peticiÛn y se recibe una respuesta.
+Elasticidad: capacidad de escalarse mas all√° limites impuestos por las condiciones del sistema.
+Latencia: Tiempo de espera, normalmente entre que se realiza una petici√≥n y se recibe una respuesta.
 Persistencia: Si existen distintas copias de un archivo, todas deben ser iguales.
-Cluster: Conjunto de sistemas inform·ticos que act˙an como un solo sistema.
-Nodo: Sistema capaz de procesar informaciÛn.
+Cluster: Conjunto de sistemas inform√°ticos que act√∫an como un solo sistema.
+Nodo: Sistema capaz de procesar informaci√≥n.
 Multiusuario: capacidad de que el recurso sea utilizado por varios usuarios concurrentemente.
-Servicio distribuido: servicio ofrecido por un conjunto de sistemas que act˙a como un solo sistema.
-API: Application programming interface, interfaz de programaciÛn de la aplicaciÛn.
+Servicio distribuido: servicio ofrecido por un conjunto de sistemas que act√∫a como un solo sistema.
+API: Application programming interface, interfaz de programaci√≥n de la aplicaci√≥n.
 Tolerancia a fallos: capacidad de soportar errores sin dejar sin servicio al cliente.
-Redundancia de datos: duplicaciÛn de datos, habitualmente para evitar su pÈrdida.
+Redundancia de datos: duplicaci√≥n de datos, habitualmente para evitar su p√©rdida.
 Software duradero: software capaz de almacenar distintas versiones de un mismo fichero.
-World Wide Web: Sistema de enlace de documentos a travÈs de internet.
+World Wide Web: Sistema de enlace de documentos a trav√©s de internet.
 Amazon EC2 Query Interface: Interfaz de consultas de la plataforma de Cloud Computing de Amazon.
 Amazon S3: Sistema de almacenamiento propietario de la plataforma de Cloud Computing de Amazon.
 Data store drivers: Drivers de almacenamiento de datos.
-Transfer manager drivers: Drivers de gestiÛn de transferencias.
-Imagen virtual: fichero que simula el disco duro de un ordenador para, en conjunto con la tecnologÌa de virtualizaciÛn, se pueda lanzar un sistema operativo con sus aplicaciones propias.
-Sector: Unidad mÌnima de almacenamiento de un dispositivo de bloques.
-Buffer: zona de memoria para alojar informaciÛn.
-Cache: memoria pequeÒa pero muy r·pida, dentro de la jerarquÌa de memorias.
-Puntero: tipo abstracto de dato ˙til para referenciar direcciones de memoria.
-Memoria principal: almacenamiento de instrucciones y datos principal del sistema fÌsico, habitualmente, la memoria RAM.
-ParticiÛn: Zona de almacenamiento alojada dentro de un dispositivo de bloques.
-Enlace simbÛlico: enlace entre un punto determinado del dispositivo fÌsico y un fichero alojado en otro punto completamente distinto.
-Espacio de nombres: juego de identificadores que permiten la desambiguaciÛn de homÛnimos.
-IRQ: Interrupt request, o n˙mero de interrupciÛn del dispositivo para detener la ejecuciÛn de cÛdigo en la CPU.
-DMA: Direct Memory Access, metodo de acceso a memoria en el que se delega la tarea del acceso a la informaciÛn a un dispositivo intermedio que permita al procesador continuar con sus labores sin apenas provocandole mÌnimos retrasos.
-Socket: AbstracciÛn utilizada en los sistemas operativos Unix para representar una conexiÛn de red.
+Transfer manager drivers: Drivers de gesti√≥n de transferencias.
+Imagen virtual: fichero que simula el disco duro de un ordenador para, en conjunto con la tecnolog√≠a de virtualizaci√≥n, se pueda lanzar un sistema operativo con sus aplicaciones propias.
+Sector: Unidad m√≠nima de almacenamiento de un dispositivo de bloques.
+Buffer: zona de memoria para alojar informaci√≥n.
+Cache: memoria peque√±a pero muy r√°pida, dentro de la jerarqu√≠a de memorias.
+Puntero: tipo abstracto de dato √∫til para referenciar direcciones de memoria.
+Memoria principal: almacenamiento de instrucciones y datos principal del sistema f√≠sico, habitualmente, la memoria RAM.
+Partici√≥n: Zona de almacenamiento alojada dentro de un dispositivo de bloques.
+Enlace simb√≥lico: enlace entre un punto determinado del dispositivo f√≠sico y un fichero alojado en otro punto completamente distinto.
+Espacio de nombres: juego de identificadores que permiten la desambiguaci√≥n de hom√≥nimos.
+IRQ: Interrupt request, o n√∫mero de interrupci√≥n del dispositivo para detener la ejecuci√≥n de c√≥digo en la CPU.
+DMA: Direct Memory Access, metodo de acceso a memoria en el que se delega la tarea del acceso a la informaci√≥n a un dispositivo intermedio que permita al procesador continuar con sus labores sin apenas provocandole m√≠nimos retrasos.
+Socket: Abstracci√≥n utilizada en los sistemas operativos Unix para representar una conexi√≥n de red.
 Spinlock: Mecanismo de espera activa provocada cuando se requiere adquirir un recurso no disponible.
-Callback: FunciÛn ejecutada, tan pronto como es posible, para atender la situaciÛn registrada por un nuevo evento.
-Mutex: Mecanismo de concurrencia basado en una variable, que recibe, normalmente, dos valores, abierto y cerrado, y en funciÛn de el, detiene la ejecuciÛn de cÛdigo hasta que su valor cambie, reanudandola.
-Jiffies: Unidad de tiempo mÌnima del n˙cleo de Linux.
-Dispositivos Plug and Play: dispositivos que, al conectarse al sistema, se configuran autom·ticamente y se ofrecen sus servicios al usuario sin que este realice ninguna tarea previa.
+Callback: Funci√≥n ejecutada, tan pronto como es posible, para atender la situaci√≥n registrada por un nuevo evento.
+Mutex: Mecanismo de concurrencia basado en una variable, que recibe, normalmente, dos valores, abierto y cerrado, y en funci√≥n de el, detiene la ejecuci√≥n de c√≥digo hasta que su valor cambie, reanudandola.
+Jiffies: Unidad de tiempo m√≠nima del n√∫cleo de Linux.
+Dispositivos Plug and Play: dispositivos que, al conectarse al sistema, se configuran autom√°ticamente y se ofrecen sus servicios al usuario sin que este realice ninguna tarea previa.
 	
 	Referencias.
 
@@ -807,7 +837,7 @@ http://www.openstack.org/software/openstack-storage/
 http://docs.openstack.org/api/
 http://docs.openstack.org/developer/
 http://docs.openstack.org/developer/swift/development_saio.html
-Linux Kernel Development - Robert Love, Editorial Addison Wesley.
-Linux Device Drivers - Jonathan Corbet, Alessandro Rubini and Greg KroaH-Hartman, Editorial O'Reilly.
-Understanding the linux kernel - Daniel P. Bovet and Marco Cesati.
+Linux Kernel Development ‚Äì Robert Love, Editorial Addison Wesley.
+Linux Device Drivers ‚Äì Jonathan Corbet, Alessandro Rubini and Greg KroaH-Hartman, Editorial O'Reilly.
+Understanding the linux kernel ‚Äì Daniel P. Bovet and Marco Cesati.
 
