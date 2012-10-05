@@ -768,6 +768,39 @@ Por último se cargan los drivers de filtro de alto nivel especificados por la c
 	Todo drivers quedará referenciado en la clave de registro “HKML\SYSTEM\CurrentControlSet\Services”.
 	En cuanto a la instalación de drivers, de no disponerse del driver adecuado para utilizar un dispositivo, deberá solicitarse al gestor de PnP en espacio de usuario. Si se ha detectado en el inicio del sistema, se definirá su estructura devnode, pero su carga será postpuesta hasta que el gestor en espacio de usuario resuelva la problemática. Varios componentes entran en juego en este proceso, algunos proveidos por el sistema, y otros por el instalador del driver.
 	El proceso de instalación comienza en la notificación del driver de bus al gestor de PnP. Este busca en el registro de Windows el driver de función correspondiente, y al no encontrarlo, informa al gestor de PnP en espacio de usuario, enviándole el identificador de dispositivo. Este gestor, intentará una instalación sin la intervención del usuario, que de no tener éxito llamará al ejecutale Rundll32.exe para que se inicie la interacción con el usuario, con la correspondiente comprobación de privilegios. El instalador utilizará el sistema Setup y CfgMgr para detectar el fichero INF que guarda la información de instalación del driver. Inicialmente lo buscará en el almacén de drivers(%SYSTEMROOT%\System32\DriverStore). Si no dispone de él, se le pregunta al usuario para que lo provea, instalándolo en el almacén de drivers y ejecutando posteriormente Drvinst.exe para que se guarde constancia del nuevo driver en el registro.
+	Desde entonces, localizar el driver de un dispositivo, es un proceso en el cual se pide a los dispositivos de bus una lista de identificadores de hardware y de identificadores compatibles con dicho bus. Esta lista está ordenada desde el driver más específico al menos específico. En caso de encontrar ocurrencias en más de un fichero INF, el fichero donde la ocurrencia sea más específica tendrá preferencia. Si solo se encuentra un driver compatible, puede pedirse al usuario que provea al sistema de un driver más actual.
+
+7.5.13. Gestor de consumo.
+	El hardware que quiera utilizar el gestor de consumo debe cumplir la interfaz avanzada de configuración y consumo(Advanced Configuration and Power Interface, ACPI). Esta interfaz estándar define seis estados de consumo fundamentales, del S0(funcionamiento completo) al S5(apagado). Las características principales de estos estados son su consumo energético, el estado del que se realiza la transición a un estado más activo, y la latencia hardware.
+	Del estado S1 al S3(inclusive) los estados existentes son los conocidos estados de bajo consumo(Sleeping States) en los que el consumo del dispositivo se reduce hasta casi parecer apagado, salvando la información relevante en RAM y en disco para retomar las tareas por donde se dejaron.
+	El estado S4 es el de hibernación, en el que se almacena una imagen de la memoria RAM, comprimida, en el fichero Hiberfil.sys en el directorio raíz del sistema. Después de ello el sistema procede al apagado completo. Durante el inicio, el sistema comprueba si la imagen en dicho fichero es válida, y en caso afirmativo, el proceso Bootmgr ejecuta Winresume, que carga el contenido del fichero en la memoria, y restaura la ejecución.
+	Es posible que si el hardware lo soporta, se pase a un estado híbrido entre el S3 y S4 llamado hybrid sleep, en el sistema pasa al estado S3 almacenando un fichero de hibernación en disco. Para hacer más rápida esta operación, el fichero almacenado solo guarda los datos que no pueden ser almacenados en disco posteriormente. Los drivers recibirán la notificación de transición al estado de hibernación S4. Si la energía se consume completamente, el sistema dispone de lo necesario para retomar las tareas en curso, en el fichero de hibernación.
+	Si se desea pasar de un estado de bajo consumo a otro, se hace a través del estado S0, de operación completa.
+	A pesar de existir estos seis estados de consumo, ACPI define 4 de ellos, siento el estado D0 el de operación completa, y el D3 el de apagado. Deben ser los drivers de dispositivos los que definan los estados D1 y D2, cumpliéndose que, en D2 debe consumirse menos que en D1. Microsoft, junto con los fabricantes de hardware definen unas especificaciones de referencia.
+	El gestor de consumo, entonces, dialoga con los drivers de dispositivos para realizar su cometido. El gestor se encarga de definir las políticas adecuadas, decidiendo cual es el estado apropiado en un momento determinado, y solicitando a los drivers que realicen las transiciones requeridas. Los factores que se tienen en cuenta para definir que política es la adecuada  son el nivel de actividad, el nivel de batería, las peticiones de apagado, hibernación y bajo consumo(dormido) de las aplicaciones, las acciones de usuario(pulsar el botón de apagado, cerrar el portátil, etc.) y la configuración del panel de control de consumo.
+	Al realizar la enumeración, parte de la información que se ofrece al gestor de Plug and Play son sus capacidades de consumo energético. De entre ellas se encuentra información acerca de si soporta los estados D1 y D2, sus latencias, o el tiempo requerido para las transiciones de estado. La correspondencia entre los estados que soporta el sistema y los ofrecidos por ACPI se resumen en la siguiente tabla:
+	
+System Power State
+Device Power state
+S0(operación completa)
+D0(operación completa)
+S1(dormido)
+D1
+S2(dormido)
+D2
+S3(dormido)
+D2
+S4(Hibernación)
+D3(Apagado)
+S5(Apagado completo)
+D3(Apagado)
+	Cuando el gestor de consumo decide realizar una transición de estados de consumo, envía el comando determinado a la rutina de resolución del driver de dispositivo. Para las tareas de consumo solo un driver se designa como encargado de satisfacer las políticas de consumo. El sistema preguntará a este drive su política a través de la función PoRequestPowerIrp, notificando al resto de drivers la acción a realizar por el la rutina de resolución de consumo. De esta forma, el gestor de consumo siempre sabe qué comandos están activos y en que momento.
+	Aun así, los drivers pueden realizar transiciones de forma unilateral, permitiéndose realizar transiciones a estados de más bajo consumo en caso de que esté inactivo por un amplio periodo de tiempo(p.e. parar del motor de un disco duro). En el otro sentido, el driver también es capaz de utilizar los servicios proveídos por el gestor de consumo registrandose mediante la función PoRegisterDeviceForIdleDetection. Esta rutina informa de los valores de temporizadores que detectan que el dispositivo está ocioso, y su estado de consumo requerido cuando se encuentra en este estado. Para ello usa dos límites temporales principales, uno configurado por el sistema,  y el otro configurado por el usuario para un optimo aprovechamiento de los recursos. Para notificar que el dispositivo está activo utiliza la función PoSetDeviceBusy.
+	En ningún caso el dispositivo puede provocar una transición de estado en el sistema, puesto que el gestor de consumo notifica la transición, pero nunca pregunta si el dispositivo está listo para hacerla.
+	El espacio de usuario puede registrar notificaciones de estado de consumo al núcleo.
+
+7.6 Gestor de almacenamiento.
+
 
 8. Glosario.	
 
