@@ -535,7 +535,8 @@ La función requiere el uso del subsistema de entorno, enviándole un mensaje pa
 
 	Estos comportamientos se resumen en la siguiente figura:
 
-	Insertar imagen aquí.
+	
+
 
 	Entre los subsistemas de entornos, nos encontramos con el subsistema propio de Windows, y por cuestiones de soporte, el subsistema POSIX(Portable Operating System Interface based on Unix). Puesto que nuestro objetivo se centra en el espacio del núcleo, no estudiaremos en mayor profundidad este componente.
 
@@ -560,6 +561,7 @@ Las rutinas de soporte del ejecutor.
 
 7.4 Drivers de dispositivos.
 	Los drivers en Windows conforman módulos que pueden cargarse en memoria principal bajo demanda. Pueden ser utilizados en contextos donde un hilo en espacio de usuario utiliza una de sus funciones, en contextos en los que un hilo en espacio del núcleo lo utiliza, o como resultado de una interrupción. Los drivers no utilizan los dispositivos directamente, sino que utilizan las funciones de la capa de abstracción de hardware(HAL, Hardware Abstraction Layer) para cumplir su cometido. Los tipos de drivers existentes son los siguientes:
+
 Drivers de dispositivos, que utilizan la capa HAL para comunicarse con estos.
 Drivers de sistemas de ficheros, que aceptan peticiones genéricas de entrada salida y las traducen a peticiones de un dispositivo concreto.
 Drivers de filtro de sistemas de ficheros, los cuales son drivers que colaboran con los de sistemas de ficheros para ofrecerle una nueva funcionalidad.
@@ -625,6 +627,7 @@ Drivers de filtro, que implementan una funcionalidad añadida a un driver de fun
 
 7.5.5. Estructuras de ficheros.
 	Las estructuras de ficheros cumplen los requisitos de diseño de los objetos en Windows(son recursos compartidos, pueden tener nombre, deben estar protegidos y soportan sincronización). Su única diferencia, es que los objetos compartidos suelen estar alojados en memoria, y en los ficheros, se encuentran en un dispositivo físico. Su representación se compone de los siguientes atributos:
+
 Nombre de fichero.
 Desplazamiento del byte actual(respecto al comienzo del fichero).
 Modo de compartición.
@@ -751,8 +754,7 @@ El gestor de servicios de control carga los drivers con valor auto-start.
 
 	El árbol de dispositivos servirá de guía para el gestor de Plug and Play y el gestor de consumo. Los dispositivos quedarán registrados en le entrada “HKLM\SYSTEM\CurrentControlSet\Services”. La forma en que se almacenan los valores de los dispositivos es “Enumerado\Id. de dispositivo\Id. de instancia”.
 	Los devnodes se componen de al menos dos objetos de dispositivos. Uno de ellos es un objeto de dispositivo físico(Physical device object, o PDO) que el gestor de PnP pedirá crear al driver de bus cuando encuentre un dispositivo que esté presente en este. Otros de los objetos son los objetos de filtro de dispositivos(filter device objects, o FiDOs) que ofrecen una interfaz entre el dispositivo físico y los objetos de dispositivos funcionales o FDO, que se crean en el driver y será utilizado por el gestor de PnP para gestionar el dispositivo. Además, los objetos de función de driver, pueden crear algunos objetos de filtro que cumplan una función a nivel superior a este.
-
-	Imagen de pila de objetos aquí.
+	
 
 	Aunque exista una pila de objetos para controlas el dispositivo, cualquier petición puede ir dirigida a cualquier nivel, y no es necesario que pase ni por los niveles superiores, ni por los	
  inferiores.
@@ -794,19 +796,19 @@ S4(Hibernación)
 D3(Apagado)
 S5(Apagado completo)
 D3(Apagado)
+
 	Cuando el gestor de consumo decide realizar una transición de estados de consumo, envía el comando determinado a la rutina de resolución del driver de dispositivo. Para las tareas de consumo solo un driver se designa como encargado de satisfacer las políticas de consumo. El sistema preguntará a este drive su política a través de la función PoRequestPowerIrp, notificando al resto de drivers la acción a realizar por el la rutina de resolución de consumo. De esta forma, el gestor de consumo siempre sabe qué comandos están activos y en que momento.
 	Aun así, los drivers pueden realizar transiciones de forma unilateral, permitiéndose realizar transiciones a estados de más bajo consumo en caso de que esté inactivo por un amplio periodo de tiempo(p.e. parar del motor de un disco duro). En el otro sentido, el driver también es capaz de utilizar los servicios proveídos por el gestor de consumo registrandose mediante la función PoRegisterDeviceForIdleDetection. Esta rutina informa de los valores de temporizadores que detectan que el dispositivo está ocioso, y su estado de consumo requerido cuando se encuentra en este estado. Para ello usa dos límites temporales principales, uno configurado por el sistema,  y el otro configurado por el usuario para un optimo aprovechamiento de los recursos. Para notificar que el dispositivo está activo utiliza la función PoSetDeviceBusy.
 	En ningún caso el dispositivo puede provocar una transición de estado en el sistema, puesto que el gestor de consumo notifica la transición, pero nunca pregunta si el dispositivo está listo para hacerla.
 	El espacio de usuario puede registrar notificaciones de estado de consumo al núcleo.
 
-7.6 Gestor de almacenamiento.
+7.6 Subsistema de almacenamiento.
 	El subsistema de almacenamiento se encarga de gestionar los dispositivos de bloques. Al tratarse del mismo tipo de dispositivo utilizado en GNU/Linux, muchas características se repiten, como puede ser la organización en bloques de 512 bytes(2048 bytes si se trata de un CD-ROM), el concepto de sectores, particiones, volúmenes(simples y multipartición), etc.
 	Veremos, pues, como se gestionan dichos dispositivos en el sistema operativo de Microsoft.
 
 7.6.1. Drivers de disco.
 	Para este tipo de drivers se dispone de una pila de almacenamiento detallada en la siguiente figura:
 
-	Insertar imagen de la pila de almacenamiento here!
 
 	El primer componente que requiere el uso del disco es Winload, que, propiamente dicho no pertenece a la pila representada previamente, sin embargo, ya que requiere acceder ala información de disco para obtener los ficheros de carga del sistema operativo, está obligado a soportar el acceso a estos. Para ello Bootmgr ofrecerá las opciones de inicio al usuario para que decida desde que partición iniciar el sistema, para lanzar la ejecución de Winload. Este cargará en memoria los ficheros de sistema de Windows, el registro, el núcleo Ntoskrnl.exe, y sus dependencias. Para ello se nutre del firmware del sistema, que le ofrece lo mínimo indispensable para que pueda leer el contenido de disco.
 	Para este tipo de drivers se ofrece una arquitectura basada en clases, puestos y minipuertos, donde los drivers de clases ofrecen funcionalidades comunes a todo tipo de dispositivo, los drivers de puerto ofrecen las funcionalidades comunes a un tipo de bus de dispositivos de almacenamiento, y el driver de minipuerto comunicará con un controlador particular de almacenamiento.
@@ -860,9 +862,21 @@ Gestor de aplicaciones: Iscsicli.exe es un cliente en consola que permite las ć
 	El montaje de un mismo dispositivo puede suceder en varias ocasiones cuando se hace referencia a dispositivos desmontables. Si se vuelve a montar un dispositivo previamente montado se le pregunta por su identificador de volumen, si este ha cambiado, lo desmontará para remontarlo posteriormente.
 
 7.6.6.4. Operaciones de entrada/salida en volúmenes.
+	Cuando el sistema de ficheros recibe una petición de entrada/salida, delega en el gestor de volúmenes para transferir datos desde y hacia el disco donde reside el volumen. En el proceso de montaje, el sistema de fichero recibe la referencia del objeto de volumen con el que enviará las peticiones al gestor de volúmenes. Sin embargo, si una aplicación lo requiere, puede obviar el sistema de ficheros y acudir directamente al objeto de volumen para cumplir sus labores(p. e. programas de restauración de ficheros eliminados).
+	Cuando una petición se envía al objeto de volumen, el gestor de entrada/salida lo redirige al gestor de volúmenes que creó el objeto de dispositivo. El gestor de volúmenes debe entonces traducir el desplazamiento para localizar el fichero dentro del volumen, a un desplazamiento dentro del disco. Este desplazamiento será enviado al driver de clase de disco, que a su vez, delegará en el driver de minipuerto. Este último se encarga de resolver la petición de entrada/salida finalizando la operación. El panorama se resume en la siguiente figura:
 	
 
 7.6.7. Servicio de discos virtuales.
+	Los desarrolladores de productos de almacenamiento, facilitan una serie de herramientas para gestionar sus dispositivos, que, como cabe esperar, suponen una dificultad a salvar por los administradores de sistemas. En ocasiones, es necesario que aprendan múltiples interfaces para desarrollar aplicaciones específicas debido a que las herramientas de Windows no son capaces de resolver las peticiones.
+	Para facilitar este tipo de labores, el sistema ofrece el servicio de discos virtuales, que supone una capa de abstracción que unifica el almacenamiento a alto nivel. De esta forma, el administrador puede utilizar los distintos dispositivos, sirviéndose de una interfaz estándar.
+	Las interfaces ofrecidas por este subsistema son dos, una para proveedores de software, y otra para proveedores de hardware:
+
+La interfaz para proveedores de software supone una interfaz con el alto nivel, y trabaja con discos, particiones y volúmenes. Ofrece operaciones como la creación, redimensionado, y eliminación de volúmenes, además de crear y destruir unidades réplicas de otras unidades, y crear y formatear las unidades. Las aplicaciones deben registrarse en la clave “HKLM\SYSTEM\CurrentControlSet\Services\Vds\SoftwareProviders”. Se ofrecen interfaces para trabajar con unidades dinámicas o básicas.
+Los proveedores de hardware deben implementar su software como librerías dinámicas(DLLs) y registrarlas en la clave “HKLM\SYSTEM\CurrentControlSet\Services\Vds\HardwareProviders”. Dicha librería se encargará de traducir los comandos independientes del almacenamiento proveídos por VDS, a comandos específicos del almacenamiento que ofrecen.
+
+	Si una aplicación requiere la API de VDS, y el servicio no se encuentra en funcionamiento, Svchost recibirá la petición e iniciará el servicio(Vdsldr.exe), el cual, gestionará las peticiónes requeridas y, en la finalización de comunicaciones con la API, terminará su ejecución.
+
+7.7 Subsistema de redes. 
 
 
 8. Glosario.
