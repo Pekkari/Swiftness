@@ -877,7 +877,39 @@ Los proveedores de hardware deben implementar su software como librerías dinám
 	Si una aplicación requiere la API de VDS, y el servicio no se encuentra en funcionamiento, Svchost recibirá la petición e iniciará el servicio(Vdsldr.exe), el cual, gestionará las peticiónes requeridas y, en la finalización de comunicaciones con la API, terminará su ejecución.
 
 7.7 Subsistema de redes. 
+	Dentro de los componentes básicos que componen una red, nos encontramos con los servicios, APIs, los protocolos y los adaptadores de red. Estos componentes se estratifican para formar una pila de red. Las pilas de red más conocidas hoy día son TCP/IP, de la cual existe implementación, aunque su diferenciación en capas no llega a ser tan clara, y el modelo OSI, del cual no existe implementación pero se utiliza como modelo de diseño para cualquier tipo de redes. Puesto que posteriormente estableceremos una analogía entre los subsistemas de Windows y el modelo OSI, realizaremos un breve repaso de los conceptos más importantes.
 
+7.7.1. Modelo OSI.
+	Con el objetivo de estandarizar e integrar el software de red de las grandes corporaciones, en 1984 la Organización Internacional de Estandarización(International Organization for Standarization, o ISO), definió el modelo de envío de mensajes, conocido como modelo de referencia de interconexión de sistemas abierto(Open System Interconnection reference model).
+	El modelo define 7 niveles, de los cuales, uno es un nivel hardware, y los 6 restantes son software. Cada nivel define una serie de reglas y condiciones para entender que quiere transmitirle el mismo nivel, ubicado en una máquina distinta. La comunicación siempre se produce entre niveles homónimos. Cada uno de los niveles cumple un objetivo claro y diferenciado dentro de la pila, disponiendose de los siguientes niveles:
+
+Aplicación: Gestiona la información que requiera transmitirse entre dos aplicaciones de red, incluyendo sus funciones, comprobaciones de seguridad , identificación de máquinas e inicio del intercambio.
+Presentación: Se encarga del formato de los datos transmistidos, como el formato de fin de línea, la compresión, o el cifrado utilizado.
+Sesión: Gestiona la conexión entre las aplicaciones que colaboran a través de la red, definiendo la sincronización a alto nivel, y la monitorización de las aplicaciones que utilizan la comunicación.
+Transporte: fragmenta los mensajes en paquetes, les asigna un número de secuencia para garantizar su orden, y ensambla los paquetes en mensajes en el destino. Independiza completamente al nivel de sesión de cualquier cambio realizado en el hardware.
+Red: dirige los paquetes, realiza el control de congestión, e intercambia paquetes entre distintas tecnologías. Este es el nivel más alto que entiende de topologías de red, con sus reglas y limitaciones correspondientes.
+Enlace: Transmite tramas de datos, controla y resuelve los errores de envío, retransmitiendo en caso de pérdidas y colisiones.
+Físico: Se encarga de la transmisión de bits brutos a través del medio de comunicación.
+
+	La comunicación entre dos máquinas puede resumirse en la siguiente figura:
+
+	
+7.7.2. Componentes de red de Windows.
+	Como cabe esperar, los componentes de red de Windows no se ajustan adecuadamente al modelo OSI, de modo que la correspondencia entre niveles es aproximada, y solo pretende dar una idea de cómo se estructura la comunicación en el sistema. Los componentes relevantes son los siguientes:
+
+APIs de red: interfaz independiente del protocolo de red que facilita la comunicación de aplicaciones.
+Clientes de la interfaz de drivers de transporte: antiguos drivers en espacio del núcleo para definir la parte de la API de red que funcionaba en este espacio. Sus paquetes de peticiones(IRPs) se formatean acorde a la interfaz de driver de transporte(Transport Driver Interface, o TDI), interfaz de la que adquieren el nombre, y que supone un estándar de programación para los drivers en espacio de núcleo.
+Drivers de protocolo en espacio del núcleo: Entre ellos podemos encontrar los drivers de la interfaz TDI, los drivers de protocolos de la especificación de interfaces de drivers de red(Network Driver Interface Specification protocol drivers, o NDIS protocol drivers), y los drivers de protocolos. Su objetivo es aceptar y procesar las peticiones en forma de IRPs de los clientes de la interfaz de drivers de transporte. Esto puede requerir distintas tareas, como comunicar con otra estación, o pedir a los drivers de la interfaz TDI que añadan una cabecera. Para ello, se implementa el paso de mensajes entre la infraestructuras de este subsistema, haciendo transparente ciertas tareas como su segmentación, ensamblado, secuencia y reconocimiento.
+Núcleo Winsock: Interfaz en espacio de núcleo, independiente del nivel de transporte, que reemplaza los antiguos mecanismos de la interfaz de drivers de transporte. El núcleo Winsock ofrece una interfaz de programación utilizando sockets, al igual que la ofrecida en el espacio de usuario, pero permitiendo algunas características más como la comunicación asíncrona de operaciones de entrada/salida. Esta infraestructura añade el soporte de IP versión 6(IPv6).
+La plataforma de filtro de Windows: esta se compone de un conjunto de APIs y servicios de sistema que proporcionan las capacidades necesarias para crear aplicaciones de filtrado de paquetes, procesandolos s diferentes niveles de la pila de red de Windows. Además, la información puede ser monitorizada, filtrada o modificada antes de alcanzar su destino.
+Drivers de funcionalidades para la plataforma de filtro de Windows: estos drivers se limitan a añadir funcionalidades no contempladas en la plataforma de filtro de Windows.
+Librería NDIS: Ndis.sys permite encapsular los dispositivos de red, ocultando sus peculiaridades del entorno del núcleo de Windows. Exporta, también, funciones para que los clientes de la interfaz de drivers de transporte puedan utilizarlas.
+Drivers de minipuerto para NDIS: estos drivers se encargan de ofrecer una interfaz intermedia entre los clientes de la interfaz de drivers de transporte y los dispositivos de red. Se escriben de forma que queden encapsuladas tras la interfaz NDIS. Esta no procesa IRPs, sino que registra una tabla de funciones que se corresponden con las funciones que NDIS exporta a los clientes de la interfaz de drivers de transporte. Para resolver las peticiones recibidas por la interfaz NDIS, los drivers acudirán a la capa de abstracción de hardware.
+
+	En la siguiente figura se resume la correspondencia de subsistemas con OSI.
+
+
+	La zona verde de la imagen se corresponde con las APIs de red, la zona amarilla	son los clientes de la interfaz de drivers de transporte y del núcleo Winsock, en la zona naranja se disponen del núcleo Winsock, la interfaz de drivers de transporte(TDI) y los antiguos drivers de Winsock, y finalmente en la zona roja podemos ver la API NDIS y sus drivers.
 
 8. Glosario.
 
