@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.6261376"
+     inkscape:cx="253.64299"
+     inkscape:cy="915.80553"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="721"
+     inkscape:window-x="-2"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="1,0"
+       position="507.9521,1015.9042"
+       id="guide3003" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="191.86568,1042.9622"
+       id="guide3005" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="138.36468,871.38998"
+       id="guide3827" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#00ffff;fill-opacity:1;stroke:#797b7b;stroke-width:0.56284207;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2985"
+       width="447.07166"
+       height="36.282291"
+       x="60.880459"
+       y="18.009357" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="281.03403"
+       y="40.762661"
+       id="text2987"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2989"
+         x="281.03403"
+         y="40.762661">Kernel-mode networking client applications</tspan></text>
+    <rect
+       style="fill:#ff8000;fill-opacity:1;stroke:#797b7b;stroke-width:0.50878304;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2991"
+       width="119.55106"
+       height="121.14597"
+       x="60.265503"
+       y="59.826237" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="118.85807"
+       y="102.87302"
+       id="text2993"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2995"
+         x="118.85807"
+         y="102.87302">Network</tspan><tspan
+         sodipodi:role="line"
+         x="118.85807"
+         y="117.87302"
+         id="tspan2997">Module</tspan><tspan
+         sodipodi:role="line"
+         x="118.85807"
+         y="132.87302"
+         id="tspan2999">Registrar</tspan></text>
+    <rect
+       y="60.441193"
+       x="192.30872"
+       height="27.672935"
+       width="316.70135"
+       id="rect3007"
+       style="fill:#00ff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.64845967000000004;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       y="97.33844"
+       x="192.30873"
+       height="27.672935"
+       width="316.70135"
+       id="rect3009"
+       style="fill:#ffff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.64845967000000004;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       y="132.38522"
+       x="191.69376"
+       height="48.581375"
+       width="71.334679"
+       id="rect3019"
+       style="fill:#fa0000;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       y="132.38522"
+       x="284.55182"
+       height="48.581375"
+       width="71.334679"
+       id="rect3021"
+       style="fill:#fa0000;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       style="fill:#fa0000;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999998;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3015"
+       width="71.334679"
+       height="48.581375"
+       x="437.67542"
+       y="132.38522" />
+    <text
+       sodipodi:linespacing="125%"
+       id="text3029"
+       y="150.83385"
+       x="319.60422"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="150.83385"
+         x="319.60422"
+         id="tspan3031"
+         sodipodi:role="line">Transport</tspan><tspan
+         id="tspan3033"
+         y="165.83385"
+         x="319.60422"
+         sodipodi:role="line">(TCP/IPv6)</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3035"
+       y="149.60394"
+       x="226.74614"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="149.60394"
+         x="226.74614"
+         id="tspan3037"
+         sodipodi:role="line">Transport</tspan><tspan
+         id="tspan3039"
+         y="164.60394"
+         x="226.74614"
+         sodipodi:role="line">(TCP/IPv4)</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3041"
+       y="150.21889"
+       x="473.9577"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="150.21889"
+         x="473.9577"
+         id="tspan3043"
+         sodipodi:role="line">Transport</tspan><tspan
+         id="tspan3045"
+         y="165.21889"
+         x="473.9577"
+         sodipodi:role="line">(Third Party)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="357.47705"
+       y="79.964584"
+       id="text3047"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3049"
+         x="357.47705"
+         y="79.964584">I/O Manager</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="359.01724"
+       y="115.9422"
+       id="text3051"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3053"
+         x="359.01724"
+         y="115.9422">Winsock Kernel</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:65.68148804px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="392.43176"
+       y="161.19772"
+       id="text3055"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0071194,0.99293092)"><tspan
+         sodipodi:role="line"
+         id="tspan3057"
+         x="392.43176"
+         y="161.19772">...</tspan></text>
+  </g>
+</svg>

@@ -911,6 +911,43 @@ Drivers de minipuerto para NDIS: estos drivers se encargan de ofrecer una interf
 
 	La zona verde de la imagen se corresponde con las APIs de red, la zona amarilla	son los clientes de la interfaz de drivers de transporte y del núcleo Winsock, en la zona naranja se disponen del núcleo Winsock, la interfaz de drivers de transporte(TDI) y los antiguos drivers de Winsock, y finalmente en la zona roja podemos ver la API NDIS y sus drivers.
 
+7.7.3. APIs de red de Windows.
+	Existen varias APIs distintas dentro del entorno de red de Windows, y cada una tiene sus características particulares, dejando en manos del desarrollador que decida cual es la API más adecuada para solucionar su problema. Estudiaremos una a una sus principales características en los sucesivos apartados.
+
+7.7.3.1. Windows Sockets(Winsock).
+	Esta API es la implementación de Microsoft de los conocidos sockets de la Berkeley Software Distribution(BSD, una de las distribuciónes del sistema Unix más conocidas). Gracias a esta API, traducir una aplicación para Unix que utilizara la red, a Windows, se hacía de forma directa. Sus sucesivas versiones incluyen la mayor parte de las funcionalidades de los sockets originales, añadiendo mejoras específicas de Microsoft. Soporta comunicaciones fiables orientadas a conexión y comunicaciones no orientadas a conexión. Su versión 2.2 permite disponer de la entrada/salida asíncrona que mejora el rendimiento y escalabilidad de frente a los sockets de BSD.
+	Sus características principales son:
+
+Soporte de aplicaciones asíncronas y vectorizadas.
+Soporte de calidad del servicio(Quality of Service), lo que permite alas aplicaciones negociar la latencia y ancho de banda requerido.
+Capacidad de soportar protocolos desconocidos por Windows.
+Soporte integrado de espacios de nombres distintos a los definidos por el propio protocolo utilizado por la aplicación.
+Soporte de mensajes multipunto.
+
+	Dentro de su modo de operación, el cliente, el primer paso que se realiza es llamar a una función de inicialización de la infraestructura. Posteriormente, puede crearse un socket que representará la comunicación con el nodo destino. Puede utilizarse las funciones getaddrinfo y freeaddrinfo para obtener y liberar, respectivamente, la información relativa al servidor al que se quiere conectar. Getaddrinfo ofrece una lista de direcciones IP asignadas al servidor, que el cliente recorrerá en el momento de la conexión, una por una, hasta que consiga establecerla, asegurando que el cliente se conecte a la dirección más apropiada y eficiente soportada por el sistema. Obtenida la dirección, pasará a realizarse una conexión a través de la función connect. Desde este momento, el cliente puede servirse de las funciones send y recv para enviar y recibir información a través del socket. Si desea utilizarse la interfaz no orientada a conexión, puede utilizarse las funciones sendto, and recvfrom.
+	Por el lado del servidor, también se llamará a una función de inicialización de la infraestructura, que ofrece las herramientas para crear el socket. Este socket será asociado a una dirección IP utilizando la función bind. Si el servidor utiliza comunicaciones orientadas a la conexión se utilizará la función listen indicando información como el fichero para almacenar información de las conexiones realizadas, o el número máximo de conexiones. Posteriormente, la función accept permitirá la conexión de clientes, y esta finalizará tan pronto como se establezca una conexión. En este momento se dispone de un socket de conexión que representa la comunicación en el lado del servidor, con el cliente, y puede utilizarse la función send y recv para intercambiar información. Si quisiera establecerse comunicación sin conexión, sencillamente no se haría uso de la función accept, y se utilizaría las funciones send y recv, para satisfacer la comunicación.
+	Existen un par de funciones que merece la pena mencionar para mejorar el rendimiento de las comunicaciones. Estas con AcceptEx y TransmitFile. AcceptEx, cumple las funciones de accept, ofreciendo la dirección del cliente, y su primer mensaje, permitiendo procesarlo con mayor presteza. Además permite el procesado de múltiples conexiones gestionando grandes volúmenes de peticiones. TransmitFile permite el uso de la cache del sistema para enviar ficheros a través de la red.
+	El mecanismo que permite soportar protocolos desconocidos son los proveedores de servicio de transporte. Estos interactuan con las interfaces Winsock para ofrecer funciones como ejercer de proxy, ofrecer espacios de nombres, o mejorar las infraestructuras de resolución de nombres. Los proveedores deben registrarse en la interfaz de proveedores de servicios de Winsock(Winsock Service Provider, WSPI), para pasar a utilizar las funciones propias del proveedor, que debe implementar las funciones del socket. No se restringe cómo las implementa.
+	La implementación de Winsock se compone de una interfaz para el espacio de usuario, ofrecida por la librería dinámica Ws2_32.dll, que ofrece los servicios para acceder a los espacios de nombres y a los proveedores de servicios registrados. Los proveedores que ofrece Microsoft se recogen en la librería Mswsock.dll, que se nutre de las librerías de apoyo de Winsock para comunicarse con el driver en espacio de núcleo.
+	Para integrarse con el modelo entrada/salida de Windows, los sockets son representados mediante un fichero, requiriendo un driver de sistema de ficheros. Para ello utiliza los servicios del driver de función auxiliar(Ancillary Function Driver), incluida en Msafd.dll, para implementar las funciones de los sockets. Este es un cliente de la interfaz de proveedores de la capa de transporte de red, y genera paquetes de peticiones para la interfaz de drivers de transporte(TDI IRPs).
+
+7.7.3.2. Núcleo Winsock.
+	Para permitir que los drivers de espacio de núcleo tengan acceso a la API de red ofrecida al espacio de usuario, se implementa esta interfaz basada en sockets. Dicha infraestructura reemplaaza la antigua interfaz de drivers de transporte, presente en versiones anteriores de Windows, manteniendo la interfaz de proveedores de servicios de la interfaz de transporte de drivers. Ofrece mejor rendimiento y escalabilidad, que esta última gracias a que utiliza menos en los mecanismos internos del núcleo, para utilizar una semántica más parecida a la de los sockets de Unix. Además pretende utilizar todas las funcionalidades de las últimas tecnologías ofrecidas por la pila de red TCP/IP de Windows, como por ejemplo, el registro de módulos de red. La estructura interna queda de la siguiente manera:
+	
+
+	Su implementación, como la de la API Winsock estudiada anteriormente, está implementada en los drivers de función auxiliares, y su infraestructura es responsable de la API para proveedores de servicio. Se encarga, por tanto, de ofrecer soporte para distintos protocolos. El subsistema se comunica con los drivers de espacio de núcleo que se comunican con el espacio de usuario, llamados drivers de aplicación del núcleo Winsock. Entre ambos subsistemas resuelven las operaciones de red. El núcleo Winsock notificará eventos asíncronamente a los drivers de aplicación.
+	Los drivers de aplicación deben registorarse en el subsistema del núcleo Winsock utilizando el registro de módulos de red, o utilizando las funciones propias del núcleo Winsock, permitiendole saber cuando este último está disponible para enviarle su tabla de funciones de resolución, que describe su proveedor, y su implementación de la API del núcleo Winsock. Funciones de esta API son, por ejemplo, WskSocket, WskAccept, WskBind, etc, que comparten semántica con las interfaces Winsock del espacio de usuario. Su principal diferencia con el espacio de usuario es que define cuatro tipos de socket:
+
+Básicos, que ofrecen y recuperan información del nivel de transporte.
+De escucha, que solo aceptan conexiones entrantes.
+De datagramas, Utilizados para enviar y recibir datagramas.
+Orientados a conexión, que soportan toda clase de funcionalidades para enviar y recibir datos.
+
+	El núcleo Winsock ofrece notificaciones del estado de la red a las aplicaciones, de forma que el subsistema se encarga de controlar el enlace, y el cliente sencillamente recibe la notificación del evento. Se proveen de diversas rutinas para gestionar eventos.
+
+7.7.3.3. Llamada a procedimientos remotos.
+	
+
 8. Glosario.
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
