@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="WTCPStack.png">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.6261376"
+     inkscape:cx="336.12685"
+     inkscape:cy="878.40158"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1366"
+     inkscape:window-height="721"
+     inkscape:window-x="-2"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="0,1"
+       position="237.98724,986.3864"
+       id="guide2985" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="308.70697,822.80861"
+       id="guide2995" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="460.60063,804.35999"
+       id="guide2997" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="99.007613,973.47237"
+       id="guide3785" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="98.392659,735.48512"
+       id="guide3793" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="279.18917,941.49475"
+       id="guide3795" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="308.70697,895.98815"
+       id="guide3797" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="489.50348,1014.6743"
+       id="guide3805" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="238.6022,868.31521"
+       id="guide3831" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="370.20238,824.03852"
+       id="guide3847" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="400.33513,804.35999"
+       id="guide3849" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="196.17036,837.56751"
+       id="guide3865" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="613.72421,744.09448"
+       id="guide3867" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="279.18917,808.66466"
+       id="guide3911" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.074;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4.296, 4.296;stroke-dashoffset:0"
+       d="m 54.759096,65.975783 660.385434,0"
+       id="path2987"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#0000ff;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3869"
+       width="152.50862"
+       height="20.293486"
+       x="280.70697"
+       y="32.153301" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.43109381000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3875"
+       width="84.252342"
+       height="20.293486"
+       x="98.68055"
+       y="243.69753" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.43109381000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3881"
+       width="84.252342"
+       height="20.293486"
+       x="207.98286"
+       y="243.69753" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.43109381000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3887"
+       width="84.252342"
+       height="20.293486"
+       x="313.97681"
+       y="243.69753" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.43109381000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3893"
+       width="84.252342"
+       height="20.293486"
+       x="422.60062"
+       y="244.80432" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke:#797b7b;stroke-width:0.43109381000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3899"
+       width="84.252342"
+       height="20.293486"
+       x="529.64972"
+       y="243.69753" />
+    <rect
+       style="fill:#008000;fill-opacity:1;stroke:#797b7b;stroke-width:1.06616426000000009;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3905"
+       width="515.33154"
+       height="20.293486"
+       x="98.392662"
+       y="279.50879" />
+    <rect
+       style="fill:#00ff79;fill-opacity:0.47317073;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3851"
+       width="152.50862"
+       height="20.293486"
+       x="98.68055"
+       y="184.04697" />
+    <rect
+       style="fill:#00ff3f;fill-opacity:1;stroke:#797b7b;stroke-width:0.72919750000000005;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3859"
+       width="241.062"
+       height="20.293486"
+       x="372.33514"
+       y="215.40964" />
+    <rect
+       y="214.79468"
+       x="98.68055"
+       height="20.293486"
+       width="243.52184"
+       id="rect3825"
+       style="fill:#00ff3f;fill-opacity:1;stroke:#797b7b;stroke-width:0.73290849000000002;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       y="184.04697"
+       x="280.70697"
+       height="20.293486"
+       width="152.50862"
+       id="rect3833"
+       style="fill:#00ff79;fill-opacity:0.47317073;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       style="fill:#00ff79;fill-opacity:0.47317073;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3799"
+       width="152.50862"
+       height="20.293486"
+       x="461.50348"
+       y="184.04697" />
+    <rect
+       style="fill:#00ffff;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3807"
+       width="152.50862"
+       height="20.293486"
+       x="461.50348"
+       y="78.889816" />
+    <rect
+       style="fill:#00ffff;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect3813"
+       width="152.50862"
+       height="20.293486"
+       x="461.50348"
+       y="106.10294" />
+    <rect
+       y="135.92542"
+       x="461.50348"
+       height="20.293486"
+       width="152.50862"
+       id="rect3779"
+       style="fill:#00ffff;fill-opacity:1;stroke:#797b7b;stroke-width:0.57999997999999997;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       y="78.889816"
+       x="99.295509"
+       height="30.900049"
+       width="152.50862"
+       id="rect3787"
+       style="fill:#006dff;fill-opacity:1;stroke:#797b7b;stroke-width:0.71569704999999995;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0" />
+    <rect
+       style="fill:#006dff;fill-opacity:1;stroke:#797b7b;stroke-width:0.72258902000000003;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2989"
+       width="152.50862"
+       height="31.49803"
+       x="98.68055"
+       y="124.42738" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="352.52386"
+       y="47.372017"
+       id="text3871"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3873"
+         x="352.52386"
+         y="47.372017">Winsock</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="138.49745"
+       y="258.91623"
+       id="text3877"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3879"
+         x="138.49745"
+         y="258.91623">802.3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="249.1124"
+       y="258.91623"
+       id="text3883"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3885"
+         x="249.1124"
+         y="258.91623">WLAN</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="356.49744"
+       y="258.91623"
+       id="text3889"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3891"
+         x="356.49744"
+         y="258.91623">Loopback</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="464.49744"
+       y="260.02304"
+       id="text3895"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3897"
+         x="464.49744"
+         y="260.02304">IPv4 Tunnel</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="570.96002"
+       y="258.91623"
+       id="text3901"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3903"
+         x="570.96002"
+         y="258.91623">IPv6 Tunnel</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="352.52386"
+       y="294.72751"
+       id="text3907"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3909"
+         x="352.52386"
+         y="294.72751">NDIS</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="170.49744"
+       y="199.26569"
+       id="text3853"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3855"
+         x="170.49744"
+         y="199.26569">TCP</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="486.15198"
+       y="230.62836"
+       id="text3861"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3863"
+         x="486.15198"
+         y="230.62836">IPv6</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3827"
+       y="230.01341"
+       x="212.49744"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="230.01341"
+         x="212.49744"
+         id="tspan3829"
+         sodipodi:role="line">IPv4</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3835"
+       y="199.26567"
+       x="352.52386"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="199.26567"
+         x="352.52386"
+         id="tspan3837"
+         sodipodi:role="line">UDP</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="533.32037"
+       y="199.26567"
+       id="text3801"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3803"
+         x="533.32037"
+         y="199.26567">RAW</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="533.32043"
+       y="94.108528"
+       id="text3809"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3811"
+         x="533.32043"
+         y="94.108528">TDI Clients</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="533.32043"
+       y="121.32165"
+       id="text3815"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3817"
+         x="533.32043"
+         y="121.32165">TDI</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text3781"
+       y="151.14412"
+       x="533.32043"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         y="151.14412"
+         x="533.32043"
+         id="tspan3783"
+         sodipodi:role="line">TDX</tspan></text>
+    <rect
+       style="fill:#00d1ff;fill-opacity:1;stroke:#797b7b;stroke-width:0.66447347000000001;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2999"
+       width="151.89366"
+       height="77.484215"
+       x="280.70697"
+       y="78.889816" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="356.05844"
+       y="108.41881"
+       id="text3001"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3003"
+         x="356.05844"
+         y="108.41881">Ancillary</tspan><tspan
+         sodipodi:role="line"
+         x="356.05844"
+         y="123.41881"
+         id="tspan3005">Function</tspan><tspan
+         sodipodi:role="line"
+         x="356.05844"
+         y="138.41881"
+         id="tspan3007">Drivers</tspan></text>
+    <rect
+       style="fill:#ff8000;fill-opacity:0;stroke:#000000;stroke-width:1.87453294;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:11.24719771, 11.24719771;stroke-dashoffset:0"
+       id="rect3009"
+       width="645.08685"
+       height="99.392883"
+       x="75.029999"
+       y="171.60954" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="174.79651"
+       y="99.798256"
+       id="text3839"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3841"
+         x="174.79651"
+         y="99.798256">WSK Clients</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="175.5722"
+       y="143.30486"
+       id="text3843"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3845"
+         x="175.5722"
+         y="143.30486">WSK</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="666.88696"
+       y="186.04697"
+       id="text3913"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3915"
+         x="666.88696"
+         y="186.04697">Next Generation</tspan><tspan
+         sodipodi:role="line"
+         x="666.88696"
+         y="201.04697"
+         id="tspan3917"> TPC/IP Stack</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="664.02332"
+       y="57.831833"
+       id="text3919"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="664.02332"
+         y="57.831833"
+         id="tspan3923">User mode</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="667.84576"
+       y="81.659904"
+       id="text3927"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3929"
+         x="667.84576"
+         y="81.659904">Kernel mode</tspan></text>
+  </g>
+</svg>

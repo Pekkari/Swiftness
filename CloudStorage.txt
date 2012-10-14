@@ -962,6 +962,37 @@ Orientados a conexión, que soportan toda clase de funcionalidades para enviar y
 	La cola de mensajes es una plataforma de propósito general para facilitar la comunicación en aplicaciones distribuidas. Su servidor es un repositorio en el que los transmisores encolarán sus mensajes, y, tan pronto como los clientes puedan, desencolarán dichos mensajes para su procesado. No se requiere realizar conexiones en ninguna dirección puesto que el servicio es no fiable.
 	La arquitectura Universal de Plug and Play, estudiada anteriormente, es una infraestructura P2P, distribuida, que utiliza la arquitectura de red existente(a través de TCP/IP y servicios Web) para localizar y configurar nuevos dispositivos. Esto permite conectar dinámicamente a una red, obtener una IP y ofrecer sus servicios a través de la red. Su extensión PnP-X descubrirá los dispositivos existentes en la red para integrarlos a través del gestor de Plug and Play en el sistema.
 
+7.7.3.5. Drivers de protocolo.
+	La función de estos drivers es aceptar las peticiones provenientes de la API y traducirlas a un protocolo de bajo nivel para transmitirlos a través de la red. Para ello hacen uso de los drivers de protocolo de nivel de transporte, que son los que realizan la verdadera traducción. Al disponer de APIs separadas de los protocolos, es posible que la interfaz pueda utilizar diversos protocolos. Al haberse convertido TCP/IP un estándar de facto, es el protocolo que más se utiliza en Windows.
+	Debido a la necesidad de adoptar la versión 6 del protocolo IP, la pila de red de Windows, es una pila combinada, permitiendo la coexistencia de ambas versiones, utilizando túneles. Sus características más importantes son las siguientes:
+
+Ajuste automático de la ventana de recepción, pudiendo incrementar y reducir el tamaño de esta en función de la tecnología subyacente, y de la carga de las comunicaciones.
+TCP compuesto(Compound TCP, o CTCP), tecnología que le permite cambiar agresivamente la cantidad de información enviada.
+Notificación explícita de congestión(Explicit Congestion Notification, ECN). Si un paquete TCP se pierde, el sistema asume que existen congestiones en la red y reduce drásticamente la tasa de transmisión. Además, el router es capaz de marcar los paquetes como dirigidos durante la congestión para que el sistema disponga de otra razón para relajar la tasa de transmisión.
+Mejoras de rendimiento en situaciones de muchas pérdidas. Para ello se incluyen una serie de algoritmos que reducen la retransmisión de reconocimientos, o de segmentos TCP, en este tipo de escenarios, manteniendo la integridad del flujo procesado.
+
+	Resumimos los componentes de la pila TCP/IP en la figura siguiente, donde se observan los distintos estratos, y los componentes que conforman la pila, junto con el resto de componentes con los que se relaciona la pila:
+
+7.7.3.6. Drivers NDIS.
+	El propósito de estos drivers es el de comunicar a la interfaz de red la información que debe transmitir, ofreciendo una interfaz estándar de comunicación, independiente de la lógica interna de la interfaz. Estos drivers, deben cumplir la especificación NDIS 6.1.
+	La librería NDIS limita con los drivers de nivel de transporte existentes, y, por otro lado, con los drivers de minipuerto NDIS, siendo una librería auxiliar para dar formato a los comandos enviados a los drivers NDIS. Esta interacciona, además, con los drivers intermedios de NDIS, los drivers de filtro, encargándose de que el mensaje sea procesado por todos los drivers requeridos, ejerciendo de entorno de ejecución. De esta forma los drivers quedan envueltos por la librería, y no requieren recibir los paquetes de peticiones(IRPs) para procesarlos, sino que lo hará la librería por ellos. Los drivers de protocolo, entonces, utilizarán la función NdisAllocateNetBuffer, y posteriormente envían el paquete al driver de minipuerto a través de otra función. Todos los componentes de Windows hacen uso de buffers de red para gestionar el flujo de comunicaciones con NDIS.
+	Las características de NDIS principales son:
+
+La capacidad de anunciar si el medio está disponible.
+Los drivers pueden ser pausados, y reanudados, permitiendo su reconfiguración.
+Descarga TCP/IP, característica que permite que ciertas funcionalidades, como IPSec, IPv6, etc, sean implementadas por la tarjeta de red, y el sistema delegue en ella para realizar la transmisión.
+El escalado en recepción permite que múltiples procesadores se encarguen de procesar los paquetes recibidos, repartiendo la carga para un uso más eficiente de los procesadores disponibles.
+Tecnología Wake-on-LAN, que añade la funcionalidad de poder encender un ordenador apagado, o activarlo cuando se encuentra en estado de suspensión. Para ello se espera un evento que puede ser la conexión de una interfaz al medio de comunicación, la recepción de un patrón registrado en el protocolo, o un paquete especial recibido por el interfaz de red.
+División de los datos de cabecera en las interfaces de red que así lo permitan para dividir las tramas de red en distintos buffers y poder combinarlos en regiones de memoria menores que si estas se enviaran junto con los datos.
+NDIS orientado a conexión, permitiendo a la especificación utilizar dispositivos que requieran este tipo de comunicación, como los dispositivos del protocolo punto a punto(Point to Point Protocol).
+
+	Todas las funciones ofrecidas por la especificación NDIS, se traducen a las funciones correspondientes en la capa de abstracción de hardware(HAL).
+
+7.7.3.7. Ensamblado.
+	Por último, existe una pieza en Windows que debe ser mencionada, puesto que después de un amplio análisis de todos los componentes de red, cabe preguntarse si deben estar todos activos al mismo tiempo, y de no estarlo, como se encuentran los unos a los otros. Es razonable pensar que los componentes se activan y desactivan en función de las distintas topologías de red, y funcionalidades utilizadas, y para reconocer la posibilidad de utilizar los distintos componentes se ofrece un servicio de ensamblado.
+	Un ejemplo de uso de dicho servicio, se produce cuando se instala un nuevo componente de red. Durante el proceso, el usuario debe proveer de un fichero INF en el que se ofrecen directrices para instalar y configurar el componente, además de las dependencias de ensamblado. Los desarrolladores especifican que componentes requieren sus interfaces de modo que el gestor de control de servicios lo cargará en memoria en el orden adecuado, y si otros componentes que utilicen la nueva interfaz están presentes. El servicio de ensamblado establece la conexión entre los componentes en las distintas capas, sirviéndose de la información ofrecida en el fichero INF.
+	Un ejemplo habitual se produce cuando se carga el servicio redirector de estaciones de trabajo, que automáticamente carga en memoria el protocolo TCP/IP.
+
 8. Glosario.
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
