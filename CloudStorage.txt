@@ -1,54 +1,151 @@
-﻿1. Cloud Storage.
+﻿
+Índice
+1.Introducción.	2
+2.Documentación previa.	3
+2.1.Cloud Storage.	3
+2.2.Almacenamiento en soluciones libres y locales existentes.	3
+2.2.1.Amazon S3.	3
+2.2.2.OpenNebula.	4
+2.2.3.Nimbus.	4
+2.2.4.OpenStack.	4
+2.2.5.OpenQRM.	5
+2.2.6.Eucalyptus.	5
+2.2.7.CloudStack.	5
+2.2.8.Abiquo Open Source Edition.	5
+2.3.Comparación de soluciones.	6
+2.4.Swift.	7
+2.4.1.Swift Proxy Server.	7
+2.4.2.Operaciones en la API.	8
+2.4.2.1Identificación.	8
+2.4.2.2Listado de contenedores.	8
+2.4.2.3Listado de objetos.	9
+2.4.2.4Creación de contenedores.	11
+2.4.2.5Eliminación de contenedores.	11
+2.4.2.6Recuperación de objetos.	11
+2.4.2.7Creación, o actualización de objetos.	12
+2.4.2.8Copia de objetos.	12
+2.4.2.9Eliminación de objetos.	13
+2.4.3.Entorno de operación.	13
+2.5.Linux.	13
+2.5.1.Dispositivos de bloques.	14
+2.5.1.1Proceso de una operación.	15
+2.5.1.2Estructura genérica de dispositivos de bloques.	16
+2.5.2.Dispositivos de red.	17
+2.5.3.Network Block Device.	18
+2.6.Windows	20
+2.6.1.Subsistema de entorno y librerías dinámicas.	22
+2.6.2.Ejecutor de Windows.	23
+2.6.3.El núcleo.	24
+2.6.4.Drivers de dispositivos.	24
+2.6.5.Componentes del sistema de entrada/salida.	24
+2.6.5.1Gestor de entrada/salida.	25
+2.6.5.2Drivers de dispositivos.	25
+2.6.5.3Estructura de un driver.	26
+2.6.5.4Objetos de drivers y objetos de dispositivos.	27
+2.6.5.5Estructuras de ficheros.	27
+2.6.5.6Paquetes de peticiones de entrada/salida.	29
+2.6.5.7Petición en drivers de una sola capa.	29
+2.6.5.8Petición en drivers de múltiples capas.	30
+2.6.5.9Infraestructura de drivers en espacio del núcleo(KMDF),	30
+2.6.5.10Modelo de entrada/salida de KMDF.	31
+2.6.5.11Gestor de dispositivos Plug and Play(PnP).	32
+2.6.5.12Carga, inicialización e instalación de drivers.	33
+2.6.5.13Gestor de consumo.	35
+2.6.6.Subsistema de almacenamiento.	36
+2.6.6.1Drivers de disco.	37
+2.6.6.2Drivers iSCSI.	38
+2.6.6.3Drivers de entrada/salida a través de múltiples caminos.	38
+2.6.6.4Objetos de dispositivos de disco.	38
+2.6.6.5Discos básicos y discos dinámicos.	39
+2.6.6.6Espacio de nombres de volúmenes.	39
+2.6.6.6.1Gestor de montaje.	39
+2.6.6.6.2Puntos de montaje.	40
+2.6.6.6.3Montaje de volúmenes.	40
+2.6.6.6.4Operaciones de entrada/salida de volúmenes.	41
+2.6.6.7Servicio de discos virtuales.	42
+2.6.7.Subsistema de redes.	43
+2.6.7.1Modelo OSI.	43
+2.6.7.2Componentes de red de Windows.	44
+2.6.7.3APIs de red de Windows.	45
+2.6.7.3.1Windows Sockets(Winsock).	45
+2.6.7.3.2Núcleo Winsock.	46
+2.6.7.3.3APIs de acceso web.	47
+2.6.7.3.4Otras APIs de red de Windows.	48
+2.6.7.3.5Drivers de protocolo.	49
+2.6.7.3.6Drivers NDIS.	50
+2.6.7.3.7Ensamblado.	51
+2.7.Windows vs. Linux.	51
+2.8.Swiftness.	52
+2.8.1.Bases de diseño.	52
+3.Glosario.	53
+4.Referencias.	54
+
+1 Introducción.
+		
+	Swiftness es el comienzo del desarrollo de una nueva infraestructura libre, con objeto de proporcionar almacenamiento en la nube como un servicio. Este almacenamiento puede ser alojado en una nube privada de almacenamiento pudiendo el usuario decidir el coste en almacenamiento que desea invertir, pudiendo construir desde nubes de bajo coste, para pequeñas empresas, a nubes de alto coste, disponibilidad y redundancia para grandes corporaciones. Al ser la infraestructura libre, puede elegirse el método de implantación, pudiéndose optar por implantaciones internas, de bajo coste, o contratando los servicios de implantación externos, especialistas en la infraestructura. Estas razones dotarán de flexibilidad al proyecto desarrollado, permitiendo abarcar mercados muy dispares, y mejorando la calidad del servicio ofrecido.
+	La infraestructura deberá estar conformada por una solución de almacenamiento en la nube, de entre las ya existentes, para lo que se ofrecerá un estudio de diversas soluciones, y una comparación por diferentes criterios para realizar una elección acorde al objetivo perseguido. Posteriormente se estudiarán las plataformas que conforman los clientes de la infraestructura de almacenamiento en la nube, para diseñar y desarrollar sistemas que faciliten la labor de implantación, administración, y uso de esta. Esto conllevará un amplio estudio de los sistemas operativos más comunes en los escritorios y estaciones de trabajo, en concreto, Microsoft Windows y GNU/Linux, con objeto de conocer que infraestructuras básicas ofrecen, para que el soporte de la infraestructura de almacenamiento se ofrezca desde el mismo sistema operativo, permitiendo al cliente conocer los menos detalles posibles acerca del almacenamiento, sin perder la eficiencia de disponer de un cliente lo más ligero posible. Amplia importancia adquiere la recopilación de información acerca de las infraestructuras ofrecidas por los sistemas operativos, puesto que supondrá una pieza básica para el posterior diseño y desarrollo de los drivers que ofrecerán el soporte deseado y delimitará los objetivos de este proyecto, sin dejar de ofrecer campos de estudio para futuros ciclos de desarrollo que permitan ampliar sus funcionalidades, y mejorar sus capacidades ofrecidas en el ciclo inicial. Por tanto, se recogerán estudios, de las infraestructuras de los sistemas operativos, que ofrezcan servicios que pudieran ser no utilizados en este diseño inicial.
+	Complementaremos este estudio de plataformas con el desarrollo de un driver para el sistema operativo GNU/Linux que sirva como base y ejemplo de los objetivos planteado por el diseño de esta plataforma. Este driver ofrecerá un soporte básico para utilizar la plataforma de almacenamiento, permitiendo que esta se observe en el cliente como si de un dispositivo local se tratara. Para ello se le dotará de capacidades de conexión con la plataforma, y resolución de operaciones básicas de entrada/salida, es decir, lecturas y escrituras, que el sistema de ficheros realice al dispositivo. Por tanto, no es objetivo de este proyecto diseñar el sistema de ficheros, ofreciendo la flexibilidad al usuario de utilizar el que desee. Sin embargo, si será objetivo traducir las peticiones realizadas por el sistema de ficheros, a las comunicaciones de red requeridas por el servidor para que este devuelva la respuesta requerida, y, posteriormente, traducir las respuestas recibidas para que el sistema de ficheros entienda qué es lo que el servidor ofrece.
+
+2 Documentación previa.
+2.1 Cloud Storage.
 	
 	El Cloud Storage, o almacenamiento en la nube, es un modelo de almacenamiento basado en redes donde los datos son almacenados en piscinas virtuales de almacenamiento. 
 	En las arquitecturas de almacenamiento en la nube, se persiguen cuatro objetivos, la agilidad, o capacidad de mover los datos al sitio adecuado para mejorar su disponibilidad, la escalabilidad, o capacidad de manejar crecientes cargas de trabajo, o de adaptarse para ser capaces de soportarlas, la elasticidad, o la capacidad de escalarse sin limites razonables, y la capacidad de ser multiusuario.
 	El Cloud Storage debe estar formado por servicios distribuidos que deben comportarse como un conjunto, debe ser tolerante a fallos a través de la redundancia de datos, debe ser duradero, sirviéndose de la creación de versiones de los documentos alojados, y debe ser consistente entre las diferentes versiones almacenadas.
-	Las principales preocupaciones de dichas soluciones son la seguridad ante posibles accesos indebidos, la estabilidad de la empresa proveedora, la accesibilidad de la información, y los costes hardware de la solución utilizada.
+		Las principales preocupaciones de dichas soluciones son la seguridad ante posibles accesos indebidos, la estabilidad de la empresa proveedora, la accesibilidad de la información, y los costes hardware de la solución utilizada.
 	Actualmente, existen dos tipos de instalaciones de Cloud Storage, las realizadas en servidores externos, y las instalaciones locales que el administrador puede acomodar a sus necesidades. 
 	En servidores externos, la compañías que ofrecen este servicio establecen una piscina de servidores virtuales en los que se aloja dicho almacenamiento y los pone a disposición del usuario. Este tipo de instalaciones goza de las mayores ventajas del Cloud Storage, que se apoyan en la disposición de grandes servidores de almacenamiento, y la delegación de la tarea de la administración y responsabilidades a la compañía encargada de ofrecer el servicio.
 	En las instalaciones locales, el usuario debe instalar la plataforma de almacenamiento en la nube, adaptarla a sus necesidades, y administrarla adecuadamente con el fin que persigue. Para el objetivo de este proyecto estudiaremos en mayor profundidad las soluciones locales.
 
-2. Almacenamiento en soluciones libres y locales existentes.
+2.2 Almacenamiento en soluciones libres y locales existentes.
 
-2.1 Amazon S3.
-	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, ni de instalacin local, puesto que solo se ofrecen las distintas interfaces de comunicación de esta. Aun así es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
+2.2.1 Amazon S3.
+
+	La plataforma Amazon S3 no se trata expresamente de una plataforma libre, ni de instalación local, puesto que solo se ofrecen las distintas interfaces de comunicación de esta. Aun así es objeto de estudio debido a que algunas soluciones basan su almacenamiento en esta plataforma.
 	La Amazon Simple Storage Service tiene como objetivo ser escalable, tener alta disponibilidad y baja latencia, a un bajo coste. Dispone de tres tipos de interfaces distintas, REST(Representational State Transfer), SOAP(Simple Object Access Protocol) y BitTorrent. Las primera interfaz es la más adoptada, se trata de una interfaz para sistemas distribuidos adoptada ampliamente en la World Wide Web. La segunda es una interfaz que cumple el mismo propósito que REST, pero basándose en tecnología XML. La tercera es una de las conocidas tecnologías P2P existentes.
 	Admite objetos de un tamaño inferior a 5 terabytes de información y los organiza en cubos. Para cada cubo, y objeto, dentro de este, se dispone una lista de control de acceso que permite al usuario disponer de su información. Cada objeto en un cubo puede ser accedido directamente desde internet. Además, cada objeto es una semilla de la red BitTorrent que puede ser utilizada para reducir el ancho de banda utilizado durante la descarga.
 	Puesto que el principal uso de los cubos es almacenar páginas web, cada cubo puede ser configurado para almacenar los registros de acceso en un cubo gemelo, o réplica.
 	Esta solución es capaz de alojar maquinas virtuales que se pueden ejecutar a través de sus interfaces expuestas, y admite redundancia distribuida en su cluster de almacenamiento.
 	Debido a su condición de no tener instalación local, no es posible saber sobre que tipo de host funciona dicha solución.
-	
-2.2 OpenNebula.
+
+2.2.2 OpenNebula.
+
 	Aunque la plataforma de Cloud Computing de OpenNebula es compatible con la interfaz Amazon EC2 Query Interface, lo que le ofrece compatibilidad con la plataforma de almacenamiento Amazon S3, dicha plataforma goza de un subsistema de almacenamiento propio. 
 	El subsistema está ideado para almacenar máquinas virtuales únicamente. Dicha plataforma se compone de una serie de drivers divididos en dos tipos, data store drivers, o drivers de almacenamiento de datos, y transfer manager drivers, o drivers de gestión de transferencia. Los primeros se encargan de ofrecer las funcionalidades de creación, eliminación y modificación de las máquinas virtuales. Los segundos se encargan de realizar las transferencias a otras localizaciones, clonación y enlace.
 	Los drivers de transferencia proveen a esta solución de una interfaz REST, y no es posible separar los subsistemas de comunicación de los de gestión de almacenamiento y operación de esta nube. No se especifica que disponga de persistencia de datos replicándolos a lo largo del cluster formado por la nube. Los tipos de host donde pueden ser alojada esta solución deben ser servidores Linux.
 
-2.3 Nimbus.
+2.2.3 Nimbus.
+
 	La plataforma Nimbus utiliza una implementación propia y libre de la API REST(Representational State Transfer) de Amazon S3, llamada Cumulus, para su almacenamiento. Las interfaces que ofrece dicha implementación son de tipo REST y SOAP, y no es posible separar la interfaz de comunicación del almacenamiento subyacente. Su almacenamiento, al igual que OpenNebula está basado en máquinas virtuales que gestionan sus propios discos, no siendo posible definir un almacenamiento sin sistema operativo. Esta solución permite, sin embargo, realizar replicación distribuida de datos para garantizar la persistencia. Los host que soportan esta solución deben ser servidores Linux.
 
-2.4 OpenStack.
+2.2.4 OpenStack.
+
 	Dicha solución se divide en tres partes bien diferenciadas para ofrecer una nube personal, estas son Nova, para la ejecución de software, Swift, para el almacenamiento, y Glance, para la gestión de imágenes virtuales. Esto le ofrece la capacidad de poder instalar solo el componente necesario para las necesidades del usuario. Swift es capaz de almacenar objetos o bloques indistintamente, permitiendo no solo el almacenamiento de imágenes virtuales, sino de cualquier tipo de información. 
 	Esta solución es escalable, distribuida, admite redundancia de datos, y propone al usuario una API de programación. Dicha API es compatible con las soluciones de almacenamiento masivo NetApp, Nexenta, SolidFire y Amazon S3. Debido a esto, admite comunicaciones a través de una interfaz REST o SOAP. El soporte de bloques permite que cualquier dispositivo de bloques(p. e. un disco duro, una cinta magnética, o una imagen virtual) pueda añadirse al sistema de almacenamiento distribuido de forma transparente.
 	Su organización se basa en clústeres de almacenamiento, y cada objeto se distribuye entre diferentes nodos de la red. El sistema garantiza la persistencia de bloques y capacidad de realizar instantáneas(snapshots) del almacenamiento para labores de salvaguardas.
 	Una vez más el tipo de servidor que es capaz de alojarlo es un servidor Linux.
 
-2.5 OpenQRM.
+2.2.5 OpenQRM.
+
 	En  el caso de OpenQRM nos encontramos con una solución propia, basada en el sistema de plugins para la plataforma. Dichos plugins se encargan de dar soporte por separado a los distintos tipos de almacenamientos reales en las distintas máquinas. Para ello, proveen al usuario de una interfaz SOAP. Su tipo de almacenamiento es basado en máquinas virtuales y no admite replicación de datos a lo largo del cluster.
 	Entre ellos podemos encontrarnos los siguientes plugins, que nos dan una idea del tipo de almacenamiento tratado: netapp-storage, nfs-storage, local-storage, iscsi-storage, lvm-storage, xen-storage y kvm-storage.
 	Dicha solución debe ser instalada sobre un servidor Linux.
 
-2.6 Eucalyptus.
+2.2.6 Eucalyptus.
+
 	Entre los distintos componentes de esta solución de Cloud Computing se encuentra el Storage Controller, o controlador de almacenamiento. Dicho componente implementa el sistema de almacenamiento Amazon EBS, Elastic Block Store, el cual provee de dispositivos de bloques brutos a la plataforma, siguiendo la estructura detallada en la plataforma Amazon S3. Esta implementación le permite utilizar las interfaces REST, SOAP y Bittorrent para manejar el almacenamiento, y en este caso es posible separar el subsistema de comunicación del de almacenamiento en servidores distintos.
 	Los hosts que soportan dicha solución deben ser servidores Linux.
 
-2.7 CloudStack.
+2.2.7 CloudStack.
+
 	Esta plataforma se nutre de la solución de almacenamiento de OpenStack, Swift, estudiada anteriormente, por tanto, ofrece interfaces REST y SOAP para su comunicación, cualquier tipo de almacenamiento, almacenamiento distribuido a lo largo del cluster, y, a diferencia de OpenStack, es capaz de instalarse sin sistema operativo servidor.
 
-2.8 Abiquo Open source edition.
+2.2.8 Abiquo Open Source Edition.
+
 	En esta plataforma nos encontramos con que el almacenamiento es independiente al resto de la plataforma, ofreciendo solo almacenamiento virtual de dos tipos: asistido, o genérico iSCSI. En el caso del almacenamiento asistido la plataforma ofrece almacenamiento como servicio directamente al usuario. En el caso del almacenamiento genérico iSCSI, el usuario dispone de un almacenamiento preconfigurado por el administrador del sistema, habitualmente una máquina virtual. Para ello se apoya en un conjunto de plugins, al igual que OpenQRM, que dan soporte a los siguientes tipos de almacenamiento: LVM y iSCSI Linux, Nexenta, NetApp. Aparte se ofrece una API de desarrollo para facilitar el soporte de otras plataformas como Dell Equallogic, IBM Volume Manager.
 	Esta solución solo ofrece una interfaz REST al usuario, y no ofrece replicación distribuida de forma automática. En este caso no se requiere de ningún sistema operativo para alojar la nube.
 
-3. Comparación de soluciones.
+2.3 Comparación de soluciones.
 
 	La mayor parte de las soluciones estudiadas implementan al menos alguna de las interfaces de comunicación propuestas por la nube de Amazon, además de compartir su tipo de almacenamiento, y, al menos, ofrecen al usuario de almacenamiento basado en máquinas virtuales, sin embargo, no todas ofrecen la oportunidad de realizar una instalación minimalista orientada al almacenamiento. Exceptuando la nube de Abiquo, y por razones obvias, la solución de Amazon, todas deben ser alojadas en servidores Linux, no soportándose la instalación nativa sobre un servidor, o la instalación sobre servidores Windows.
 	De este amplio abanico de soluciones es necesario destacar el soporte de las tres interfaces habituales por parte de Eucalyptus, y su soporte para distintos tipos de almacenamiento, admitiendo flexibilidad de instalación. Sin embargo, esta poderosa nube está orientada a ofrecer todos los servicios disponibles en cualquier nube habitual(computación, virtualización y almacenamiento), y no es especialmente cómoda para realizar una instalación minimalista, orientada al almacenamiento.
@@ -166,18 +263,15 @@ No
 No
 No
 
-4. Introducción a Swiftness.
-
-	El objetivo principal de Swiftness es ofrecer drivers de código abierto, para los distintos sistemas operativos existentes, y para la administración de las soluciones de almacenamiento distribuidos basadas en Swift de OpenStack. Swift nos ofrece la posibilidad de disponer del almacenamiento requerido en nuestra propia nube privada, prescindiendo de componentes innecesarios como los de computación en la nube o administración de maquinas virtuales. Al no estar su almacenamiento orientado exclusivamente al alojamiento de máquinas virtuales, Swift se convierte en una solución perfecta para establecer modelo de negocio que quiera mantener datos de forma segura en la red, pudiéndose plantear un modelo de negocio basado en la instalación y mantenimiento de nubes privadas, de almacenamiento o de computación. Swiftness permitirá acelerar cualquier tarea relacionada con el almacenamiento permitiendo mejorar el margen de beneficios en dichos servicios.
-	Para ello Swiftness propone una capa de abstracción de software que se interpondrá entre el núcleo del sistema operativo y el sistema de ficheros del cliente.
-
-5. Swift.
+2.4 Swift.
 
 	Este componente de la nube propuesta por Openstack se compone de cuatro servidores que se comunican para ofrecer el servicio propuesto. Estos son, un servidor de cuentas, un servidor de contenedores, un servidor de objetos y un servidor proxy para distribuir las peticiones entre el resto de servidores. De esta forma, para realizar cualquier transacción, el cliente deberá solicitar, al servidor de cuentas, acceso a la plataforma. Validado su acceso, dispondrá de acceso al contenedor asociado a su cuenta, y a los objetos asociados a este contenedor, cada uno de ellos gestionado por su servidor correspondiente. El cliente debe comunicarse con el servidor proxy para realizar cualquier petición, el cual ejerce de fachada aislando al resto de servidores. La organización de estos seria la siguiente:
 	
+
 	Para el objetivo de este proyecto, todos los servidores pueden ser tratados como una caja negra que se dedica al almacenamiento y distribución de datos, excepto el servidor proxy del cual estudiaremos en mayor profundidad su API.
 	
-5.1 Swift proxy server.
+2.4.1 Swift Proxy Server.
+
 	La comunicación con este componente, se basa en el envío de peticiones HTTP. Dichas peticiones se gestionan mediante el uso de la operación GET, y deben contener unas cabeceras específicas para reconocer los distintos tipos de peticiones. Dichas peticiones disponen de una serie de restricciones detalladas a continuación:
 
 El numero máximo de cabeceras por petición es 90.
@@ -201,10 +295,11 @@ Creación/actualización de objetos.
 Copia de objetos.
 Eliminación de objetos.
 
-5.2 Operaciones en la API.
+2.4.2 Operaciones en la API.
+
 	Como ya adelantábamos, para interactuar con el servidor proxy se utiliza una interfaz REST, es decir, el servidor espera peticiones HTTP para servir cualquier tipo de fichero disponible, y realizar el control de acceso al almacenamiento.
 
-5.2.1. Identificación.
+2.4.2.1 Identificación.
 	Esta operación es, por razones de seguridad, la primera a realizar de todas las posibles. Para ello hace falta proveer al servidor de un usuario válido y su contraseña a través de la operación GET de la versión 1.1 de HTTP. El servidor nos devolverá un identificador único necesario para realizar cualquier posterior operación. La solicitud es la siguiente:
 
 	GET /<api version> HTTP/1.1
@@ -219,8 +314,7 @@ Eliminación de objetos.
 	X-Auth-Token: <identificador para posteriores accesos>
 	Content-Length: 0
 	Content-Type: text/plain; charset=UTF-8
-
-5.2.2. Listado de contenedores.
+2.4.2.2 Listado de contenedores.
 	La operación de listado de contenedores no requiere ningún parámetro en especial, más que el identificador de sesión obtenido durante la identificación, sin embargo, existen un par de variables de configuración de interés general para dicha operación. Las variables se concatenan a la dirección solicitada en la operación GET, separando el listado de variables de la dirección por un interrogante('?'). Dichas variables sirven para describir el formato en que se recibirá el listado,siendo válidos los valores format=json y format=xml, el límite de contenedores que se quieren recibir, configurando la variable limit=N, y la coincidencia desde la cual quiere comenzarse el listado con la variable marker.
 	
 	GET /<api version>/<account>?var1=val1& … & varN=valN HTTP/1.1
@@ -254,7 +348,8 @@ Eliminación de objetos.
 	    <bytes>17</bytes>
 	  </container>
 	</account>
-5.2.3. Listado de objetos.
+
+2.4.2.3 Listado de objetos.
 	En el caso de los listados de objetos, se dispone de algunas variables de configuración adicionales, además de las ya descritas para los listados de contenedores. Estas nuevas variables son  end_marker, para devolver un listado terminado en el valor especificado, prefix, para ofrecer un prefijo que preceda al nombre del objeto y delimiter, para mostrar las ocurrencias listadas hasta el delimitador, desechando el resto de la dirección. Un ejemplo de uso de delimitador es aquel en el que solo queremos listar los directorios existentes en la raíz del almacenamiento, para lo cual solo requerimos utilizar el delimitador '/' para obtener el resultado deseado.
 	El formato de la petición es el siguiente:
 
@@ -304,7 +399,8 @@ Eliminación de objetos.
 	    <last_modified>2009-02-03T05:26:32.612278</last_modified>
 	  </object>
 	</container>
-5.2.4. Creación de contenedores.
+
+2.4.2.4 Creación de contenedores.
 	Los contenedores, no son más que compartimentos donde almacenar los objetos, sin embargo, sus nombres deben cumplir las restricciones de no tener una longitud mayor de 256 caracteres, y no contener el carácter '/'. Un ejemplo de petición de creación de un contenedor es el siguiente:
 
 	PUT /<api version>/<account>/<container> HTTP/1.1
@@ -316,7 +412,7 @@ Eliminación de objetos.
 	Server: Apache
 	Content-Type: text/plain; charset=UTF-8
 
-5.2.5. Eliminación de contenedores.
+2.4.2.5 Eliminación de contenedores.
 	Para la eliminación de un contenedor, es suficiente con la siguiente petición:
 
 	DELETE /<api version>/<account>/<container> HTTP/1.1
@@ -328,7 +424,8 @@ Eliminación de objetos.
 	 Server: Apache
 	 Content-Length: 0
 	 Content-Type: text/plain; charset=UTF-8
-5.2.6. Recuperación de objetos.
+
+2.4.2.6 Recuperación de objetos.
 	Aunque habitualmente se utiliza la operación GET para recuperar objetos del almacenamiento masivo, es posible utilizar las directivas If-Match, If-None-Match, If-Modified-Since y If-Unmodified-Since definidas en el protocolo RFC2616. Como sus nombres indican, su funcionalidad es hacer condicional la recuperación del objeto en cuestión, definiendo si se encuentra un objeto que coincida en nombre, que no, o si ha sido modificado desde una fecha determinada.
 	Existe también un soporte básico para recuperar rangos de memoria dentro del objeto, permitiendo recuperar solo partes de este si no se requiere el objeto completo.
 	Su petición es la siguiente:
@@ -346,7 +443,8 @@ Eliminación de objetos.
 	Content-type: text/html
 	Content-Length: 512000
 	[ ... ]
-5.2.7. Creación, o actualización de objetos.
+
+2.4.2.7 Creación, o actualización de objetos.
 	Es posible, y recomendable, que para la creación o actualización de objetos se utilicen sumas MD5 que ayuden a verificar la integridad de este. Está soportada dicha funcionalidad a través  del envío de una cabecera especial llamada Etag. Independientemente de si esta cabecera es incluida en la creación del objeto, al recuperarlo, siempre se devolverá el valor de la suma, para que el usuario pueda comprobar su integridad. Si se desea que el objeto expire en un tiempo determinado, o en una fecha, es posible añadir las cabeceras X-Delete-At y X-Delete-After. Su petición tiene la siguiente forma:
 
 	PUT /<api version>/<account>/<container>/<object> HTTP/1.1
@@ -365,7 +463,8 @@ Eliminación de objetos.
 	ETag: d9f5eb4bba4e2f2f046e54611bc8196b
 	Content-Length: 0
 	Content-Type: text/plain; charset=UTF-8
-5.2.8. Copia de objetos.
+
+2.4.2.8 Copia de objetos.
 	De cometerse un error con el nombre del objeto, al subirlo, o sencillamente querer cambiar su nombre, debería eliminarse el objeto y volverlo a subir, produciendo sobrecarga en las comunicaciones. Esto se evita mediante la copia en servidor de objetos. Esta copia puede realizarse de dos formas. A través de la cabecera X-Copy-From, donde se especificará el contenedor y el objeto que se desea copiar, o mediante la operación COPY. Detallamos sus formas a continuación:
 
 	PUT /<api version>/<account>/<container>/<destobject> HTTP/1.1
@@ -377,7 +476,8 @@ Eliminación de objetos.
 	Host: <storage URL>
 	X-Auth-Token: <some-auth-token>
 	Destination: /<container>/<destobject>
-5.2.9. Eliminación de objetos.
+
+2.4.2.9 Eliminación de objetos.
 	La eliminación de objetos es inmediata y permanente, toda operación sobre el objeto después de la operación DELETE, devolverá el conocido error 404 de HTTP, objeto no encontrado. Es posible programar la eliminación mediante el uso de las cabeceras X-Delete-At y X-Delete-After. La petición debe tener la siguiente forma:
 
 	DELETE /<api version>/<account>/<container>/<object> HTTP/1.1
@@ -388,10 +488,12 @@ Eliminación de objetos.
 	Date: Thu, 07 Jun 2010 20:59:39 GMT
 	Server: Apache
 	Content-Type: text/plain; charset=UTF-8
-5.3 Entorno de operación.
+
+2.4.3 Entorno de operación.
+
 	Para poder comprobar que nuestros drivers funcionan correctamente, es necesario preparar un servidor Openstack Swift donde poder realizar las conexiones pertinentes. Para este proyecto, hemos elegido utilizar una máquina virtual utilizando la tecnología de virtualización KVM, propia del núcleo de Linux. La máquina ha sido dotada de un sistema operativo Debian GNU/Linux en su versión de pruebas(actualmente Debian GNU/Linux Wheezy), y dispone de dirección IP propia dentro de la red gracias a la compatibilidad de KVM con los puentes virtuales que ofrece Linux. Además del software básico que se instala automáticamente con la distribución, se le ha añadido un servidor OpenSSH para realizar conexiones seguras a la máquina y los paquetes, incluidos en los repositorios de la distribución, de Openstack Swift. De esta forma puede ejecutarse la máquina virtual como si de un servidor del sistema real se tratara, y podemos realizar cualquier prueba pertinente de nuestros drivers. Para la configuración del servidor Swift, hemos seguido las instrucciones detalladas en la documentación de Openstack SAIO(Swift All In One).
 
-6. Linux.
+2.5 Linux.
 
 	En el conocido sistema operativo libre, creado por Linus Torvalds y publicado en el año 1991, los programas en espacio de usuario deben comunicarse con el núcleo a través de módulos que permitan la gestión de dispositivos en el sistema. Dichos módulos representan tres tipos de dispositivos: de caracteres, de bloques, y de red. 
 	Los dispositivos de caracteres son aquellos que se comunican mediante flujos de caracteres secuenciales, un ejemplo sencillo es el teclado, que puede ser accedido, y la información transmitida es un flujo de caracteres secuencial, si tecleas una palabra, esta se tratará en su estricto orden, y no en otro distinto. Los dispositivos de bloque suelen ser dispositivos de almacenamiento masivo y se estructuran en bloques o porciones que accedidas en secuencias de operaciones, y sus bloques no necesariamente se acceden de manera secuencial. Por último, los dispositivos de red, se encargan de cualquier tipo de comunicación con el exterior del sistema a través de sus interfaces de red, como las tarjetas Ethernet, modems, etc.
@@ -401,11 +503,12 @@ Eliminación de objetos.
 
 	Cabría esperar que la labor de Swiftness fuera la de la traducción de las peticiones de bloques a directivas TCP, sin embargo dicha labor ya se encuentra cubierta por el módulo NBD(Network Block Device) que estudiaremos mas adelante. Con esto, la labor de Swiftness se reduce a implementar paquetes con las cabeceras adecuadas para que el servidor Swift pueda ser gobernado por el módulo NBD.
 
-6.1 Dispositivos de bloques.
+2.5.1 Dispositivos de bloques.
+
 	Los drivers dispositivos de bloques, dentro del código fuente de Linux, se alojan en el directorio “drivers/block”, y las interfaces que deben cumplir en el directorio “include/linux”. Como antes adelantábamos, dichos dispositivos disponen de grandes cantidades de información, dividida en bloques que no serán accedidos secuencialmente y es este hecho el que los diferencia de los dispositivos de caracteres. Debido a que tendremos que navegar a lo largo del dispositivo para acceder a la información, estos dispositivos ganan complejidad. La naturaleza de dichos dispositivos hacen al sistema altamente sensible a su disponibilidad.
 	El tamaño de un sector depende del dispositivo en cuestión, y es la unidad mínima fundamental de un dispositivo de bloques. Aunque muchos dispositivos de bloques dispongan de un tamaño de sector de 512 bytes, esto no quiere decir que sea un tamaño estándar. El sistema operativo debe cumplir con ciertas restricciones a la hora de acceder a un dispositivo de bloque. Debe acceder a la información en bloques de tamaño múltiplo del tamaño de sector, el tamaño de este bloque, deberá ser potencia de dos(restricción que suele aplicarse también al tamaño de sector),  y el tamaño de bloque no puede ser mayor que el tamaño de una página de información en memoria principal. Los tamaños más habituales son 512 bytes, 1 kilobytes, y 4 kilobytes.
 
-6.1.1. Proceso de una operación.
+2.5.1.1 Proceso de una operación.
 	La jerarquía de subsistemas para acceder a un dispositivo de bloques, desde que una simple operación de lectura es enviada desde el espacio de usuario, hasta que llega al dispositivo es amplia. Esta contempla desde el sistema de ficheros virtual, hasta el driver del dispositivo de bloques, pasando por las caches de discos, los distintos sistemas de ficheros, conformando la capa de direccionamiento del sistema, la capa genérica del dispositivo de bloques, y el planificador de entrada salida. Debido a esto, resulta interesante estudiar que sucede, paso por paso, cuando una operación sobre el dispositivo está procesándose.
 	Suponemos que se ha llamado a la rutina de servicio read() para hacer un acceso de lectura. Este acceso de lectura provoca que el sistema active la función más adecuada dentro del sistema de ficheros virtual para procesarla. Esta función recibirá el descriptor del fichero abierto a leer y un desplazamiento dentro del fichero, para describir el bloque que quiere leerse. El sistema de ficheros virtual, debe determinar si los datos están ya disponibles en memoria principal, y como se realizará el acceso. 
 	De requerir acceder al dispositivo de bloques, el sistema de ficheros virtual acudirá a la capa de direccionamiento. En esta capa se ejecutarán dos tareas principales. La primera será determinar el tamaño de bloque, para calcular el desplazamiento dentro del fichero en función de este tamaño. Posteriormente se invoca una función del sistema de ficheros real que determine el nodo del fichero y su posición dentro del disco.
@@ -414,7 +517,7 @@ Eliminación de objetos.
 	Finalmente, las peticiones se ofrecen al driver del dispositivo de bloques, que ejecutará la operación real. Todo este largo proceso puede verse resumido en la siguiente figura, donde se observa la jerarquía completa de subsistemas.
 
 
-6.1.2. Estructura genérica de dispositivos de bloque.
+2.5.1.2 Estructura genérica de dispositivos de bloques.
 	Cada vez que un bloque es alojado en memoria principal, este es asociado a un buffer. Un buffer es un objeto que representa un bloque en memoria, y, dado que el núcleo requiere más información que esta, cada buffer se asociará a un descriptor llamado buffer_head. Esta estructura almacenará datos como el estado del bloque, su página asociada, su tamaño, un puntero al comienzo de los datos, y el dispositivo al que pertenece, entre otros detalles. Puede consultarse la estructura en el fichero “include/linux/buffer_head.h”. Aunque mucha de esta información es necesaria para el núcleo, no deja de ser una sobrecarga y un consumo de espacio en memoria.
 	Otra estructura de importancia, es aquella que almacena la información de una operación de entrada/salida. Esta es la estructura bio(block input/output, detallada en el fichero “include/linux/bio.h”). Las operaciones descritas por esta estructura operan sobre segmentos, o porciones de un buffer, que no tienen la obligación de estar alojadas de forma contigua en memoria principal. De esta forma, el núcleo puede operar con un sector repartido a lo largo de toda la memoria. La información de esta estructura es mayoritariamente informativa, y sus campos mas relevantes con bi_vcnt, bi_idx y bi_io_vec. Estas estructuras se organizan en un vector de estructuras llamadas bio_vec. El campo bi_io_vec, almacena la dirección su vector asociado, bi_idx, su posición dentro del vector, y bi_vcnt, el número de estructuras bio_vec en el vector. Dicho esto solo queda detallar que las estructuras bio_vec se encargan de almacenar la información relativa a la página de memoria donde se aloja el segmento, su tamaño, y el desplazamiento dentro de la  página.
 	Con esta organización, el subsistema de entrada/salida de dispositivos de bloques de Linux es capaz de describir operaciones, ordenarlas a conveniencia(normalmente por proximidad de páginas dentro del almacenamiento masivo), añadir y eliminar operaciones con relativa facilidad, y utilizar distintos esquemas de acceso al dispositivo de bloques. El panorama general se asemeja a la siguiente figura:
@@ -423,11 +526,12 @@ Eliminación de objetos.
 	La forma en la que el sistema de ficheros virtual maneja todas estas estructuras, es a través de una estructura request_queue, que, como cuyo nombre indica, es una cola de peticiones. Mientras la cola no este vacía, el driver del dispositivo de bloques irá retirando peticiones, o estructuras request, de la cabeza de la cola y enviándole dichas peticiones al dispositivo que soporta. La estructura request está compuesta de una o más estructuras bio que operan sobre bloques consecutivos en el dispositivo. Estas estructuras vienen definidas en el fichero “include/linux/blkdev.h”.
 	Estas colas de peticiones serán manejadas por los distintos organizadores de las operaciones de entrada/salida. Entre los organizadores más importantes nos encontramos, el ascensor de Linus(Linus Elevator Scheduler), el organizador por plazos(Deadline Scheduler), el organizador anticipado(Anticipatory Scheduler), el organizador de cola completamente justo(Complete Fair Queue Scheduler), y el organizador de no operación(Noop Scheduler).
 
-6.2 Dispositivos de red.
+2.5.2 Dispositivos de red.
+
 	Los dispositivos de red en Linux disponen de un comportamiento similar al de un dispositivo de bloques montado. Este debe registrarse en el núcleo del sistema operativo utilizando las estructuras habilitadas para tal efecto antes de que pueda transmitir o recibir ningún paquete. Aún así, parece razonable pensar que existen ciertas diferencias. Los dispositivos de red no disponen de un fichero en el directorio “/dev” que sirva de punto de acceso, puesto que sus operaciones principales ya no van a ser las de leer o escribir, sino las de transmitir o recibir. Además, utiliza un espacio de nombres distintos y provee al usuario de operaciones distintas, que operan sobre objetos diferentes en el núcleo. 
 	Otra diferencia a subrayar es que un dispositivo de bloques actúa en consecuencia de una petición del núcleo, mientras que el dispositivo de red debe pedir al núcleo que procese el paquete que ha recibido asíncronamente. Esto implica que aunque el subsistema de red de este sistema operativo sea independiente del protocolo utilizado, su API sea completamente distinta.
 	La forma en que un dispositivo de red se registra en Linux es insertar una estructura net_device dentro de una lista global de dispositivos de red. Esta estructura se detalla en el fichero “include/linux/netdevice.h”, y engloba toda la información relativa a la comunicación del dispositivo de red, además de información relativa a los diferentes protocolos soportados por el sistema. Los campos de dicha estructura más importantes son el nombre, su estado, la estructura net_device del siguiente dispositivo en la lista de dispositivos de red, los campos relativos a su espacio de memoria relacionado, su dirección, puerto, irq y canal de DMA.
-	Para alojar dinámicamente la estructura se dispone de la función alloc_netdev, registrando el dispositivo en el núcleo. Sin embargo, también es posible hacer este registro mediante las funciones alloc_etherdev(Ethernet devices, “include/linux/etherdevice.h”), alloc_fcdev(Fiber-channel, “include/linux/fcdevice.h”), alloc_fddidev(FDDI devices, “include/linux/fddidevice.h”) o alloc_trdev(Token ring devices, “include/linux/trdevice.h”). La inicialización de las estructuras es realizada por dichas funciones, colocando unos parámetros por defecto que pueden ser modificados posteriormente. Dicha inicializacin la realiza la función ether_setup en el caso de llamar a alloc_etherdev.
+	Para alojar dinámicamente la estructura se dispone de la función alloc_netdev, registrando el dispositivo en el núcleo. Sin embargo, también es posible hacer este registro mediante las funciones alloc_etherdev(Ethernet devices, “include/linux/etherdevice.h”), alloc_fcdev(Fiber-channel, “include/linux/fcdevice.h”), alloc_fddidev(FDDI devices, “include/linux/fddidevice.h”) o alloc_trdev(Token ring devices, “include/linux/trdevice.h”). La inicialización de las estructuras es realizada por dichas funciones, colocando unos parámetros por defecto que pueden ser modificados posteriormente. Dicha inicialización la realiza la función ether_setup en el caso de llamar a alloc_etherdev.
 	En el caso de descargar el módulo de la memoria, debe utilizarse las funciones unregister_netdev y free_netdev para liberar todos los recursos registrados durante la inicialización del modulo.
 	Durante la apertura y cierre del dispositivo cabe destacar la necesidad de activar y desactivar el bit IFF_UP, del campo flag de la estructura netdevice, para cada correspondiente operación., la necesidad de copiar la dirección MAC del dispositivo a la estructura, y el uso de las funciones net_if_start_queue y net_if_stop_queue, para iniciar o detener las transferencias.
 	En las transmisiones de paquetes se dispone de la función hard_start_xmit, que encola el envío de un paquete de datos almacenado en la estructura socket buffer(struct sk_buff, detallada en el fichero ”include/linux/sk_buff.h”). Cualquier paquete que se vaya a transmitir por la interfaz de red debe pertenecer a un socket, puesto que el almacenamiento de entrada/salida  de esta estructura son listas de estructuras sk_buff. El paquete debe de estar almacenado en la estructura tal y como deba aparecer en la interfaz física de red desde la que se vaya a enviar.
@@ -438,7 +542,8 @@ Eliminación de objetos.
 	Es posible liberar el espacio de almacenamiento de un socket buffer mediante las funciones dev_kfree_skb(para contextos de ejecución), dev_kfree_skb_irq(para contextos de nterrupción) y dev_kfree_skb_any(para cualquier contexto).
 	Para la entrada/salida programada, se utiliza una API diferente llamada NAPI(New API) que modela el comportamiento programado del dispositivo. Un driver que implemente esta API debe ser capaz de deshabilitar la interrupción de recepción de paquetes, manteniendo las interrupciones para las transmisiones válidas y otros eventos. Además, deberá implementar una función poll que se dedique a preguntar a la interfaz de red si ha recibido algo. En caso de no recibir nada, se reactivará la interrupción de recepción y se mantendrá al dispositivo a la espera.
 
-6.3 Network Block Device.
+2.5.3 Network Block Device.
+
 	Como reza la documentación incluida en el núcleo de Linux, este módulo se encarga de conectar a un servidor remoto que exporte un dispositivo de bloques, con el fin de que la máquina cliente pueda acceder a este como si de un dispositivo local se tratara. Si establecemos una simple comparación con el objetivo de este proyecto, podemos constatar que la única diferencia con este, es que el servidor, no es uno propio, como el nbd-server, sino el servidor Swift de Openstack, luego es razonable pensar que podemos partir de este módulo para alcanzar nuestro objetivo.
 	Este módulo envía las peticiones de un dispositivo de bloques genérico a través de la red, utilizando el protocolo TCP, para que el servidor la procese y envíe la respuesta al cliente de vuelta de la misma forma. Dichas peticiones, tienen la forma de estructuras request como las utilizadas por los dispositivos locales existentes en el sistema. Estas estructuras request se generan a raíz de las estructuras bio y bio_vec(comentadas en el apartado 5.1.2), tomando la información correspondiente al direccionamiento del bloque, y los bloques consecutivos que se quieren extraer.
 	El servidor funciona en espacio de usuario completamente, siendo necesario dicho módulo solamente en el cliente.
@@ -467,7 +572,7 @@ Eliminación de objetos.
 	};
 
 	Sus campos más destacables son el entero flags para configurar sus parámetros, la estructura socket que realiza el envío y recepción de peticiones, la estructura file que define el fichero del dispositivo y las dos colas de peticiones active_wq y waiting_wq. El driver se apoya en dichas colas para ejercer sus funciones. Una petición nueva, es encolada en la cola waiting_wq. Cuando llega su turno en la cola, la petición se envía y pasa a la cola active_wq para esperar su respuesta. Estas operaciones sobre las listas suceden tras la protección de concurrencia del mecanismo de spinlock. Ademas, con el fin de evitar problemas de concurrencia, se protege la transferencia de estructuras mediante un mutex.
-	La estructura request de nbd es la siguiente:
+	La estructura request de NBD es la siguiente:
 
 	struct nbd_request {
 	__be32 magic;
@@ -490,11 +595,12 @@ Eliminación de objetos.
 	De entre todas las funciones que conforman dicho driver, alojado en <drivers/block/nbd.c> nos interesan mayoritariamente las funciones que se encargan de transmitir y recibir paquetes a través de la red, y las funciones que creen o procesen dichos paquetes pues son las funciones susceptibles de modificación. Entre ellas, encontramos la función sock_xmit, que se encarga de transmitir un buffer utilizando el socket propio del dispositivo. Gracias a que su objetivo es muy simple, esta función no requiere ningún cambio, suponiendo una base de la comunicación imprescindible. Sin embargo, podemos observar las funciones sock_send_bvec y nbd_send_req, que se encargan de utilizar sock_xmit para enviar la estructura request y las estructuras bio_vec requeridas para procesar la operación en curso, y que con toda probabilidad deberán ser modificadas para permitir la comunicación con el servidor Swift. Estas dos funciones componen la comunicación en el sentido cliente-servidor.
 	Las funciones sock_recv_bvec y nbd_read_stat son el equivalente a las funciones  sock_send_bvec y nbd_send_req en el sentido opuesto de la comunicación, es decir, la comunicación servidor-cliente. La primera de ellas recibe las estructuras bio_vec requeridas, y la segunda se encarga de procesar la respuesta. Con el diseño adecuado, dichas funciones no deberían ser susceptibles de cambio.
 	La función nbd_handle_req añade la petición activa a la cabeza de la cola de peticiones activas, donde esperará su respuesta correspondiente. La función do_nbd_request será la encargada de encolar una nueva petición en la cola waiting_queue antes de ser enviada.
-	Se definen en este módulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo nbd, las cuales no resultan de especial interés para el cometido de este proyecto.
+	Se definen en este módulo una serie de operaciones ioctl para trabajar con la estructura del dispositivo NBD, las cuales no resultan de especial interés para el cometido de este proyecto.
 
-7. Windows.
+2.6 Windows
 
 	Dentro de la arquitectura del conocido sistema operativo de Microsoft nos encontramos con diversos componentes organizados de la siguiente manera:
+
 	
 	En la figura podemos diferenciar los subsistemas que trabajan en espacio de usuario y en espacio del núcleo. Dentro del espacio de usuario tendremos:
 
@@ -505,21 +611,21 @@ Las propias librerías dinámicas: Su cometido es traducir la llamada al sistema
 	En el espacio del núcleo, los componentes más importantes son:
 
 El ejecutor de Windows, el cual conforma la base principal del sistema, ofreciendo los servicios mínimos del sistema(uso de memoria, creación de procesos e hilos, seguridad, entrada/salida...)
-El núcleo, que reune las funciones en bajo nivel requeridas para que el ejecutor ofrezca los servicios mínimos
+El núcleo, que reúne las funciones en bajo nivel requeridas para que el ejecutor ofrezca los servicios mínimos
 Los drivers de dispositivos, que se comunicarán con el hardware
 La capa de abstracción de hardware, que aísla el núcleo del ejecutor de Windows. Como se puede observar, el sistema gráfico es independiente del bloque de sistemas antes comentado.
 
 	Analizando en mayor detalle los subsistemas que componen el núcleo, podemos encontrar los siguientes componentes:
 El manejador de entrada salida: dicho subsistema se apoya en los drivers de dispositivos o en los sistemas de ficheros para realizar delegar la tarea encomendada al componente correspondiente.
-El manejador de cache, que se encarga de organizar los datos requeridos recientemente por el espacio de usuario en memoria, manteniendolos en esta para agilizar posteriores accesos.
+El manejador de cache, que se encarga de organizar los datos requeridos recientemente por el espacio de usuario en memoria, manteniéndolos en esta para agilizar posteriores accesos.
 El manejador de procesos e hilos, que se encarga de iniciar y finalizar los distintos procesos e hilos y de ofrecerles el soporte requerido.
 El manejador de objetos del núcleo, cuyo objetivo principal es mantener las estructuras necesarias para su correcto funcionamiento.
 El manejador de dispositivos Plug and Play, subsistema que detecta la aparición de un nuevo dispositivo en el sistema y pone en funcionamiento las infraestructuras necesarias del núcleo que permitirán su correcto funcionamiento.
-El monitor de seguridad, que activará las politicas de seguridad de acceso a cualquier medio.
+El monitor de seguridad, que activará las políticas de seguridad de acceso a cualquier medio.
 El manejador de memoria, que se encarga de alojar información en memoria principal, o devolverla al dispositivo de bloques del que proviene.
-El manejador de configuración del sistema, que gestionará el registro de Windows y la informacion contenida en el.
+El manejador de configuración del sistema, que gestionará el registro de Windows y la información contenida en el.
 El manejador de entrada/salida, que implementa una interfaz general de entrada salida independiente del dispositivo.
-Las rutinas  de instrumentación ofrecidas por el servicio WMI de Windows, que permiten a los drivers de los dispositivos publicar información de configuración y estadisticas sobre el dispositivo.
+Las rutinas  de instrumentación ofrecidas por el servicio WMI de Windows, que permiten a los drivers de los dispositivos publicar información de configuración y estadísticas sobre el dispositivo.
 El invocador de procedimientos avanzado, que realiza las tareas necesarias para la ejecución de cualquier software.
 La interfaz de dispositivos de gráficos, apoyada en sus correspondientes dispositivos, y que realizará la tarea de gestionar el entorno gráfico del sistema.
 
@@ -528,7 +634,8 @@ La interfaz de dispositivos de gráficos, apoyada en sus correspondientes dispos
 
 	Analizaremos posteriormente en mayor detalle los subsistemas más relevantes.
 
-7.1 Subsistema de entorno y librerías dinámicas.
+2.6.1 Subsistema de entorno y librerías dinámicas.
+
 	Este componente ofrece aislamiento entre el espacio de usuario y el espacio del núcleo, sin llegar a pertenecer a este último. Actúa como un filtro de primera instancia donde una función de dichas librerías puede actuar de las siguientes formas:
 La función se implementa en la librería, y por tanto, el espacio del núcleo no requiere saber de la llamada a esta función, luego será resuelta por la librería y se continuará con la ejecución normal del sistema.
 La función requiere llamar al ejecutor de Windows para realizar alguna de sus funciones, luego se realizarán algunas tareas puntuales en espacio del núcleo y se continuará el resto de ejecución en espacio de usuario. 
@@ -541,7 +648,8 @@ La función requiere el uso del subsistema de entorno, enviándole un mensaje pa
 
 	Entre los subsistemas de entornos, nos encontramos con el subsistema propio de Windows, y por cuestiones de soporte, el subsistema POSIX(Portable Operating System Interface based on Unix). Puesto que nuestro objetivo se centra en el espacio del núcleo, no estudiaremos en mayor profundidad este componente.
 
-7.2 Ejecutor de Windows.
+2.6.2 Ejecutor de Windows.
+
 	El ejecutor de Windows conforma la primera capa de abstracción con la que una llamada al sistema se encontrará cuando se alcance el espacio del núcleo, haciendo de fachada para el resto del sistema. Está formado por numerosas funciones que pueden ser recogidas en los siguientes tipos:
 
 Funciones exportadas al espacio de usuario, o servicios del sistema, la librería Ntdll se encarga de ofrecerlos. Muchos de los servicios son accesibles desde la API de Windows, o a través del subsistema de entorno.
@@ -551,16 +659,18 @@ Funciones definidas como símbolos globales, pero que no son exportados al espac
 
 	Además, el ejecutor de Windows contiene cuatro grupos de funciones de soporte para los componentes organizados por este. Los grupos son los siguientes:
 
-Las funciones del manejador de objetos del ejecutor, que crea y destruye los objetos que sirven de infraestructura para el nucleo.
+Las funciones del manejador de objetos del ejecutor, que crea y destruye los objetos que sirven de infraestructura para el núcleo.
 El ALPC(Advanced Local Procedure Call, lanzador de procedimientos locales avanzados) que se encarga del paso de mensajes entre procesos.
 La librería de funciones comunes del sistema.
 Las rutinas de soporte del ejecutor.
 
-7.3 El núcleo.
-	El núcleo consiste en una serie de funciones contenidas en Ntoskrnl.exe que ofrece los mecanismos principales para el funcionamiento del sistema. Es utilizado por el ejecutor como una arquitectura de hardware a bajo nivel y es completamente dependiente, por tanto, de la arquitectura donde se ejecute.
-	Dentro de el se utilizan objetos de control y primitivas que serán controladas por el ejecutor, el cual expondrá los recursos compartidos utilizando las distintas políticas de seguridad. Además dispone de el control de region del procesador y el bloque de control para almacenar información especifica del procesador y su ejecución en curso.
+2.6.3 El núcleo.
 
-7.4 Drivers de dispositivos.
+	El núcleo consiste en una serie de funciones contenidas en Ntoskrnl.exe que ofrece los mecanismos principales para el funcionamiento del sistema. Es utilizado por el ejecutor como una arquitectura de hardware a bajo nivel y es completamente dependiente, por tanto, de la arquitectura donde se ejecute.
+	Dentro de el se utilizan objetos de control y primitivas que serán controladas por el ejecutor, el cual expondrá los recursos compartidos utilizando las distintas políticas de seguridad. Además dispone de el control de región del procesador y el bloque de control para almacenar información especifica del procesador y su ejecución en curso.
+
+2.6.4 Drivers de dispositivos.
+
 	Los drivers en Windows conforman módulos que pueden cargarse en memoria principal bajo demanda. Pueden ser utilizados en contextos donde un hilo en espacio de usuario utiliza una de sus funciones, en contextos en los que un hilo en espacio del núcleo lo utiliza, o como resultado de una interrupción. Los drivers no utilizan los dispositivos directamente, sino que utilizan las funciones de la capa de abstracción de hardware(HAL, Hardware Abstraction Layer) para cumplir su cometido. Los tipos de drivers existentes son los siguientes:
 
 Drivers de dispositivos, que utilizan la capa HAL para comunicarse con estos.
@@ -578,7 +688,8 @@ Drivers de filtro, que implementan una funcionalidad añadida a un driver de fun
 
 	Para el desarrollo de estos drivers, la Windows Driver Foundation provee al usuario de las plataformas para drivers en espacio del núcleo(KMDF, Kernel-mode driver framework), y para drivers en espacio de usuario(UMDF, User-mode driver framework).
 
-7.5 Componentes del sistema de entrada/salida.
+2.6.5 Componentes del sistema de entrada/salida.
+
 	Dentro del sistema de entrada/salida existen una serie de componentes que colaboran habitualmente para ofrecer los servicios de los drivers al espacio de usuario. Estos componentes son el gestor de entrada/salida, el gestor del consumo energético, el gestor de dispositivos Plug and Play, y las rutinas de servicio para el proveedor de instrumentación de Windows.
 	El gestor de entrada salida es el principal componente de este subsistema, cumpliendo el objetivo de conectar dispositivos(virtuales, lógicos y físicos) con el espacio de usuario. Conforma una infraestructura de soporte para los drivers.
 	Los drivers de dispositivos ofrecen una interfaz de comunicación que es dirigida a través del gestor de entrada/salida. Cuando el usuario envía una petición, el gestor de entrada/salida la recoge y decide quien debe responder a esta, dirigiendo la petición al dispositivo adecuado. 
@@ -587,13 +698,13 @@ Drivers de filtro, que implementan una funcionalidad añadida a un driver de fun
 	Las rutinas de servicio del proveedor de instrumentación de Windows hacen de interfaz de comunicación entre el proveedor de instrumentación y los drivers de los dispositivos.
 	Además de estos componentes, es conveniente recordar que en este subsitema  utiliza el registro de Windows para mantener una base de datos de los dispositivos básicos, los ficheros INF, que sirven para almacenar la información de los drivers instalados en el sistema, y el nivel de abstracción de hardware.
 
-7.5.1. Gestor de entrada/salida.
+2.6.5.1 Gestor de entrada/salida.
 	Este subsistema sirve de infraestructura para recoger peticiones de entrada/salida, en forma de paquetes llamados IRP(I/O Request Packet). Su diseño permite que un hilo de procesamiento se encargue de múltiples peticiones concurrentemente. El IRP contiene la información necesaria para describir la petición. El gestor de entrada/salida enviará un puntero a la dirección de memoria de la petición al driver correspondiente, donde será procesada. Este mismo puntero se utilizar para recuperar la información de la petición., cuando el driver notifique que la operación ha concluido.
 	Por otro lado este subsistema ofrece un código común para todos los dispositivos, permitiendo que los drivers reduzcan su tamaño, retirándoles el código de las tareas comunes con otros dispositivos.
 	Los drivers disponen de una interfaz modular y uniforme, de forma que el gestor de entrada salida puede tratarlos sin necesidad de tener ningún conocimiento acerca de como procesa las peticiones. De esta forma, el driver solo tiene que encargarse de traducir una petición genérica a una petición especifica del hardware que lo gestiona. Es posible que los drivers se llamen unos a otros para resolver la gestión de la petición en curso.
 	Una operación típica de entrada/salida, es tratada por el gestor de entrada/salida, uno o dos dispositivos, y el nivel de abstracción de hardware. El sistema operativo, enmascara los dispositivos, de forma que el espacio de usuario dispondrá de las operaciones normales en un fichero cualquiera.
 
-7.5.2. Drivers de dispositivos.
+2.6.5.2 Drivers de dispositivos.
 	Atendiendo a la clasificación de si se trata de un driver en espacio de usuario o en espacio de núcleo, podemos constatar que en el espacio de usuario se disponen de tres tipos: Drivers de Dispositivos Virtuales(VDDs), drivers de impresoras, y drivers de la infraestructura de drivers en espacio de usuario.
 	Los drivers de dispositivos virtuales se mantienen por compatibilidad con MS-DOS, ya que emulan aplicaciones de 16 bits, capturando sus llamadas a dispositivos y traduciéndolas a los dispositivos reales.
 	Los drivers de impresoras traducen las peticiones de dispositivos de gráficos genéricos a comandos de impresión.
@@ -606,7 +717,7 @@ Drivers de filtro, que implementan una funcionalidad añadida a un driver de fun
 	Los drivers de minipuertos traducen una petición genérica a un petición de un puerto concreto, siendo drivers para un dispositivo que importan las funciones de un dispositivo de puerto.
 	Si una petición debiera ser atendida por un driver con diferentes niveles, el gestor de entrada/salida recogería la petición del espacio de usuario, la traduciría a una petición para el driver que conforme el primer nivel, con su respuesta, generaría una nueva petición para el siguiente nivel, y seguiría generando posteriores peticiones sucesivamente hasta llegar a la última. Una vez respondida la última petición, se devolvería la respuesta al espacio de usuario, conformando una cola de peticiones por nivel.
 
-7.5.3. Estructura de un driver.
+2.6.5.3 Estructura de un driver.
 	Dentro de un driver se encuentran una serie de funciones que resuelven las diversas tareas que requiere el sistema operativo para ofrecer el resultado de las operaciones al espacio de usuario. Pueden dividirse en dos subgrupos, las funciones principales, que se encuentran en todo driver, y las funciones auxiliares, que según las infraestructuras que requiera el driver, aparecerán, o no lo harán.
 	Dentro de las rutinas principales, o imprescindibles tenemos las rutinas de inicialización del driver(DriverEntry) que se utilizan recién cargado el driver en memoria principal, e inicializa las estructuras principales del driver.
 	Para el buen funcionamiento de la infraestructura PnP se incluye una rutina de añadido de dispositivo(add-device routine) que recibe la notificación del gestor PnP y aloja el objeto del dispositivo descubierto en el núcleo.
@@ -620,13 +731,13 @@ Drivers de filtro, que implementan una funcionalidad añadida a un driver de fun
 	Es posible, pero no necesario, que el driver disponga de una rutina de descarga, para realizar las labores de liberación de memoria y recursos que este utilizara durante su ejecución. Además, es posible que definir una rutina, aparte, para la limpieza de las infraestructuras en el apagado del sistema.
 	Por último, puede definirse una rutina de registro de errores.
 
-7.5.4. Objetos de drivers y objetos de dispositivos.
+2.6.5.4 Objetos de drivers y objetos de dispositivos.
 	El gestor de entrada/salida se comunica con dos tipos de objetos que le ofrecen las operaciones disponibles y cualquier información que requiera saber para llevarla a cabo. Estos son los objetos de driver, y de dispositivo. Los objetos de drivers representan el driver que puede manejar los distintos dispositivos conectados al sistema, y los de dispositivo, los dispositivos, físicos o lógicos que pueden ser gobernados por dicho driver.
 	Cuando el driver es cargado en memoria, el objeto de driver es creado. Inmediatamente después se llamará a la rutina de inicialización. A partir de entonces es posible crear objetos de dispositivo gobernados por dicho driver. Para ello se utilizan las operaciones IoCreateDevice e IoCreateDeviceSecure, aunque habitualmente los dispositivos utilizarán la rutina add-device y la infraestructura Plug and Play.
 	Al crearse el dispositivo, es posible asignarle un nombre que será almacenado en el gestor del espacio de nombres de objetos, el cual es inaccesible directamente desde el espacio de usuario. Para que sea accesible, debe hacerse un enlace desde el directorio \Global hacia el directorio \Device, del espacio de nombres, donde el nombre del objeto realmente se encuentra. Para exportar las interfaces  se utiliza la función IoRegisterDeviceInterface, y para habilitarla, se utiliza IoSetDeviceInterfaceState. Desde ese momento, el usuario puede utilizar la infraestructura PnP para utilizar la interfaz.
 	Con esta infraestructura, un objeto driver es asociado con los distintos objetos dispositivos. De esta forma, el gestor de entrada/salida no requiere conocer los detalles de un dispositivo concreto.
 
-7.5.5. Estructuras de ficheros.
+2.6.5.5 Estructuras de ficheros.
 	Las estructuras de ficheros cumplen los requisitos de diseño de los objetos en Windows(son recursos compartidos, pueden tener nombre, deben estar protegidos y soportan sincronización). Su única diferencia, es que los objetos compartidos suelen estar alojados en memoria, y en los ficheros, se encuentran en un dispositivo físico. Su representación se compone de los siguientes atributos:
 
 Nombre de fichero.
@@ -650,28 +761,28 @@ Genérica: almacena información específica para el driver de filtro.
 Entrada/salida programada del fichero: almacena la reserva de ancho de banda del dispositivo para garantizar el buen funcionamiento de aplicaciones multimedia.
 Enlaces simbólicos: información para resolver enlaces simbólicos.
 
-	Cuando el espacio de usuario pide al núcleo la apertura de un fichero, el gestor de entrada/salida se comunica con el subsistema adecuado(en este caso, el gestor de objetos), para que este, con ayuda del núcleo genere un manejador para el fichero. El gestor de entrada/salida, enviará posteriormente este manejador ala aplicación que la solicitó. Durante este proceso, cualquier chequeo de seguridad debe ser resuelto por el gestor de entrada/salida.
+	Cuando el espacio de usuario pide al núcleo la apertura de un fichero, el gestor de entrada/salida se comunica con el subsistema adecuado(en este caso, el gestor de objetos), para que este, con ayuda del núcleo genere un manejador para el fichero. El gestor de entrada/salida, enviará posteriormente este manejador a la aplicación que la solicitó. Durante este proceso, cualquier comprobación de seguridad debe ser resuelto por el gestor de entrada/salida.
 	El objeto de fichero es alojado en memoria y es una representación de un recurso compartido, no el recurso en sí. Esta representación almacena los datos necesarios para utilizar el fichero, mientras que el fichero almacena los datos a utilizar. Por otro lado, el manejador debe ser único para un proceso, mientras que el fichero no tiene por que serlo(p.e. Varios procesos utilizan el mismo fichero). En caso de escrituras, se evitan los problemas de concurrencia utilizando la función de Windows LockFile.
 	Cuando el fichero se abre, se incluye en el espacio de nombres bajo el directorio “\Device\HarddiskVolumeN”, que representa el directorio de la partición abierta, de la que se recibe el fichero. Para que sea compartido directamente con el espacio de usuario, es necesario hacer un enlace simbólico en el directorio “\Global”.
 
-7.5.6. Paquetes de peticiones de entrada/salida.
+2.6.5.6 Paquetes de peticiones de entrada/salida.
 	Las IRPs son las estructuras que Windows utiliza para almacenar la información requerida para realizar una operación sobre un dispositivo. Si un hilo utiliza un servicio de entrada/salida, el gestor de entrada salida generará el IRP correspondiente a la operación solicitada. El sistema gestiona las peticiones utilizando dos colas y una pila, una cola corta para las operaciones que solo utilicen una posición en la pila, y una cola larga para las que utilicen múltiples posiciones en la pila. Para mejorar la gestión de operaciones entre varios procesadores, se añade una lista global además de las anteriores.
 	Por defecto un IRP utiliza 10 posiciones en la pila de IRPs, y, por tanto, se aloja en la lista larga de IRPs. Una vez por minuto, el sistema ajusta cuantas posiciones de la pila requiere, llegando a permitir un máximo de 20 posiciones. Después de su alojamiento e inicialización, el gestor de entrada/salida almacena un puntero al solicitante del servicio en el IRP.
 	Dentro de un IRP se diferencian dos partes, una cabecera fija y una o varias posiciones en la pila. La información del tipo de operación se almacena en la cabecera, mientras que en las posiciones de la pila se almacena código de una función(llamada función mayor), sus parámetros, y el solicitante del objeto fichero. La función mayor indica que rutina de resolución del driver debe ser llamada por el gestor de entrada/salida cuando el paquete se envíe al driver. Opcionalmente, puede almacenarse una función(llamada menor) para que modifique el comportamiento de la función mayor(añadiendo funcionalidades, comunicando con otros subsistemas, etc).
 	Habitualmente se ofrecer rutinas de resolución para las operaciones más habituales(apertura, cierre, lectura, escritura, control de entrada/salida, Plug and Play y alguna rutina para WMI).
 	Una vez almacenado el IRP en la lista correspondiente, el sistema es capaz de encontrarlo y cancelarlo en caso de descontrol.
 	La creación de un IRP se realiza utilizando los servicios NtReadFile, NtWriteFile, o NtDeviceIoControlFile. El gestor de entrada/salida decide si debe participar en la gestión de los buffers de almacenamiento requeridos por la operación. Puede actuar de tres formas. La primera de ellas sería almacenar un buffer del mismo tamaño que el que ofrece la aplicación que solicita el servicio. En caso de escritura, copia el buffer a su almacenamiento privado, y en el caso de lectura copia la información de su buffer al espacio de usuario.
-	Otra opción es realizar entrada/salida directa, bloqueando el buffer en espacio de usuario para que no pueda ser escrito, y desbloqueandolo cuando se finalice la operación.
+	Otra opción es realizar entrada/salida directa, bloqueando el buffer en espacio de usuario para que no pueda ser escrito, y desbloqueándolo cuando se finalice la operación.
 	Por último el gestor puede sencillamente no ejercer ninguna gestión de almacenamiento. En este caso, debe ser el driver quien se encargue de estas labores.
 	En cualquier caso, el gestor de entrada/salida inicializará las referencias adecuadas para localizar el almacenamiento. El tipo de gestión utilizado es seleccionado en función de lo que solicite el driver, el cual registra el tipo deseado para la lectura y escritura, mientras que para el control se almacena en un código de control específico.
 	Usualmente, para transferencias menores que una página de memoria(4KB) se utiliza la entrada/salida a través de buffers, y para transferencias mayores la entrada/salida directa. Es poco común utilizar la gestión de almacenamiento desde el driver por la posibilidad de que se pierda la referencia al solicitante. Su uso de reduce entonces a drivers en espacio de usuario que garantizan que las referencias son válidas, y pertenecientes al espacio de usuario
 
-7.5.7. Petición en drivers de una sola capa.
+2.6.5.7 Petición en drivers de una sola capa.
 	Este proceso conlleva siete pasos:
 
 Envío de la petición a través del subsistema de DLLs.
 El subsistema de DLLs solicita el servicio NtWriteFile.
-El gestor de entrada/salida crea el IRP correspondiente y lo envia al driver haciendo uso de IoCallDriver.
+El gestor de entrada/salida crea el IRP correspondiente y lo envía al driver haciendo uso de IoCallDriver.
 El driver transmite el IRP al dispositivo y comienza la operación de entrada/salida.
 El dispositivo notifica la finalización del servicio mediante una interrupción.
 El driver sirve la interrupción.
@@ -681,11 +792,11 @@ El driver llama al servicio IoCompleteRequest.
 	La rutina de finalización se encarga de copiar la información pertinente hacia el espacio de usuario, y limpiar las estructuras requeridas para gestionar una nueva petición.
 	Debe cuidarse la sincronización al acceder al driver, debido a que el sistema permite que un hilo de mayor prioridad expulse a uno de menor prioridad de su ejecución, que se atienda una interrupción durante esta, o que se ejecute el mismo código en otro procesador de la misma máquina. De esta forma, la información compartida por el driver debe ser consistente para cualquier ejecución en curso.
 
-7.5.8. Petición en drivers de múltiples capas.
+2.6.5.8 Petición en drivers de múltiples capas.
 	En este ocasión, el gestor de entrada salida, al igual que en el caso anterior genera un IRP que se pasará al driver del sistema de ficheros. Dependiendo de la petición, el driver la reenvía al driver del dispositivo en cuestión, o genera IRPs adicionales para enviarlas por separado al driver. Solo se reutiliza un IRP en caso de que se traduzca en una sola petición al dispositivo.
 	Como alternativa a reutilizar una petición, el sistema de ficheros puede generar un grupo de IRPs asociados que trabajen en paralelo para atender una sola petición. Este grupo es transmitido al gestor de volúmenes, que lo enviará posteriormente al driver del dispositivo.
 
-7.5.9. Infraestructura de drivers en espacio del núcleo(KMDF).
+2.6.5.9 Infraestructura de drivers en espacio del núcleo(KMDF),
 	El modelo de drivers en espacio de núcleo no es muy distinto del modelo de drivers WDM. Esto implica que en su interior disponen de las funciones de inicialización, la rutina de añadido de dispositivo al sistema, y una o más rutinas de eventos, que funcionan como las rutinas de resolución de lo drivers pertenecientes a WDM. Generalmente, estas últimas, crean y gestionan colas de peticiones para la entrada/salida. El driver no tiene la obligación de implementar estas rutinas, puesto que existen rutinas genéricas proveídas por el sistema operativo. En el caso de implementarlas, la rutina debe ser registrada por el sistema operativo para que pueda ser utilizada.
 	El modelo de datos de KMDF, es orientado a objetos. Estos objetos se encapsulan internamente, permitiendo solo la interacción con ellos a través de una interfaz de manejadores. La infraestructura ofrece rutinas para la creación de estos objetos, recuperación de valores, y actualización de estos(WdfDeviceCreate, Get/Set, Assign/Retrieve).
 	Los objetos de drivers pertenecen a una jerarquía, donde el objeto raíz es el objeto WDFDRIVER, que describe el driver actual, y que es análoga al driver de objeto ofrecido por el gestor de entrada/salida. Todo objeto generado por KMDF para este driver será un hijo de este dentro de la jerarquía. Dentro de la jerarquía podemos destacar los siguientes objetos:
@@ -706,7 +817,7 @@ Dicha jerarquía se resume en la siguiente figura:
 
 	Es importante resaltar que se contempla el contexto de un objeto, de forma de que, aunque los objetos sean opacos, estos permiten al driver almacenar su propia información en su objeto padre para mejorar la localización de la información. De hecho, es posible disponer de más de un área de contexto, permitiendo a múltiples niveles de código interactuar con el mismo driver. De esta forma, los niveles trabajan de forma independiente.
 
-7.5.10. Modelo de entrada/salida de KMDF.
+2.6.5.10 Modelo de entrada/salida de KMDF.
 	El modelo de entrada/salida de KMDF utiliza los mismos mecanismos que WDM, las interfaces de WDM y la API del núcleo, de forma que el mismo puede ser observado como un driver de la WDM en sí mismo. Basándose en el modelo de WDM el driver de KMDF realizará alguna de las siguientes tres operaciones:
 
 Enviar el paquete de petición al gestor de entrada/salida.
@@ -721,7 +832,7 @@ Enviar el paquete al gestor de servicios WMI.
 La creación de peticiones, notificada a través del evento EvtDeviceFileCreate. Otra opción es crear una cola automática y registrar un callback para el evento EvtIoDefault. De no utilizarse alguno de estos métodos, KMDF devolverán un código de finalización correcta.
 En caso de liberación de recursos y peticiones de cierre, se notificarán los eventos EvtFileCleanup y EvtFileClose respectivamente, y se llamarán a sus callbacks correspondientes.
 
-7.5.11. Gestor de dispositivos Plug and Play.
+2.6.5.11 Gestor de dispositivos Plug and Play(PnP).
 	Este gestor ofrece la habilidad de reconocer y adaptar los cambios de configuraciones de hardware,  instalando y eliminando dispositivos. Para ello se sirve de la cooperación con el hardware, su driver, y los distintos niveles dentro del sistema operativo. Además, se apoya sobre un estándar de identificación de dispositivos alojados en los distintos buses. Este estándar ofrece las siguientes capacidades al sistema de PnP:
 
 Reconocimiento automático de dispositivos instalados(enumerando los existentes en el proceso de inicio y detectando los añadidos y eliminados después de este).
@@ -736,8 +847,8 @@ Gestión de dispositivos conectados en la red.
 	Los drivers de función y de filtro, deben prepararse para utilizar el dispositivo en la rutina de añadido del dispositivo, sin necesidad de comunicarse con el. Para comunicarse espera a que el gestor de PnP le envíe un comando de comienzo del dispositivo para pasar el control a la rutina de resolución adecuada. Es entonces cuando se configura el dispositivo. Si una aplicación trata de abrir el dispositivo que no ha finalizado de iniciarse recibirá un código de error indicando que el dispositivo no existe.
 	Una vez inicializado el dispositivo, el gestor de PnP puede enviar diversos comandos, como por ejemplo, el de eliminación del dispositivo, o reasignación de recursos. Estos comandos guiarán al driver a través de una tabla de transición de estados bien definida.
 
-7.5.12. Carga, inicialización e instalación de drivers.
-	Existen dos tipos de inicialización, la explícita, y la basada en enumeración(utilizando los servicios de Windows). Todo driver dispone de valores de registro en la rama de servicios del conjunto de control actual. Estos valores definen el tipo de imagen, la localización del driver, los valores de control, o el orden de inicialización del servicio. Las diferencias entre la carga explicita frente a la carga a través de servicios de Windows son que el driver puede especificar un valor de comienzo para el comando boot-start(0, se carga durante la inicialización del subsistema de ejecución) o system-start(1, se carga después de la inicialización del subsistema de ejecución), y que el driver puede usar los valores de control Group y Tag para ser ordenados en la fase de inicio, pero no pueden usar los valores DependOnGroup o DependOnServices. El valor de registro Group se compara con el valor de registro “HKLM\SYSTEM\CurrentControlSet\Control\ServiceGroupOrder\List” para determinar en que orden de inicializan los grupos durante el inicio. Para refinar el orden de carga dentro del grupo se utiliza la etiqueta Tag y el registro “HKML\SYSTEM\CurrentControlSet\Control\GroupOrderList” que define la preferencia dentro del grupo.
+2.6.5.12 Carga, inicialización e instalación de drivers.
+	Existen dos tipos de inicialización, la explícita, y la basada en enumeración(utilizando los servicios de Windows). Todo driver dispone de valores de registro en la rama de servicios del conjunto de control actual. Estos valores definen el tipo de imagen, la localización del driver, los valores de control, o el orden de inicialización del servicio. Las diferencias entre la carga explicita frente a la carga a través de servicios de Windows son que el driver puede especificar un valor de comienzo para el comando boot-start(0, se carga durante la inicialización del subsistema de ejecución) o system-start(1, se carga después de la inicialización del subsistema de ejecución), y que el driver puede usar los valores de control Group y Tag para ser ordenados en la fase de inicio, pero no pueden usar los valores DependOnGroup o DependOnServices. El valor de registro Group se compara con el valor de registro “HKLM\SYSTEM\CurrentControlSet\Control\ServiceGroupOrder\List” para determinar en que orden de inicializan los grupos durante el inicio. Para refinar el orden de carga dentro del grupo se utiliza la etiqueta Tag y el registro “HKML\SYSTEM\CurrentControlSet\Control\GroupOrderList” que define la preferencia dentro del grupo. Estos valores solo son útiles durante la carga del sistema operativo.
 	Las guías utilizadas para otorgar un valor de comienzo son las siguiente:
 
 Drivers no Plug and Play reciben el valor de carga en inicio que requieran.
@@ -746,7 +857,6 @@ Si no es requerido para ejecutar el sistema operativo y el driver detecta un dis
 Drivers no-PnP y de sistemas de ficheros que no requieren estar presentes en la ejecución del sistema operativo reciben un valor de auto-start(2).
 Los drivers PnP que o se requieren en el inicio del sistema operativo reciben un valor de demand-start(3).
 
-	Estos valores solo son útiles durante la carga del sistema operativo.
 	Para la enumeración de dispositivos, se hace uso de un driver virtual no-PnP de bus que ejerce de raíz, para representar el sistema, y la capa HAL, comentada anteriormente, y que se nutre de las descripciones ofrecidas por el registro para detectar el bus primario. Dentro de este bus pueden encontrarse dispositivos y otros buses(como el bus USB, PCI, PCI-e...), en los que pueden encontrarse otros dispositivos, de forma que la enumeración pueda realizarse de forma recursiva, formando un árbol de dispositivos. Los nodos en el árbol se llamaran devnodes, y contienen objetos de dispositivos. Los buses alojados en el sistema deben cumplir la interfaz ACPI para el control de consumo. La herramienta para poder ver el árbol de dispositivos es el gestor de dispositivos(Device Manager).
 	La carga e inicialización de dispositivos sigue los siguientes pasos:
 
@@ -755,7 +865,7 @@ Después de la carga de drivers en el inicio, el gestor de PnP recorre el árbol
 Se comienza la carga de los drivers de carga durante el inicio del sistema, que no hayan sido cargados ya. Los dispositivos detectados por estos drivers son no numerables, y el gestor de PnP no iniciará los dispositivos hasta que los drivers enumerados sean iniciados y configurados.
 El gestor de servicios de control carga los drivers con valor auto-start.
 
-	El árbol de dispositivos servirá de guía para el gestor de Plug and Play y el gestor de consumo. Los dispositivos quedarán registrados en le entrada “HKLM\SYSTEM\CurrentControlSet\Services”. La forma en que se almacenan los valores de los dispositivos es “Enumerado\Id. de dispositivo\Id. de instancia”.
+	El árbol de dispositivos servirá de guía para el gestor de Plug and Play y el gestor de consumo. Los dispositivos quedarán registrados en la entrada “HKLM\SYSTEM\CurrentControlSet\Services”. La forma en que se almacenan los valores de los dispositivos es “Enumerado\Id. de dispositivo\Id. de instancia”.
 	Los devnodes se componen de al menos dos objetos de dispositivos. Uno de ellos es un objeto de dispositivo físico(Physical device object, o PDO) que el gestor de PnP pedirá crear al driver de bus cuando encuentre un dispositivo que esté presente en este. Otros de los objetos son los objetos de filtro de dispositivos(filter device objects, o FiDOs) que ofrecen una interfaz entre el dispositivo físico y los objetos de dispositivos funcionales o FDO, que se crean en el driver y será utilizado por el gestor de PnP para gestionar el dispositivo. Además, los objetos de función de driver, pueden crear algunos objetos de filtro que cumplan una función a nivel superior a este.
 	
 
@@ -771,13 +881,13 @@ Posteriormente se cargan los drivers de filtro de alto nivel especificados en la
 Por último se cargan los drivers de filtro de alto nivel especificados por la clase de dispositivo.
 
 	Todo driver quedará referenciado en la clave de registro “HKML\SYSTEM\CurrentControlSet\Services”.
-	En cuanto a la instalación de drivers, de no disponerse del driver adecuado para utilizar un dispositivo, deberá solicitarse al gestor de PnP en espacio de usuario. Si se ha detectado en el inicio del sistema, se definirá su estructura devnode, pero su carga será postpuesta hasta que el gestor en espacio de usuario resuelva la problemática. Varios componentes entran en juego en este proceso, algunos proveídos por el sistema, y otros por el instalador del driver.
+	En cuanto a la instalación de drivers, de no disponerse del driver adecuado para utilizar un dispositivo, deberá solicitarse al gestor de PnP en espacio de usuario. Si se ha detectado en el inicio del sistema, se definirá su estructura devnode, pero su carga será retrasada hasta que el gestor en espacio de usuario resuelva la problemática. Varios componentes entran en juego en este proceso, algunos proveídos por el sistema, y otros por el instalador del driver.
 	El proceso de instalación comienza en la notificación del driver de bus al gestor de PnP. Este busca en el registro de Windows el driver de función correspondiente, y al no encontrarlo, informa al gestor de PnP en espacio de usuario, enviándole el identificador de dispositivo. Este gestor, intentará una instalación sin la intervención del usuario, que de no tener éxito llamará al ejecutable Rundll32.exe para que se inicie la interacción con el usuario, con la correspondiente comprobación de privilegios. El instalador utilizará el sistema Setup y CfgMgr para detectar el fichero INF que guarda la información de instalación del driver. Inicialmente lo buscará en el almacén de drivers(%SYSTEMROOT%\System32\DriverStore). Si no dispone de él, se le pregunta al usuario para que lo provea, instalándolo en el almacén de drivers y ejecutando posteriormente Drvinst.exe para que se guarde constancia del nuevo driver en el registro.
 	Desde entonces, localizar el driver de un dispositivo, es un proceso en el cual se pide a los dispositivos de bus una lista de identificadores de hardware y de identificadores compatibles con dicho bus. Esta lista está ordenada desde el driver más específico al menos específico. En caso de encontrar ocurrencias en más de un fichero INF, el fichero donde la ocurrencia sea más específica tendrá preferencia. Si solo se encuentra un driver compatible, puede pedirse al usuario que provea al sistema de un driver más actual.
 
-7.5.13. Gestor de consumo.
+2.6.5.13 Gestor de consumo.
 	El hardware que quiera utilizar el gestor de consumo debe cumplir la interfaz avanzada de configuración y consumo(Advanced Configuration and Power Interface, ACPI). Esta interfaz estándar define seis estados de consumo fundamentales, del S0(funcionamiento completo) al S5(apagado). Las características principales de estos estados son su consumo energético, el estado del que se realiza la transición a un estado más activo, y la latencia hardware.
-	Del estado S1 al S3(inclusive) los estados existentes son los conocidos estados de bajo consumo(Sleeping States) en los que el consumo del dispositivo se reduce hasta casi parecer apagado, salvando la información relevante en RAM y en disco para retomar las tareas por donde se dejaron.
+	Del estado S1 al S3(inclusive) los estados existentes son los conocidos estados de bajo consumo(Sleeping States) en los que el consumo del dispositivo se reduce hasta casi parecer apagado, salvando la información relevante en memoria RAM y en disco para retomar las tareas por donde se dejaron.
 	El estado S4 es el de hibernación, en el que se almacena una imagen de la memoria RAM, comprimida, en el fichero Hiberfil.sys en el directorio raíz del sistema. Después de ello el sistema procede al apagado completo. Durante el inicio, el sistema comprueba si la imagen en dicho fichero es válida, y en caso afirmativo, el proceso Bootmgr ejecuta Winresume, que carga el contenido del fichero en la memoria, y restaura la ejecución.
 	Es posible que si el hardware lo soporta, se pase a un estado híbrido entre el S3 y S4 llamado hybrid sleep, en el sistema pasa al estado S3 almacenando un fichero de hibernación en disco. Para hacer más rápida esta operación, el fichero almacenado solo guarda los datos que no pueden ser almacenados en disco posteriormente. Los drivers recibirán la notificación de transición al estado de hibernación S4. Si la energía se consume completamente, el sistema dispone de lo necesario para retomar las tareas en curso, en el fichero de hibernación.
 	Si se desea pasar de un estado de bajo consumo a otro, se hace a través del estado S0, de operación completa.
@@ -800,53 +910,53 @@ D3(Apagado)
 S5(Apagado completo)
 D3(Apagado)
 
-	Cuando el gestor de consumo decide realizar una transición de estados de consumo, envía el comando determinado a la rutina de resolución del driver de dispositivo. Para las tareas de consumo solo un driver se designa como encargado de satisfacer las políticas de consumo. El sistema preguntará a este drive su política a través de la función PoRequestPowerIrp, notificando al resto de drivers la acción a realizar por el la rutina de resolución de consumo. De esta forma, el gestor de consumo siempre sabe qué comandos están activos y en que momento.
+	Cuando el gestor de consumo decide realizar una transición de estados de consumo, envía el comando determinado a la rutina de resolución del driver de dispositivo. Para las tareas de consumo solo un driver se designa como encargado de satisfacer las políticas de consumo. El sistema preguntará a este driver su política a través de la función PoRequestPowerIrp, notificando al resto de drivers la acción a realizar por el la rutina de resolución de consumo. De esta forma, el gestor de consumo siempre sabe qué comandos están activos y en que momento.
 	Aun así, los drivers pueden realizar transiciones de forma unilateral, permitiéndose realizar transiciones a estados de más bajo consumo en caso de que esté inactivo por un amplio periodo de tiempo(p.e. parar del motor de un disco duro). En el otro sentido, el driver también es capaz de utilizar los servicios proveídos por el gestor de consumo registrándose mediante la función PoRegisterDeviceForIdleDetection. Esta rutina informa de los valores de temporizadores que detectan que el dispositivo está ocioso, y su estado de consumo requerido cuando se encuentra en este estado. Para ello usa dos límites temporales principales, uno configurado por el sistema,  y el otro configurado por el usuario para un optimo aprovechamiento de los recursos. Para notificar que el dispositivo está activo utiliza la función PoSetDeviceBusy.
 	En ningún caso el dispositivo puede provocar una transición de estado en el sistema, puesto que el gestor de consumo notifica la transición, pero nunca pregunta si el dispositivo está listo para hacerla.
 	El espacio de usuario puede registrar notificaciones de estado de consumo al núcleo.
 
-7.6 Subsistema de almacenamiento.
+2.6.6 Subsistema de almacenamiento.
+
 	El subsistema de almacenamiento se encarga de gestionar los dispositivos de bloques. Al tratarse del mismo tipo de dispositivo utilizado en GNU/Linux, muchas características se repiten, como puede ser la organización en bloques de 512 bytes(2048 bytes si se trata de un CD-ROM), el concepto de sectores, particiones, volúmenes(simples y multipartición), etc.
 	Veremos, pues, como se gestionan dichos dispositivos en el sistema operativo de Microsoft.
 
-7.6.1. Drivers de disco.
+2.6.6.1 Drivers de disco.
 	Para este tipo de drivers se dispone de una pila de almacenamiento detallada en la siguiente figura:
 
 
-	El primer componente que requiere el uso del disco es Winload, que, propiamente dicho no pertenece a la pila representada previamente, sin embargo, ya que requiere acceder ala información de disco para obtener los ficheros de carga del sistema operativo, está obligado a soportar el acceso a estos. Para ello Bootmgr ofrecerá las opciones de inicio al usuario para que decida desde que partición iniciar el sistema, para lanzar la ejecución de Winload. Este cargará en memoria los ficheros de sistema de Windows, el registro, el núcleo Ntoskrnl.exe, y sus dependencias. Para ello se nutre del firmware del sistema, que le ofrece lo mínimo indispensable para que pueda leer el contenido de disco.
-	Para este tipo de drivers se ofrece una arquitectura basada en clases, puestos y minipuertos, donde los drivers de clases ofrecen funcionalidades comunes a todo tipo de dispositivo, los drivers de puerto ofrecen las funcionalidades comunes a un tipo de bus de dispositivos de almacenamiento, y el driver de minipuerto comunicará con un controlador particular de almacenamiento.
+	El primer componente que requiere el uso del disco es Winload, que, propiamente dicho no pertenece a la pila representada previamente, sin embargo, ya que requiere acceder a la información de disco para obtener los ficheros de carga del sistema operativo, está obligado a soportar el acceso a estos. Para ello Bootmgr ofrecerá las opciones de inicio al usuario para que decida desde que partición iniciar el sistema, para lanzar la ejecución de Winload. Este cargará en memoria los ficheros de sistema de Windows, el registro, el núcleo Ntoskrnl.exe, y sus dependencias. Para ello se nutre del firmware del sistema, que le ofrece lo mínimo indispensable para que pueda leer el contenido de disco.
+	Para este tipo de drivers se ofrece una arquitectura basada en clases, puertos y minipuertos, donde los drivers de clases ofrecen funcionalidades comunes a todo tipo de dispositivo, los drivers de puerto ofrecen las funcionalidades comunes a un tipo de bus de dispositivos de almacenamiento, y el driver de minipuerto comunicará con un controlador particular de almacenamiento.
 	Los drivers de clase conforman la interfaz estándar de dispositivos de Windows. Los drivers de minipuertos utilizan la interfaz de drivers de puertos, en vez de la interfaz de dispositivos, y los drivers de puertos implementan rutinas que ejerzan de interfaz entre los minipuertos y Windows. De esta forma, los desarrolladores de drivers de minipuerto pueden centrarse en la lógica específica del hardware. Las funcionalidades comunes a todo disco vienen implementadas en “\Windows\System32\Drivers\Disk.sys”. Otros drivers de interés son los ofrecidos por Scsiport.sys(para los buses SCSI), Ataport.sys(para los buses ATAPI) y Storport.sys(este último reemplaza Scsiport.sys con nuevas funcionalidades como la gestión de RAIDs y la comunicación por fibra óptica, entre otras.
 	Los drivers de bus SCSI y ATAPI implementan un gestor de peticiones llamado C-LOOK en el que el driver inserta las peticiones en una lista ordenada por número de sector al que la petición va dirigida, utilizando las funciones KeInsertByKeyDeviceQueue y KeRemoveByKeyDeviceQueue para insertar y eliminar elementos respectivamente. El driver entonces recorrerá la lista de peticiones resolviéndolas hasta que alcance el final. Puesto que durante la resolución de peticiones, habrán aparecido nuevas peticiones que atender, el driver retornará al comienzo de la lista y volverá a recorrerla. Esto provocará que la cabeza de disco haga un recorrido desde los cilindros exteriores a los interiores continuamente, en caso de que las peticiones se repartan a lo largo de todo el disco. Si no existe una mayor organización en la atención de peticiones en los drivers de bus, es debido a que las peticiones se dirigen a vectores de almacenamiento, donde no queda claro donde se encuentra ni el comienzo, ni el final del disco. Diferentes drivers de controladores de discos se incluyen en la instalación inicial de Windows.
 
-7.6.2. Drivers iSCSI.
+2.6.6.2 Drivers iSCSI.
 	Especial mención requieren este tipo de drivers por dar soporte a soluciones de almacenamiento distribuido como las conocidas Storage Area Networks(SAN), o áreas de red dedicadas al almacenamiento. Para ello integran el protocolo SCSI con el protocolo TCP/IP. Las SAN suelen utilizar fibra óptica para comunicar los distintos nodos, pero puede utilizarse  Gigabit Etherrnet para crear redes de almacenamiento más baratas y con buen rendimiento.
 	El componente principal que gestiona este almacenamiento es el invocador de software iSCSI(iSCSI Software Initiator) de Microsoft, y sus componentes principales se listan a continuación:
 Invocador: Compuesto del driver Storport comentado anteriormente y el driver de minipuerto iSCSI(Msiscsi.sys) implementa el driver necesario para ofrecer soluciones SAN a través de Ethernet.
 Servicio del invocador: Implementado en “\Windows\System32\Iscsiexe.exe”, descubre gestiona la seguridad de los invocadores, además de los inicios de sesión y finalizaciones de comunicación con otros nodos.
 Gestor de aplicaciones: Iscsicli.exe es un cliente en consola que permite las conexiones seguras a las soluciones iSCSI, además de panel de control requerido para estos dispositivos.
 
-7.6.3. Drivers de entrada/salida a través de múltiples caminos.
+2.6.6.3 Drivers de entrada/salida a través de múltiples caminos.
 	Servidores que requieren un alto grado de disponibilidad utilizan este tipo de soluciones. Se trata de dispositivos de almacenamiento que disponen de más de un camino para ser alcanzados, permitiendo que se produzcan fallos en las comunicaciones a través de algunos de sus caminos, sin necesidad de que impida que el almacenamiento sea alcanzado por otras vías. En caso de que el sistema operativo no ofreciera soporte a estas situaciones, un mismo disco sería considerado dos distintos por el hecho de poder ser accedido por diferentes caminos. Este soporte se apoya en drivers propios, o de terceros llamados módulos específicos de dispositivo(device-specific modules), que especifican los detalles de los múltiples caminos.
 	El soporte de múltiples caminos es ofrecido por la pila de almacenamiento MPIO(Multiple Path Input/Oputput, on entrada/salida por múltiples caminos) y es el driver Disk.sys quien se responsabiliza del dispositivo, localizando el módulo específico para este. Además avisará al driver Mpio.sys, que representa el driver de bus para dispositivos de múltiples caminos, de la presencia del dispositivo. En esta situación tenemos un total de 3 pilas de dispositivos de almacenamiento, dos representando los caminos físicos, y una representando el dispositivo. Cuando una petición alcanza el disco, el módulo DSM se encargará de decidir por que camino dirige la respuesta.
 
-7.6.4. Objetos de dispositivos de disco.
+2.6.6.4 Objetos de dispositivos de disco.
 	El driver de clase para dispositivo de disco es encargado de crear los objetos que los representan. En el espacio de nombres serán representados con la nomenclatura “\Device\HarddiskX\DRX”, donde X representa un número en cuestión. Para mantener la compatibilidad con sistemas previos se crean enlaces simbólicos con el formato ofrecido por windows NT 4, que formateaba los nombres con la nomenclatura “\Device\HarddiskX\PartitionX” para referirse a “\Device\HarddiskX\DRX”. También se generan enlaces hacia el objeto que representa al dispositivo físico, teniendo enlaces del tipo “\GLOBAL??\PhysicalDriveX” apuntando a “\Device\HarddiskX\DRX”, que, como comentamos previamente, permitían exportar los dispositivos al espacio de usuario para que las aplicaciones los utilizaran bajo demanda.
 
-7.6.5. Discos básicos y discos dinámicos.
+2.6.6.5 Discos básicos y discos dinámicos.
 	En las placas bases estándar, los servicios mínimos de entrada/salida son ofrecidos por una pequeña memoria FLASH donde se almacena un fichero binario llamado BIOS(Basic Input/Output System). En este tipo de hardware, el primer sector del disco principal contiene el registro maestro de inicio(Master Boot Record, o MBR). Cuando la BIOS se prepara para iniciar el sistema operativo, acude a este registro para conseguir la información necesaria acerca de los volúmenes existentes y de cual debe iniciar. Los volúmenes se registran en la tabla de particiones, dentro del registro maestro de inicio. En una tabla de particiones de este tipo pueden definirse hasta cuatro particiones principales, con sus correspondientes tipos(usualmente FAT32 y NTFS). 
-	Pueden añadirse más particiones definiendo particiones extendidas, que contienen su propio registro maestro de inicio, y son llamados dispositivos lógicos. Teóricamente, existe un límite de particiones extendidas de cuatro por disco, sin embargo, Windows es capaz de controlar particiones extendidas anidadas, permitiendo que ese límite desaparezca.
-	Estas características conforman la estructura de un disco básico.
-	Hoy en día existe una iniciativa propuesta por Intel para promover la estandarización desu plataforma de firmware extendido(Extended Firmware, o EFI). Esta plataforma conforma un sistema operativo mínimo almacenado en memoria FLASH, que sirve para cargar herramientas básicas de diagnóstico, y la carga del sistema operativo. Este tipo de firmware define un nuevo tipo de tabla de particiones basado en identificadores únicos globales(Global Unique Identifiers, o GUIDs), llamado tabla de particiones basado en GUID(GUID Partition Table, o GPT). El objetivo principal de dicho tipo de tabla de particiones es eliminar las restricciones(sobre todo a la hora de redimensionar volúmenes) de las antiguas tablas de particiones basadas en registros maestros de inicio. Este tipo de tablas de particiones conforman lo que se conocen como discos dinámicos.
+	Pueden añadirse más particiones definiendo particiones extendidas, que contienen su propio registro maestro de inicio, y son llamados dispositivos lógicos. Teóricamente, existe un límite de particiones extendidas de cuatro por disco, sin embargo, Windows es capaz de controlar particiones extendidas anidadas, permitiendo que ese límite desaparezca. Estas características conforman la estructura de un disco básico.
+	Hoy en día existe una iniciativa propuesta por Intel para promover la estandarización de su plataforma de firmware extendido(Extended Firmware, o EFI). Esta plataforma conforma un sistema operativo mínimo almacenado en memoria FLASH, que sirve para cargar herramientas básicas de diagnóstico, y la carga del sistema operativo. Este tipo de firmware define un nuevo tipo de tabla de particiones basado en identificadores únicos globales(Global Unique Identifiers, o GUIDs), llamado tabla de particiones basado en GUID(GUID Partition Table, o GPT). El objetivo principal de dicho tipo de tabla de particiones es eliminar las restricciones(sobre todo a la hora de redimensionar volúmenes) de las antiguas tablas de particiones basadas en registros maestros de inicio. Este tipo de tablas de particiones conforman lo que se conoce como discos dinámicos.
 
-7.6.6. El espacio de nombres de volúmenes.
-	Este es el mecanismo de Windows que se encarga de asignar letras a los objetos de los dispositivos de bloques, permitiendo un acceso familiar a las aplicaciones, y ofreciendo la posibilidad de montar y desmontar los volúmenes.
+2.6.6.6 Espacio de nombres de volúmenes.
+	Este es el mecanismo de Windows que se encarga de asignar letras a los objetos de los dispositivos de bloques, permitiendo un acceso familiar a las aplicaciones, y ofreciendo la posibilidad de montar y desmontar los volúmenes. En los próximos apartados realizaremos un resumen de sus mecanismos más importantes y cómo se gestionan este tipo de operaciones.
 
-7.6.6.1. Gestor de montaje.
+2.6.6.6.1 Gestor de montaje.
 	El driver del gestor de montaje(Mountmgr.sys) es el encargado de asignar las letras a los volúmenes creados después de la instalación de Windows. Las asignaciones se almacenan en “\HKLM\SYSTEM\MountedDevices”, y su clave tiene la forma “\??\Volume{X}” donde X es el GUID del volumen. Los valores asociados tienen la forma “\DosDevices\X:\” siendo X la letra asignada a la unidad. Todo volumen debe tener una entrada en el espacio de nombres, pero no tiene por qué tener asignada una letra de unidad.
 	Para los discos básicos, el registro almacena las letras de sus volúmenes, los nombres en estilo Windows NT 4, y la dirección de comienzo del volumen asociado. En el caso de discos dinámicos, solo se almacena el GUID. Durante el inicio, el gestor de montaje se registra en el sistema de Plug and Play, de forma que cuando un dispositivo es identificado como un volumen, recibe la notificación pertinente del sistema de PnP. Con esta notificación, el gestor de volúmenes determina el GUID para localizar la letra de la unidad almacenada en el registro de Windows. De no encontrarla, sugerirá una y la almacenará en el registro. En el caso de los discos básicos, no se devuelve sugerencia. De no existir esta, se utilizará la primera letra no asignada a otro volumen, se define su asignación, se crean los enlaces simbólicos necesarios y finalmente se actualiza el registro de Windows. Si se diera el caso de que todas las letras estuvieran utilizadas, no se ofrecería ninguna asignación.
-	Es necesario resaltar que el GUID utilizado por el gestor de volúmenes no necesariamente debe coincidir con el GUID real del volumen, permitiendose así que los discos básicos dispongan de un GUID que su tabla de particiones no le asigna inicialmente.
+	Es necesario resaltar que el GUID utilizado por el gestor de volúmenes no necesariamente debe coincidir con el GUID real del volumen, permitiéndose así que los discos básicos dispongan de un GUID que su tabla de particiones no le asigna inicialmente.
 
-7.6.6.2. Puntos de montaje.
+2.6.6.6.2 Puntos de montaje.
 	Los puntos de montajes permiten enlazar volúmenes en directorios, dentro de los volúmenes NTFS. Este es el mecanismo ofrecido por Windows, para manejar los volúmenes que no tuvieron la suerte de disponer de una letra asignada. Para ello utiliza una tecnología de reprocesado de puntos de montaje.
 	El punto reprocesado, es un bloque de datos arbitrario, con una cabecera fija que Windows asocia a un fichero o directorio de un volumen NTFS. Puede ser una aplicación, o el mismo sistema, quien defina el formato y comportamiento de estos puntos. Dentro de la cabecera se almacenará una etiqueta que defina si fue definida por una aplicación, o por el sistema, el tamaño, y el significado del punto reprocesado. De ser una aplicación la que lo define, debe proveer de un driver de filtro para revisar los valores devueltos por el volumen al operar con sus ficheros. Estos valores son devueltos en caso de encontrar una coincidencia de fichero o directorio en la operación realizada.
 	Este sistema se implementa haciendo uso del sistema de ficheros NTFS, el gestor de entrada/salida, y el gestor de objetos. Este último inicia el procesado de localizaciones, sirviéndose del gestor de entrada/salida como interfaz con el sistema de ficheros. Sin embargo, el gestor de objetos debe volver a realizar las operaciones para las que el gestor de entrada/salida devuelve un código de estado. El gestor de entrada/salida implementa la modificación de la localización y los posibles puntos reprocesados necesarios para que el sistema de ficheros pueda finalizar la operación. Puede entenderse que el gestor de entrada/salida funciona como un driver de filtro para el sistema de reprocesado de puntos de montaje.
@@ -854,7 +964,7 @@ Gestor de aplicaciones: Iscsicli.exe es un cliente en consola que permite las co
 	Los puntos de montajes son, pues, puntos reprocesados que almacenan un nombre de volumen. Es posible utilizar el gestor de discos para crear puntos de montaje.
 	El gestor de montaje alberga una base de datos en la que almacenará los puntos de montajes definidos para cada volumen. Esta se aloja en el directorio “System Volume Information” de cualquier volumen NTFS.
 
-7.6.6.3. Montaje de volúmenes.
+2.6.6.6.3 Montaje de volúmenes.
 	Aunque un volumen disponga de letra correspondiente, el contenido del volumen puede estar organizado por un sistema de ficheros no soportado por Windows. Para reconocer el volumen, un sistema de ficheros debe proclamar que la partición le pertenece, proceso que sucederá la primera vez que el núcleo, un driver, o una aplicación accedan a un fichero del volumen. Una vez proclamada la pertenencia, el gestor de entrada/salida redirige todos los paquetes de peticiones al driver correspondiente. El montaje implica a tres componentes: el registro del driver de sistema de ficheros, los bloques de parámetros de volumen(Volume Parameters blocks, o VPBs) y las peticiones de montajes.
 	El gestor de entrada/salida supervisa el proceso de montaje, y es consciente de que existen los drivers de sistemas de ficheros puesto que son registrados en la inicialización de estos mismos, a través de la función IoRegisterFileSystem. Al registrarse, una referencia será almacenada en una lista que el gestor de entrada/salida utiliza durante las operaciones de montaje.
 	Los bloques de parámetros de volúmenes se utilizan como enlaces entre el objeto que representa un volumen, y el objeto de dispositivo. Si su referencia está vacía, ningún sistema de ficheros habrá montado el volumen, y el gestor de entrada/salida deberá comprobar la integridad de la referencia si se utiliza la operación open sobre un fichero del volumen.
@@ -864,12 +974,12 @@ Gestor de aplicaciones: Iscsicli.exe es un cliente en consola que permite las co
 	Cuando se solicita una comprobación de consistencia de sistema de ficheros a través de la aplicación Chkdsk, durante el comienzo del inicio, casi todos los volúmenes son montados. La aplicación que ejerce dicha comprobación es Autochk.exe, y es invocada por el gestor de sesiones(Smss.exe) cuando es especificada para ejecutarse en el inicio a través de la clave de registro “HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute”. Chkdsk accede a todos los dispositivos para ver si requieren la comprobación de consistencia.
 	El montaje de un mismo dispositivo puede suceder en varias ocasiones cuando se hace referencia a dispositivos desmontables. Si se vuelve a montar un dispositivo previamente montado se le pregunta por su identificador de volumen, si este ha cambiado, lo desmontará para remontarlo posteriormente.
 
-7.6.6.4. Operaciones de entrada/salida en volúmenes.
+2.6.6.6.4 Operaciones de entrada/salida de volúmenes.
 	Cuando el sistema de ficheros recibe una petición de entrada/salida, delega en el gestor de volúmenes para transferir datos desde y hacia el disco donde reside el volumen. En el proceso de montaje, el sistema de fichero recibe la referencia del objeto de volumen con el que enviará las peticiones al gestor de volúmenes. Sin embargo, si una aplicación lo requiere, puede obviar el sistema de ficheros y acudir directamente al objeto de volumen para cumplir sus labores(p. e. programas de restauración de ficheros eliminados).
 	Cuando una petición se envía al objeto de volumen, el gestor de entrada/salida lo redirige al gestor de volúmenes que creó el objeto de dispositivo. El gestor de volúmenes debe entonces traducir el desplazamiento para localizar el fichero dentro del volumen, a un desplazamiento dentro del disco. Este desplazamiento será enviado al driver de clase de disco, que a su vez, delegará en el driver de minipuerto. Este último se encarga de resolver la petición de entrada/salida finalizando la operación. El panorama se resume en la siguiente figura:
 	
 
-7.6.7. Servicio de discos virtuales.
+2.6.6.7 Servicio de discos virtuales.
 	Los desarrolladores de productos de almacenamiento, facilitan una serie de herramientas para gestionar sus dispositivos, que, como cabe esperar, suponen una dificultad a salvar por los administradores de sistemas. En ocasiones, es necesario que aprendan múltiples interfaces para desarrollar aplicaciones específicas debido a que las herramientas de Windows no son capaces de resolver las peticiones.
 	Para facilitar este tipo de labores, el sistema ofrece el servicio de discos virtuales, que supone una capa de abstracción que unifica el almacenamiento a alto nivel. De esta forma, el administrador puede utilizar los distintos dispositivos, sirviéndose de una interfaz estándar.
 	Las interfaces ofrecidas por este subsistema son dos, una para proveedores de software, y otra para proveedores de hardware:
@@ -877,17 +987,18 @@ Gestor de aplicaciones: Iscsicli.exe es un cliente en consola que permite las co
 La interfaz para proveedores de software supone una interfaz con el alto nivel, y trabaja con discos, particiones y volúmenes. Ofrece operaciones como la creación, redimensionado, y eliminación de volúmenes, además de crear y destruir unidades réplicas de otras unidades, y crear y formatear las unidades. Las aplicaciones deben registrarse en la clave “HKLM\SYSTEM\CurrentControlSet\Services\Vds\SoftwareProviders”. Se ofrecen interfaces para trabajar con unidades dinámicas o básicas.
 Los proveedores de hardware deben implementar su software como librerías dinámicas(DLLs) y registrarlas en la clave “HKLM\SYSTEM\CurrentControlSet\Services\Vds\HardwareProviders”. Dicha librería se encargará de traducir los comandos independientes del almacenamiento proveídos por VDS, a comandos específicos del almacenamiento que ofrecen.
 
-	Si una aplicación requiere la API de VDS, y el servicio no se encuentra en funcionamiento, Svchost recibirá la petición e iniciará el servicio(Vdsldr.exe), el cual, gestionará las peticiónes requeridas y, en la finalización de comunicaciones con la API, terminará su ejecución.
+	Si una aplicación requiere la API de VDS, y el servicio no se encuentra en funcionamiento, Svchost recibirá la petición e iniciará el servicio(Vdsldr.exe), el cual, gestionará las peticiones requeridas y, en la finalización de comunicaciones con la API, terminará su ejecución.
 
-7.7 Subsistema de redes. 
+2.6.7 Subsistema de redes.
+
 	Dentro de los componentes básicos que componen una red, nos encontramos con los servicios, APIs, los protocolos y los adaptadores de red. Estos componentes se estratifican para formar una pila de red. Las pilas de red más conocidas hoy día son TCP/IP, de la cual existe implementación, aunque su diferenciación en capas no llega a ser tan clara, y el modelo OSI, del cual no existe implementación pero se utiliza como modelo de diseño para cualquier tipo de redes. Puesto que posteriormente estableceremos una analogía entre los subsistemas de Windows y el modelo OSI, realizaremos un breve repaso de los conceptos más importantes.
 
-7.7.1. Modelo OSI.
+2.6.7.1 Modelo OSI.
 	Con el objetivo de estandarizar e integrar el software de red de las grandes corporaciones, en 1984 la Organización Internacional de Estandarización(International Organization for Standarization, o ISO), definió el modelo de envío de mensajes, conocido como modelo de referencia de interconexión de sistemas abierto(Open System Interconnection reference model).
-	El modelo define 7 niveles, de los cuales, uno es un nivel hardware, y los 6 restantes son software. Cada nivel define una serie de reglas y condiciones para entender que quiere transmitirle el mismo nivel, ubicado en una máquina distinta. La comunicación siempre se produce entre niveles homónimos. Cada uno de los niveles cumple un objetivo claro y diferenciado dentro de la pila, disponiendose de los siguientes niveles:
+	El modelo define 7 niveles, de los cuales, uno es un nivel hardware, y los 6 restantes son software. Cada nivel define una serie de reglas y condiciones para entender que quiere transmitirle el mismo nivel, ubicado en una máquina distinta. La comunicación siempre se produce entre niveles homónimos. Cada uno de los niveles cumple un objetivo claro y diferenciado dentro de la pila, disponiéndose de los siguientes niveles:
 
 Aplicación: Gestiona la información que requiera transmitirse entre dos aplicaciones de red, incluyendo sus funciones, comprobaciones de seguridad , identificación de máquinas e inicio del intercambio.
-Presentación: Se encarga del formato de los datos transmistidos, como el formato de fin de línea, la compresión, o el cifrado utilizado.
+Presentación: Se encarga del formato de los datos transmitidos, como el formato de fin de línea, la compresión, o el cifrado utilizado.
 Sesión: Gestiona la conexión entre las aplicaciones que colaboran a través de la red, definiendo la sincronización a alto nivel, y la monitorización de las aplicaciones que utilizan la comunicación.
 Transporte: fragmenta los mensajes en paquetes, les asigna un número de secuencia para garantizar su orden, y ensambla los paquetes en mensajes en el destino. Independiza completamente al nivel de sesión de cualquier cambio realizado en el hardware.
 Red: dirige los paquetes, realiza el control de congestión, e intercambia paquetes entre distintas tecnologías. Este es el nivel más alto que entiende de topologías de red, con sus reglas y limitaciones correspondientes.
@@ -897,14 +1008,14 @@ Físico: Se encarga de la transmisión de bits brutos a través del medio de com
 	La comunicación entre dos máquinas puede resumirse en la siguiente figura:
 
 	
-7.7.2. Componentes de red de Windows.
+2.6.7.2 Componentes de red de Windows.
 	Como cabe esperar, los componentes de red de Windows no se ajustan adecuadamente al modelo OSI, de modo que la correspondencia entre niveles es aproximada, y solo pretende dar una idea de cómo se estructura la comunicación en el sistema. Los componentes relevantes son los siguientes:
 
 APIs de red: interfaz independiente del protocolo de red que facilita la comunicación de aplicaciones.
 Clientes de la interfaz de drivers de transporte: antiguos drivers en espacio del núcleo para definir la parte de la API de red que funcionaba en este espacio. Sus paquetes de peticiones(IRPs) se formatean acorde a la interfaz de driver de transporte(Transport Driver Interface, o TDI), interfaz de la que adquieren el nombre, y que supone un estándar de programación para los drivers en espacio de núcleo.
 Drivers de protocolo en espacio del núcleo: Entre ellos podemos encontrar los drivers de la interfaz TDI, los drivers de protocolos de la especificación de interfaces de drivers de red(Network Driver Interface Specification protocol drivers, o NDIS protocol drivers), y los drivers de protocolos. Su objetivo es aceptar y procesar las peticiones en forma de IRPs de los clientes de la interfaz de drivers de transporte. Esto puede requerir distintas tareas, como comunicar con otra estación, o pedir a los drivers de la interfaz TDI que añadan una cabecera. Para ello, se implementa el paso de mensajes entre la infraestructuras de este subsistema, haciendo transparente ciertas tareas como su segmentación, ensamblado, secuencia y reconocimiento.
 Núcleo Winsock: Interfaz en espacio de núcleo, independiente del nivel de transporte, que reemplaza los antiguos mecanismos de la interfaz de drivers de transporte. El núcleo Winsock ofrece una interfaz de programación utilizando sockets, al igual que la ofrecida en el espacio de usuario, pero permitiendo algunas características más como la comunicación asíncrona de operaciones de entrada/salida. Esta infraestructura añade el soporte de IP versión 6(IPv6).
-La plataforma de filtro de Windows: esta se compone de un conjunto de APIs y servicios de sistema que proporcionan las capacidades necesarias para crear aplicaciones de filtrado de paquetes, procesandolos s diferentes niveles de la pila de red de Windows. Además, la información puede ser monitorizada, filtrada o modificada antes de alcanzar su destino.
+La plataforma de filtro de Windows: esta se compone de un conjunto de APIs y servicios de sistema que proporcionan las capacidades necesarias para crear aplicaciones de filtrado de paquetes, procesándolos s diferentes niveles de la pila de red de Windows. Además, la información puede ser monitorizada, filtrada o modificada antes de alcanzar su destino.
 Drivers de funcionalidades para la plataforma de filtro de Windows: estos drivers se limitan a añadir funcionalidades no contempladas en la plataforma de filtro de Windows.
 Librería NDIS: Ndis.sys permite encapsular los dispositivos de red, ocultando sus peculiaridades del entorno del núcleo de Windows. Exporta, también, funciones para que los clientes de la interfaz de drivers de transporte puedan utilizarlas.
 Drivers de minipuerto para NDIS: estos drivers se encargan de ofrecer una interfaz intermedia entre los clientes de la interfaz de drivers de transporte y los dispositivos de red. Se escriben de forma que queden encapsuladas tras la interfaz NDIS. Esta no procesa IRPs, sino que registra una tabla de funciones que se corresponden con las funciones que NDIS exporta a los clientes de la interfaz de drivers de transporte. Para resolver las peticiones recibidas por la interfaz NDIS, los drivers acudirán a la capa de abstracción de hardware.
@@ -914,15 +1025,15 @@ Drivers de minipuerto para NDIS: estos drivers se encargan de ofrecer una interf
 
 	La zona verde de la imagen se corresponde con las APIs de red, la zona amarilla	son los clientes de la interfaz de drivers de transporte y del núcleo Winsock, en la zona naranja se disponen del núcleo Winsock, la interfaz de drivers de transporte(TDI) y los antiguos drivers de Winsock, y finalmente en la zona roja podemos ver la API NDIS y sus drivers.
 
-7.7.3. APIs de red de Windows.
+2.6.7.3 APIs de red de Windows.
 	Existen varias APIs distintas dentro del entorno de red de Windows, y cada una tiene sus características particulares, dejando en manos del desarrollador que decida cual es la API más adecuada para solucionar su problema. Estudiaremos las más importantes de cara al objetivo del proyecto.
 
-7.7.3.1. Windows Sockets(Winsock).
-	Esta API es la implementación de Microsoft de los conocidos sockets de la Berkeley Software Distribution(BSD, una de las distribuciónes del sistema Unix más conocidas). Gracias a esta API, traducir una aplicación para Unix que utilizara la red, a Windows, se hacía de forma directa. Sus sucesivas versiones incluyen la mayor parte de las funcionalidades de los sockets originales, añadiendo mejoras específicas de Microsoft. Soporta comunicaciones fiables orientadas a conexión y comunicaciones no orientadas a conexión. Su versión 2.2 permite disponer de la entrada/salida asíncrona que mejora el rendimiento y escalabilidad de frente a los sockets de BSD.
+2.6.7.3.1 Windows Sockets(Winsock).
+	Esta API es la implementación de Microsoft de los conocidos sockets de la Berkeley Software Distribution(BSD, una de las distribuciones del sistema Unix más conocidas). Gracias a esta API, traducir una aplicación para Unix que utilizara la red, a Windows, se hacía de forma directa. Sus sucesivas versiones incluyen la mayor parte de las funcionalidades de los sockets originales, añadiendo mejoras específicas de Microsoft. Soporta comunicaciones fiables orientadas a conexión y comunicaciones no orientadas a conexión. Su versión 2.2 permite disponer de la entrada/salida asíncrona que mejora el rendimiento y escalabilidad de frente a los sockets de BSD.
 	Sus características principales son:
 
 Soporte de aplicaciones asíncronas y vectorizadas.
-Soporte de calidad del servicio(Quality of Service), lo que permite alas aplicaciones negociar la latencia y ancho de banda requerido.
+Soporte de calidad del servicio(Quality of Service), lo que permite a las aplicaciones negociar la latencia y ancho de banda requerido.
 Capacidad de soportar protocolos desconocidos por Windows.
 Soporte integrado de espacios de nombres distintos a los definidos por el propio protocolo utilizado por la aplicación.
 Soporte de mensajes multipunto.
@@ -934,12 +1045,12 @@ Soporte de mensajes multipunto.
 	La implementación de Winsock se compone de una interfaz para el espacio de usuario, ofrecida por la librería dinámica Ws2_32.dll, que ofrece los servicios para acceder a los espacios de nombres y a los proveedores de servicios registrados. Los proveedores que ofrece Microsoft se recogen en la librería Mswsock.dll, que se nutre de las librerías de apoyo de Winsock para comunicarse con el driver en espacio de núcleo.
 	Para integrarse con el modelo entrada/salida de Windows, los sockets son representados mediante un fichero, requiriendo un driver de sistema de ficheros. Para ello utiliza los servicios del driver de función auxiliar(Ancillary Function Driver), incluida en Msafd.dll, para implementar las funciones de los sockets. Este es un cliente de la interfaz de proveedores de la capa de transporte de red, y genera paquetes de peticiones para la interfaz de drivers de transporte(TDI IRPs).
 
-7.7.3.2. Núcleo Winsock.
-	Para permitir que los drivers de espacio de núcleo tengan acceso a la API de red ofrecida al espacio de usuario, se implementa esta interfaz basada en sockets. Dicha infraestructura reemplaaza la antigua interfaz de drivers de transporte, presente en versiones anteriores de Windows, manteniendo la interfaz de proveedores de servicios de la interfaz de transporte de drivers. Ofrece mejor rendimiento y escalabilidad, que esta última gracias a que utiliza menos en los mecanismos internos del núcleo, para utilizar una semántica más parecida a la de los sockets de Unix. Además pretende utilizar todas las funcionalidades de las últimas tecnologías ofrecidas por la pila de red TCP/IP de Windows, como por ejemplo, el registro de módulos de red. La estructura interna queda de la siguiente manera:
+2.6.7.3.2 Núcleo Winsock.
+	Para permitir que los drivers de espacio de núcleo tengan acceso a la API de red ofrecida al espacio de usuario, se implementa esta interfaz basada en sockets. Dicha infraestructura reemplaza la antigua interfaz de drivers de transporte, presente en versiones anteriores de Windows, manteniendo la interfaz de proveedores de servicios de la interfaz de transporte de drivers. Ofrece mejor rendimiento y escalabilidad, que esta última gracias a que utiliza menos en los mecanismos internos del núcleo, para utilizar una semántica más parecida a la de los sockets de Unix. Además pretende utilizar todas las funcionalidades de las últimas tecnologías ofrecidas por la pila de red TCP/IP de Windows, como por ejemplo, el registro de módulos de red. La estructura interna queda de la siguiente manera:
 	
 
 	Su implementación, como la de la API Winsock estudiada anteriormente, está implementada en los drivers de función auxiliares, y su infraestructura es responsable de la API para proveedores de servicio. Se encarga, por tanto, de ofrecer soporte para distintos protocolos. El subsistema se comunica con los drivers de espacio de núcleo que se comunican con el espacio de usuario, llamados drivers de aplicación del núcleo Winsock. Entre ambos subsistemas resuelven las operaciones de red. El núcleo Winsock notificará eventos asíncronamente a los drivers de aplicación.
-	Los drivers de aplicación deben registorarse en el subsistema del núcleo Winsock utilizando el registro de módulos de red, o utilizando las funciones propias del núcleo Winsock, permitiendole saber cuando este último está disponible para enviarle su tabla de funciones de resolución, que describe su proveedor, y su implementación de la API del núcleo Winsock. Funciones de esta API son, por ejemplo, WskSocket, WskAccept, WskBind, etc, que comparten semántica con las interfaces Winsock del espacio de usuario. Su principal diferencia con el espacio de usuario es que define cuatro tipos de socket:
+	Los drivers de aplicación deben registrarse en el subsistema del núcleo Winsock utilizando el registro de módulos de red, o utilizando las funciones propias del núcleo Winsock, permitiéndole saber cuando este último está disponible para enviarle su tabla de funciones de resolución, que describe su proveedor, y su implementación de la API del núcleo Winsock. Funciones de esta API son, por ejemplo, WskSocket, WskAccept, WskBind, etc, que comparten semántica con las interfaces Winsock del espacio de usuario. Su principal diferencia con el espacio de usuario es que define cuatro tipos de socket:
 
 Básicos, que ofrecen y recuperan información del nivel de transporte.
 De escucha, que solo aceptan conexiones entrantes.
@@ -948,24 +1059,24 @@ Orientados a conexión, que soportan toda clase de funcionalidades para enviar y
 
 	El núcleo Winsock ofrece notificaciones del estado de la red a las aplicaciones, de forma que el subsistema se encarga de controlar el enlace, y el cliente sencillamente recibe la notificación del evento. Se proveen de diversas rutinas para gestionar eventos.
 
-7.7.3.3. APIs de acceso web.
+2.6.7.3.3 APIs de acceso web.
 	Las APIs de acceso web ofrecen infraestructuras de cliente y servidor con objeto de aislar al desarrollador de los detalles necesarios para la comunicación utilizando protocolos de nivel de aplicación. Los protocolos ofrecidos son FTP y HTTP, y en el cliente se dispone de la API de internet de Windows(WinInet), que se encarga de ofrecer ambos protocolos, y WinHTTP, que ofrece otra alternativa, en ocasiones más adecuada, para interactuar con el protocolo HTTP. La interfaz HTTP Server, posibilita el desarrollo de servidores web.
 	WinInet ofrece servicios de consistencia de cookies, servicios de conexión automática, cache de almacenamiento de ficheros en cliente, y gestión de credenciales automáticas. Esta API es utilizada por el explorador de Windows e Internet Explorer.
 	WinHTTP, en su versión 6.0, ofrece servicios de protocolo HTTP 1.1, al igual que WinInet, aunque su API está orientada al uso conjunto con la API HTTP Server. La aplicaciones desarrolladas sobre esta API disponen de mayor escalabilidad y funcionalidades de seguridad no ofrecidas por WinInet, como la suplantación de identidad en hilos de ejecución. Otras de sus funcionalidades son el troceado de transferencias, el listado de proveedores de servicio para la identificación por SSL, la solicitud de certificados y la reserva de rangos de puertos.
-	HTTP Server ofrece la API del lado servidor que comunica con la interfaz WinHTTP, atendiendo las peticiones de esta. Ofrece soporte de SSL, caches de almacenamiento, modelos de entrada/salida síncronos y asíncronos, direccionamiento por IP versión 4 e IP, versión 6. Se accede adicha interfaz por la librería dinámica Httpapi.dll, que se apoya en el driver en espacio del núcleo Http.sys. Para las funciones de cache, la interfaz se sirve del gestor de memoria, alojando en esta las páginas de memoria solicitadas, hasta que una aplicación las invalide o expire un temporizador opcional asociado a estas. Existen ciertas configuraciones de la comunicación que se ofrecen al usuario, como las políticas de seguridad, el balanceo de carga, el registro de sucesos, los límites de conexión, la gestión de cache de respuestas y la comprobación de certificados. Su aplicación por excelencia es el servicio de información de internet(Internet Information Service, IIS), que ejerce de servidor web, en los entornos Windows.
+	HTTP Server ofrece la API del lado servidor que comunica con la interfaz WinHTTP, atendiendo las peticiones de esta. Ofrece soporte de SSL, caches de almacenamiento, modelos de entrada/salida síncronos y asíncronos, direccionamiento por IP versión 4 e IP, versión 6. Se accede a dicha interfaz por la librería dinámica Httpapi.dll, que se apoya en el driver en espacio del núcleo Http.sys. Para las funciones de cache, la interfaz se sirve del gestor de memoria, alojando en esta las páginas de memoria solicitadas, hasta que una aplicación las invalide o expire un temporizador opcional asociado a estas. Existen ciertas configuraciones de la comunicación que se ofrecen al usuario, como las políticas de seguridad, el balanceo de carga, el registro de sucesos, los límites de conexión, la gestión de cache de respuestas y la comprobación de certificados. Su aplicación por excelencia es el servicio de información de internet(Internet Information Service, IIS), que ejerce de servidor web, en los entornos Windows.
 
-7.7.3.4. Otras APIs de red de Windows.
+2.6.7.3.4 Otras APIs de red de Windows.
 	Existen diversas APIs de red de propósito general que resumiremos en dicho apartado, puesto que detallarlas ampliamente excede de los objetivos del proyecto.
 	La primera de ellas es la API de llamada a procedimientos remotos(Remote Procedure Call, o RPC) que se encarga de ofrecer la resolución de algunas funciones o tareas en máquinas remotas.  Esta resolución se realiza de forma transparente permitiendo al desarrollador implementar su solución y decidir qué funciones deben ejecutarse localmente, y qué funciones se ejecutan de forma remota. Esta infraestructura hace uso de otras APIs como la API Winsock, o la API de tuberías para el envío de las funciones y parámetros, en forma de paquetes, requeridos para la ejecución remota.
 	La API de tuberías, junto con los buzones, son APIs adecuadas para la comunicación entre procesos(Inter Process Communication, o IPC). Las tuberías ofrecen una comunicación bidireccional y fiable, mientras que los buzones son unidireccionales y no fiables. Estos últimos mejoran la eficiencia en servicios de múltiples receptores(Broadcast).
-	NetBIOS, es el systema de entrada/salida básico de red(Network Basic Input/Output System), y es la API más utilizada en aplicaciones de red, aunque Microsoft desaconseja su uso en favor de Winsock y las APIs de tuberías. Permite conexiones fiables, u orientadas a conexión, y no fiables, o no orientadas a conexión. La API es soportada por el protocolo TCP/IP de Windows.
+	NetBIOS, es el sistema de entrada/salida básico de red(Network Basic Input/Output System), y es la API más utilizada en aplicaciones de red, aunque Microsoft desaconseja su uso en favor de Winsock y las APIs de tuberías. Permite conexiones fiables, u orientadas a conexión, y no fiables, o no orientadas a conexión. La API es soportada por el protocolo TCP/IP de Windows.
 	El servicio de transferencia inteligente en segundo plano(Background Intelligent Transfer Service, o BITS), ofrece una interfaz simple para las tareas de transferencia de ficheros. Las operaciones ofrecidas son para descargar, cargar, y confirmar la carga. Este subsistema continúa las tareas aunque el programa que iniciara la transferencia haya finalizado su ejecución, tan solo requiriendo que la conexión permanezca activa. Si la transferencia falla, se encarga de almacenar la información necesaria para retomarla tan pronto como le sea posible.
-	La infraestructura P2P, ofrece soporte flexible a la conocida tecnología que su nombre indica, para transferir información entre máquinas. Soporta el uso de nodos y eventos, conocido como la tecnología de grafos P2P, proveedores de espacios de nombres para la resolución de nombres de nodos, la agrupación de dichos nodos, y la gestión de identificación. Esta infraestructura es similar a la ofrecida por la interfaz de colaboración P2P de Microsoft, para facilitar la implementación de aplicaciones de colaboración en grupo.
+	La infraestructura P2P, ofrece soporte flexible a la conocida tecnología que su nombre indica, para transferir información entre máquinas iguales. Soporta el uso de nodos y eventos, conocido como la tecnología de grafos P2P, proveedores de espacios de nombres para la resolución de nombres de nodos, la agrupación de dichos nodos, y la gestión de identificación. Esta infraestructura es similar a la ofrecida por la interfaz de colaboración P2P de Microsoft, para facilitar la implementación de aplicaciones de colaboración en grupo.
 	La API COM de Microsoft define componentes definidos en módulos, como objetos exportables, y ofrece servicios para manipularlos directamente. La interfaz DCOM añade la funcionalidad de que dichos objetos no tengan la necesidad de residir en la máquina local, facilitando el envío de objetos a través de la red de forma transparente.
 	La cola de mensajes es una plataforma de propósito general para facilitar la comunicación en aplicaciones distribuidas. Su servidor es un repositorio en el que los transmisores encolarán sus mensajes, y, tan pronto como los clientes puedan, desencolarán dichos mensajes para su procesado. No se requiere realizar conexiones en ninguna dirección puesto que el servicio es no fiable.
 	La arquitectura Universal de Plug and Play, estudiada anteriormente, es una infraestructura P2P, distribuida, que utiliza la arquitectura de red existente(a través de TCP/IP y servicios Web) para localizar y configurar nuevos dispositivos. Esto permite conectar dinámicamente a una red, obtener una IP y ofrecer sus servicios a través de la red. Su extensión PnP-X descubrirá los dispositivos existentes en la red para integrarlos a través del gestor de Plug and Play en el sistema.
 
-7.7.3.5. Drivers de protocolo.
+2.6.7.3.5 Drivers de protocolo.
 	La función de estos drivers es aceptar las peticiones provenientes de la API y traducirlas a un protocolo de bajo nivel para transmitirlos a través de la red. Para ello hacen uso de los drivers de protocolo de nivel de transporte, que son los que realizan la verdadera traducción. Al disponer de APIs separadas de los protocolos, es posible que la interfaz pueda utilizar diversos protocolos. Al haberse convertido TCP/IP un estándar de facto, es el protocolo que más se utiliza en Windows.
 	Debido a la necesidad de adoptar la versión 6 del protocolo IP, la pila de red de Windows, es una pila combinada, permitiendo la coexistencia de ambas versiones, utilizando túneles. Sus características más importantes son las siguientes:
 
@@ -976,7 +1087,7 @@ Mejoras de rendimiento en situaciones de muchas pérdidas. Para ello se incluyen
 
 	Resumimos los componentes de la pila TCP/IP en la figura siguiente, donde se observan los distintos estratos, y los componentes que conforman la pila, junto con el resto de componentes con los que se relaciona la pila:
 
-7.7.3.6. Drivers NDIS.
+2.6.7.3.6 Drivers NDIS.
 	El propósito de estos drivers es el de comunicar a la interfaz de red la información que debe transmitir, ofreciendo una interfaz estándar de comunicación, independiente de la lógica interna de la interfaz. Estos drivers, deben cumplir la especificación NDIS 6.1.
 	La librería NDIS limita con los drivers de nivel de transporte existentes, y, por otro lado, con los drivers de minipuerto NDIS, siendo una librería auxiliar para dar formato a los comandos enviados a los drivers NDIS. Esta interacciona, además, con los drivers intermedios de NDIS, los drivers de filtro, encargándose de que el mensaje sea procesado por todos los drivers requeridos, ejerciendo de entorno de ejecución. De esta forma los drivers quedan envueltos por la librería, y no requieren recibir los paquetes de peticiones(IRPs) para procesarlos, sino que lo hará la librería por ellos. Los drivers de protocolo, entonces, utilizarán la función NdisAllocateNetBuffer, y posteriormente envían el paquete al driver de minipuerto a través de otra función. Todos los componentes de Windows hacen uso de buffers de red para gestionar el flujo de comunicaciones con NDIS.
 	Las características de NDIS principales son:
@@ -991,12 +1102,12 @@ NDIS orientado a conexión, permitiendo a la especificación utilizar dispositiv
 
 	Todas las funciones ofrecidas por la especificación NDIS, se traducen a las funciones correspondientes en la capa de abstracción de hardware(HAL).
 
-7.7.3.7. Ensamblado.
+2.6.7.3.7 Ensamblado.
 	Por último, existe una pieza en Windows que debe ser mencionada, puesto que después de un amplio análisis de todos los componentes de red, cabe preguntarse si deben estar todos activos al mismo tiempo, y de no estarlo, como se encuentran los unos a los otros. Es razonable pensar que los componentes se activan y desactivan en función de las distintas topologías de red, y funcionalidades utilizadas, y para reconocer la posibilidad de utilizar los distintos componentes se ofrece un servicio de ensamblado.
 	Un ejemplo de uso de dicho servicio, se produce cuando se instala un nuevo componente de red. Durante el proceso, el usuario debe proveer de un fichero INF en el que se ofrecen directrices para instalar y configurar el componente, además de las dependencias de ensamblado. Los desarrolladores especifican que componentes requieren sus interfaces de modo que el gestor de control de servicios lo cargará en memoria en el orden adecuado, y si otros componentes que utilicen la nueva interfaz están presentes. El servicio de ensamblado establece la conexión entre los componentes en las distintas capas, sirviéndose de la información ofrecida en el fichero INF.
 	Un ejemplo habitual se produce cuando se carga el servicio redirector de estaciones de trabajo, que automáticamente carga en memoria el protocolo TCP/IP.
 
-8. Windows vs. Linux.
+2.7 Windows vs. Linux.
 
 	Después de un estudio detallado de como funcionan los dos sistemas operativos más populares del escritorio, cabe destacar que, aunque sus filosofías diverjan completamente, de cara a la programación, disponen de ciertas similitudes.
 	Por un lado, se dispone de una división clara y detallada en subsistemas que colaboran unos con otros para conseguir un objetivo dado. Esto nos permite indagar en ellos y estudiar las interfaces de los subsistemas que nos interesen, pudiendo obviar el resto. Por otro lado los subsistemas disponen de interfaces que permiten que se pueda trabajar con ellos obviando los detalles de la implementación, Los subsistemas en los que hemos centrado nuestra atención eran principalmente el subsistema de entrada/salida, el de dispositivos de bloques, y el de interfaces de red.
@@ -1004,9 +1115,8 @@ NDIS orientado a conexión, permitiendo a la especificación utilizar dispositiv
 	Parece razonable denotar que, las interfaces con las que se relacionará este proyecto con el subsistema de bloques de los sistemas operativos, son distintas. En el caso de Linux, la interfaz con la que se relacionará, corresponde con el organizador de peticiones, y en Windows con el gestor de entrada/salida.
 	Si observamos la parte relacionada con el subsistema de red, podemos resaltar que tanto en Windows como en Linux, se utilizan interfaces basadas en los sockets de Unix, lo que nos ofrecerá facilidades para aislar la relación dichas interfaces de forma simple, pudiendo hacer un diseño más independiente de la plataforma. Mientras más independiente sea el código del sistema operativo, más facilidad se ofrecerá para soportar nuevos sistemas, y se reducirán las complicaciones de mantenimiento.
 
-9. Swiftness.
-
-9.1 Bases de diseño.
+2.8 Swiftness.
+2.8.1 Bases de diseño.
 	Para definir la plataforma de drivers Swiftness, vamos a definir un protocolo de comunicación que utilice los servicios del protocolo TCP/IP para comunicarse con el servidor. Si quisiéramos establecer una analogía con los niveles del protocolo TCP/IP, este protocolo se encontraría en el nivel de aplicación, que, se corresponde con el conjunto de niveles del modelo OSI con los niveles de aplicación, presentación y sesión. Puesto que el objetivo principal es comunicarnos con el servidor Swift, de Openstack, es posible utilizar las bases de diseño de protocolos de red para este cometido.
 	En el diseño de un nivel de red, es posible definir cuatro primitivas: Request, Indication, Response y Confirm. La primitiva Request, se produce en el cliente, en un nivel cualquiera, y es la primitiva que inicia la comunicación. Esta primitiva utilizará los servicios del nivel inferior(en nuestro caso TCP/IP), para realizar la comunicación con su entidad par, en este caso el receptor del mensaje. Esta primitiva provoca que en la entidad par se utilice la primitiva Indication para recibir el mensaje transmitido por nuestro nivel de protocolo. La entidad par procesará el mensaje y hará uso de la primitiva Response para ejecutar una respuesta. La primitiva Response, por su parte, provocará que en el receptor, se ejecute la primitiva Confirm, para recibir la respuesta. De esta forma, y dado que nuestros drivers trabajan en el cliente, las primitivas Indication y Response son atendidas por el servidor Swift, y las primitivas Request y Confirm son las que se implementarán en Swiftness. Dado que la nomenclatura de diseño de los sistemas operativos que estudiamos, y por tanto, de los sockets de Unix, es distinta a la aquí nombrada, procederemos a utilizar los nombres Send y Recv para las primitivas Request y Confirm.
 	Dado a que queremos disfrutar de un diseño lo más independiente posible de la plataforma donde se ejecute, desarrollaremos una interfaz que se comporte como un envoltorio, para poder utilizar los servicios de sockets de los distintos sistemas operativos, sin necesidad de utilizar la interfaz predefinida que nos ofrezca el sistema. Puesto que es posible que algunas opciones de la interfaz del sistema no nos sean útiles, podemos simplificarla conforme detallemos el diseño.
@@ -1016,7 +1126,7 @@ NDIS orientado a conexión, permitiendo a la especificación utilizar dispositiv
 	Otro detalle a tener en cuenta es que los drivers son independientes del sistema de ficheros. Esto de traduce en que, las estructuras de peticiones y respuestas no disponen de los nombres de objetos y contenedores que se procesan en cada momento, sino de direcciones de almacenamiento en bruto, luego es necesario establecer una correspondencia entre las direcciones de las peticiones y los contenedores y objetos existentes, de cara a ambas operaciones descritas anteriormente.
 	Por último, es necesario definir las operaciones de registro del driver en el sistema, que en el caso de Linux se corresponde con las funciones init y exit, y en el caso de Windows la rutina add-device.
 
-10. Glosario.
+3 Glosario.
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
 Agilidad:  capacidad de mover los datos al área adecuada para mejorar su disponibilidad.
@@ -1063,8 +1173,8 @@ Entidad par: elemento activo del sistema que se comunicará con el nivel homóni
 Mutex: Mecanismo de concurrencia basado en una variable, que recibe, normalmente, dos valores, abierto y cerrado, y en función de el, detiene la ejecución de código hasta que su valor cambie, reanudandola.
 Jiffies: Unidad de tiempo mínima del núcleo de Linux.
 Dispositivos Plug and Play: dispositivos que, al conectarse al sistema, se configuran automáticamente y se ofrecen sus servicios al usuario sin que este realice ninguna tarea previa.
-	
-	Referencias.
+
+4 Referencias.
 
 Wikipedia:
 http://en.wikipedia.org/wiki/Cloud_computing_comparison
