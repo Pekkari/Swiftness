@@ -544,6 +544,54 @@ Listado de objetos</rem:description>
 Ninguno</rem:comments>
 </rem:specificData>
 </rem:informationRequirement>
+<rem:informationRequirement
+ oid = "IRQ-0004">
+<rem:name>
+Credenciales de operación</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:relevantConcept>
+Credenciales válidas para realizar sucesivas operaciones.</rem:relevantConcept>
+<rem:averageLifeTime>
+<rem:value>30</rem:value>
+<rem:timeUnit value = "TUV-0010"/>
+</rem:averageLifeTime>
+<rem:maximumLifeTime>
+<rem:value>60</rem:value>
+<rem:timeUnit value = "TUV-0010"/>
+</rem:maximumLifeTime>
+<rem:averageOcurrences><rem:value>1</rem:value>
+</rem:averageOcurrences>
+<rem:maximumOcurrences><rem:value>1</rem:value>
+</rem:maximumOcurrences>
+<rem:specificData oid = "DAT-0028">
+<rem:description>
+Token de operación</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:specificData>
+<rem:specificData oid = "DAT-0029">
+<rem:description>
+Dirección</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:specificData>
+</rem:informationRequirement>
 </rem:section>
 <rem:section
  oid = "SEC-0002">
@@ -580,6 +628,27 @@ Diagrama de casos de uso</rem:name>
 Ninguno</rem:comments>
 <rem:level>3</rem:level>
 <rem:number>3.2.1 </rem:number>
+<rem:graphicFile
+ oid = "GRF-0001">
+<rem:name>
+Diagrama de casos de uso</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\SwiftnessUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
 </rem:section>
 <rem:section
  oid = "SEC-0012">
@@ -637,6 +706,394 @@ Casos de uso</rem:name>
 Ninguno</rem:comments>
 <rem:level>3</rem:level>
 <rem:number>3.2.3 </rem:number>
+<rem:useCase
+ oid = "UC-0001">
+<rem:name>
+Identificación de usuario</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se abra el dispositivo de bloques o se reconecte a la nube.</rem:triggeringEvent>
+<rem:precondition>
+Los datos de conexión y de usuario deben ser válidos, y el dispositivo de bloques debe existir.</rem:precondition>
+<rem:postcondition>
+Se ofrecerá al usuario un token de operación válido para las sucesivas operaciones.</rem:postcondition>
+<rem:frequency>
+<rem:value>
+5
+</rem:value>
+<rem:timeUnit value = "TUV-0010"/>
+</rem:frequency>
+<rem:step oid = "STP-0008">
+<rem:number>1</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita la apertura del dispositivo de bloques, ofreciendo la información de conexión y las credenciales de usuario.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0009">
+<rem:number>2</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve el token de operación y la dirección para las siguientes operaciones.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
+<rem:useCase
+ oid = "UC-0002">
+<rem:name>
+Listado de contenedores</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicite visualizar los contenedores del usuario.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado a la nube y el dispositivo abierto.</rem:precondition>
+<rem:postcondition>
+El sistema devuelve un mapa de los distintos contenedores con sus respectivos tamaños.</rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0010">
+<rem:number>1</rem:number>
+<rem:condition>
+el usuario no está conectado a la nube, o el dispositivo está cerrado</rem:condition>
+<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0011">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita el listado de contenedores.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0012">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve un mapa con los contenedores disponibles y sus tamaños correspondientes</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
+<rem:useCase
+ oid = "UC-0003">
+<rem:name>
+Listado de objetos</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicita la apertura de un contenedor.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado a la nube, el dispositivo debe estar abierto, y el contenedor debe existir.</rem:precondition>
+<rem:postcondition>
+Se devolverá un mapa con los objetos dentro de este contenedor.</rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0013">
+<rem:number>1</rem:number>
+<rem:condition>
+el usuario está desconectado o el dispositivo está cerrado</rem:condition>
+<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0014">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita el la apertura del contenedor.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0015">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve el listado de objetos del contenedor.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
+<rem:useCase
+ oid = "UC-0004">
+<rem:name>
+Creación de un contenedor</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicite la creación de un nuevo contenedor.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado a la nube, el dispositivo abierto y el contenedor no debe existir previamente.</rem:precondition>
+<rem:postcondition>
+Se creará un nuevo contenedor y se devolverá un mensaje de estado válido.</rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0016">
+<rem:number>1</rem:number>
+<rem:condition>
+el usuario no está conectado a la nube, o el dispositivo está cerrado.</rem:condition>
+<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0017">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita la creación de un nuevo contenedor.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0018">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve una respuesta de operación terminada con éxito.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
+<rem:useCase
+ oid = "UC-0005">
+<rem:name>
+Creación de un objeto</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicita la creación de un nuevo objeto dentro de un contenedor.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado, el dispositivo de bloques debe estar abierto, el contenedor debe estar abierto, y el objeto no debe existir.</rem:precondition>
+<rem:postcondition>
+El sistema devolverá un código de estado de la operación finalizado con éxito.</rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0019">
+<rem:number>1</rem:number>
+<rem:condition>
+el usuario no está conectado a la nube o el dispositivo está cerrado</rem:condition>
+<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0020">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita la creación de un objeto.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0021">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve un mensaje de operación finalizada con éxito.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
+<rem:useCase
+ oid = "UC-0006">
+<rem:name>
+Borrado de contenedor</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicite el borrado de un contenedor.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado, el dispositivo de bloques debe estar abierto, el contenedor debe existir, y no contener ningun objeto.</rem:precondition>
+<rem:postcondition>
+El sistema devuelve un código de operación realizada con éxito.</rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0022">
+<rem:number>1</rem:number>
+<rem:condition>
+el usuario no está conectado a la nube, o el dispositivo de bloques está cerrado.</rem:condition>
+<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0023">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita el borrado de un contenedor.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0024">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve un mensaje de estado de la operación finalizado con éxito.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
+<rem:useCase
+ oid = "UC-0007">
+<rem:name>
+Borrado de un objeto</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicita el borrado de un objeto.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado, el dispositivo de bloques debe estar abierto, el contenedor donde se aloja el objeto debe estar abierto, el objeto debe existir dentro del contenedor.</rem:precondition>
+<rem:postcondition>
+El sistema devuelve un mensaje de finalización de la operación con éxito.</rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0025">
+<rem:number>1</rem:number>
+<rem:condition>
+el usuario no está conectado a la nube, o el dispositivo de bloques está cerrado</rem:condition>
+<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0026">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita el borrado de un objeto.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0027">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve un código de operación realizada con éxito.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
 </rem:section>
 </rem:section>
 <rem:section
@@ -862,6 +1319,294 @@ Matriz de rastreabilidad</rem:name>
 Ninguno</rem:comments>
 <rem:level>1</rem:level>
 <rem:number>4 </rem:number>
+<rem:traceabilityMatrix
+ oid = "TRM-0001">
+<rem:name>
+Requisitos de información</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:tr>
+<rem:th/>
+<rem:th oid ="OBJ-0001"/>
+<rem:th oid ="OBJ-0002"/>
+<rem:th oid ="OBJ-0003"/>
+<rem:th oid ="OBJ-0004"/>
+<rem:th oid ="OBJ-0005"/>
+<rem:th oid ="OBJ-0006"/>
+<rem:th oid ="OBJ-0007"/>
+<rem:th oid ="OBJ-0008"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="IRQ-0001"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="IRQ-0002"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="IRQ-0003"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="IRQ-0004"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0001"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0002"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0003"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0004"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0005"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0006"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0007"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+</rem:traceabilityMatrix>
+<rem:traceabilityMatrix
+ oid = "TRM-0002">
+<rem:name>
+Requisitos funcionales</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>24</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:tr>
+<rem:th/>
+<rem:th oid ="OBJ-0001"/>
+<rem:th oid ="OBJ-0002"/>
+<rem:th oid ="OBJ-0003"/>
+<rem:th oid ="OBJ-0004"/>
+<rem:th oid ="OBJ-0005"/>
+<rem:th oid ="OBJ-0006"/>
+<rem:th oid ="OBJ-0007"/>
+<rem:th oid ="OBJ-0008"/>
+<rem:th oid ="IRQ-0001"/>
+<rem:th oid ="IRQ-0002"/>
+<rem:th oid ="IRQ-0003"/>
+<rem:th oid ="IRQ-0004"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0001"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0002"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0003"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0004"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0005"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0006"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0007"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+</rem:traceabilityMatrix>
 </rem:section>
 </rem:c_requirementsSpecification>
 <rem:d_requirementsSpecification oid = "DRS-0002">
@@ -909,22 +1654,160 @@ Ninguno
 Ninguno
 </rem:comments>
 </rem:changeRequestsSpecification>
-<rem:trace source = "OBJ-0004"  target = "OBJ-0006" >
+<rem:trace source = "IRQ-0001"  target = "UC-0001" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "OBJ-0007" >
+<rem:trace source = "UC-0001"  target = "OBJ-0003" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "OBJ-0008" >
+<rem:trace source = "UC-0001"  target = "OBJ-0004" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "OBJ-0006" >
+<rem:trace source = "UC-0001"  target = "OBJ-0005" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "OBJ-0005" >
+<rem:trace source = "IRQ-0001"  target = "IRQ-0004" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0002"  target = "OBJ-0001" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "UC-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0007"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0007"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0007"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0005"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0006"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0005"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0004"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "CRQ-0001"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "CRQ-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "CRQ-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0005"  target = "CRQ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0006"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0006"  target = "CRQ-0001" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0005"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0005"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0005"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0005"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0004"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0004"  target = "OBJ-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "UC-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "UC-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "UC-0004" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0003"  target = "OBJ-0001" >
@@ -933,28 +1816,19 @@ Ninguno
 <rem:trace source = "OBJ-0004"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "OBJ-0004" >
-<rem:isChecked/>
-</rem:trace>
 <rem:trace source = "OBJ-0005"  target = "OBJ-0001" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "IRQ-0002"  target = "OBJ-0008" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "IRQ-0002"  target = "OBJ-0006" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "OBJ-0007"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0006"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "IRQ-0002"  target = "OBJ-0005" >
+<rem:trace source = "OBJ-0007"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0008"  target = "OBJ-0001" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0003"  target = "OBJ-0002" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "IRQ-0001"  target = "OBJ-0002" >
@@ -981,7 +1855,22 @@ Ninguno
 <rem:trace source = "OBJ-0002"  target = "OBJ-0007" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "IRQ-0003"  target = "OBJ-0002" >
+<rem:trace source = "OBJ-0003"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "OBJ-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0004"  target = "OBJ-0006" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0004"  target = "OBJ-0008" >
@@ -990,22 +1879,49 @@ Ninguno
 <rem:trace source = "OBJ-0004"  target = "OBJ-0007" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "NFR-0001"  target = "OBJ-0001" >
+<rem:trace source = "OBJ-0005"  target = "OBJ-0006" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "NFR-0002"  target = "OBJ-0001" >
+<rem:trace source = "OBJ-0005"  target = "OBJ-0008" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0003" >
+<rem:trace source = "OBJ-0006"  target = "OBJ-0008" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0004" >
+<rem:trace source = "OBJ-0003"  target = "IRQ-0002" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0005" >
+<rem:trace source = "OBJ-0004"  target = "IRQ-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "OBJ-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "OBJ-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "OBJ-0008" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "IRQ-0002"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "CRQ-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "CRQ-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "CRQ-0003"  target = "OBJ-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "CRQ-0004" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0003"  target = "CRQ-0004" >
@@ -1018,24 +1934,6 @@ Ninguno
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0003"  target = "CRQ-0001" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "OBJ-0002"  target = "CRQ-0003" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "OBJ-0002"  target = "NFR-0003" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0001" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0006" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0008" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "NFR-0003"  target = "OBJ-0007" >
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "OBJ-0004"  target = "CRQ-0001" >
@@ -1056,40 +1954,166 @@ Ninguno
 <rem:trace source = "CRQ-0002"  target = "OBJ-0005" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0005"  target = "OBJ-0006" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "OBJ-0005"  target = "OBJ-0008" >
-<rem:isChecked/>
-</rem:trace>
 <rem:trace source = "CRQ-0001"  target = "IRQ-0003" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "IRQ-0002"  target = "OBJ-0004" >
+<rem:trace source = "NFR-0001"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "IRQ-0002"  target = "OBJ-0003" >
+<rem:trace source = "NFR-0002"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0004"  target = "IRQ-0002" >
+<rem:trace source = "OBJ-0002"  target = "NFR-0003" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "IRQ-0002" >
+<rem:trace source = "NFR-0003"  target = "OBJ-0001" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0003"  target = "CRQ-0003" >
+<rem:trace source = "NFR-0003"  target = "OBJ-0003" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "CRQ-0003"  target = "OBJ-0005" >
+<rem:trace source = "NFR-0003"  target = "OBJ-0004" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0002"  target = "CRQ-0004" >
+<rem:trace source = "NFR-0003"  target = "OBJ-0005" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "OBJ-0006"  target = "OBJ-0008" >
+<rem:trace source = "NFR-0003"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "NFR-0003"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "NFR-0003"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0003"  target = "UC-0001" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "OBJ-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "UC-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "UC-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "OBJ-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "OBJ-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "OBJ-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "UC-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "UC-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "OBJ-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "OBJ-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0002"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "UC-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "UC-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "IRQ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "IRQ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "OBJ-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0004"  target = "OBJ-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "IRQ-0003"  target = "IRQ-0004" >
 <rem:isChecked/>
 </rem:trace>
 <rem:predefinedValueTypes>
+<rem:predefinedValueType
+ oid = "PVT-0001">
+<rem:name>
+Real</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2000</rem:year>
+<rem:month>10</rem:month>
+<rem:day>30</rem:day>
+</rem:date>
+</rem:version>
+<rem:comments>
+Predefined OCL type</rem:comments>
+<rem:description>
+Real numbers</rem:description>
+<rem:definition>
+(null)
+</rem:definition>
+</rem:predefinedValueType>
 <rem:predefinedValueType
  oid = "PVT-0002">
 <rem:name>
@@ -1154,27 +2178,6 @@ Alphanumeric strings</rem:description>
 </rem:definition>
 </rem:predefinedValueType>
 <rem:predefinedValueType
- oid = "PVT-0001">
-<rem:name>
-Real</rem:name>
-<rem:version>
-<rem:major>1</rem:major>
-<rem:minor>0</rem:minor>
-<rem:date>
-<rem:year>2000</rem:year>
-<rem:month>10</rem:month>
-<rem:day>30</rem:day>
-</rem:date>
-</rem:version>
-<rem:comments>
-Predefined OCL type</rem:comments>
-<rem:description>
-Real numbers</rem:description>
-<rem:definition>
-(null)
-</rem:definition>
-</rem:predefinedValueType>
-<rem:predefinedValueType
  oid = "PVT-0005">
 <rem:name>
 Date</rem:name>
@@ -1218,108 +2221,48 @@ Hour:minutes:seconds</rem:description>
 </rem:predefinedValueType>
 </rem:predefinedValueTypes>
 <rem:predefinedValues>
-<rem:changeRequestStatusValue oid = "CRV-0006">
-<rem:name>rechazado</rem:name>
-</rem:changeRequestStatusValue>
-<rem:changeRequestStatusValue oid = "CRV-0005">
-<rem:name>verificado</rem:name>
-</rem:changeRequestStatusValue>
-<rem:changeRequestStatusValue oid = "CRV-0004">
-<rem:name>pendiente de realización</rem:name>
-</rem:changeRequestStatusValue>
-<rem:changeRequestStatusValue oid = "CRV-0003">
-<rem:name>pendiente de aprobar/rechazar</rem:name>
+<rem:changeRequestStatusValue oid = "CRV-0001">
+<rem:name>PD</rem:name>
 </rem:changeRequestStatusValue>
 <rem:changeRequestStatusValue oid = "CRV-0002">
 <rem:name>pendiente de análisis</rem:name>
 </rem:changeRequestStatusValue>
-<rem:changeRequestStatusValue oid = "CRV-0001">
-<rem:name>PD</rem:name>
+<rem:changeRequestStatusValue oid = "CRV-0003">
+<rem:name>pendiente de aprobar/rechazar</rem:name>
 </rem:changeRequestStatusValue>
-<rem:conflictStatusValue oid = "CSV-0004">
-<rem:name>resuelto</rem:name>
-</rem:conflictStatusValue>
-<rem:conflictStatusValue oid = "CSV-0003">
-<rem:name>en proceso de negociación</rem:name>
+<rem:changeRequestStatusValue oid = "CRV-0004">
+<rem:name>pendiente de realización</rem:name>
+</rem:changeRequestStatusValue>
+<rem:changeRequestStatusValue oid = "CRV-0005">
+<rem:name>verificado</rem:name>
+</rem:changeRequestStatusValue>
+<rem:changeRequestStatusValue oid = "CRV-0006">
+<rem:name>rechazado</rem:name>
+</rem:changeRequestStatusValue>
+<rem:conflictStatusValue oid = "CSV-0001">
+<rem:name>PD</rem:name>
 </rem:conflictStatusValue>
 <rem:conflictStatusValue oid = "CSV-0002">
 <rem:name>no resuelto</rem:name>
 </rem:conflictStatusValue>
-<rem:conflictStatusValue oid = "CSV-0001">
-<rem:name>PD</rem:name>
-</rem:conflictStatusValue>
-<rem:defectStatusValue oid = "DSV-0004">
-<rem:name>eliminado</rem:name>
-</rem:defectStatusValue>
-<rem:defectStatusValue oid = "DSV-0003">
+<rem:conflictStatusValue oid = "CSV-0003">
 <rem:name>en proceso de negociación</rem:name>
-</rem:defectStatusValue>
+</rem:conflictStatusValue>
+<rem:conflictStatusValue oid = "CSV-0004">
+<rem:name>resuelto</rem:name>
+</rem:conflictStatusValue>
 <rem:defectStatusValue oid = "DSV-0001">
 <rem:name>PD</rem:name>
 </rem:defectStatusValue>
 <rem:defectStatusValue oid = "DSV-0002">
 <rem:name>no eliminado</rem:name>
 </rem:defectStatusValue>
-<rem:defectTypeValue oid = "DTV-0011">
-<rem:name>Imprecisión</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no se expresan de forma precisa, es decir, usando cantidades numéricas siempre que sea posible con el nivel adecuado de precisión]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0023">
-<rem:name>Otro</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos presentan otro tipo de defecto]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0017">
-<rem:name>Organización incorrecta</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no están organizados correctamente según la normativa aplicada o el documento no contiene las secciones obligatorias]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0016">
-<rem:name>No rastreabilidad</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no están trazados hacia sus orígenes, bien requisitos de nivel superior (objetivos), bien clientes y usuarios]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0015">
-<rem:name>Nivel incorrecto de detalle</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no están expresados con el nivel adecuado de detalle, es decir, son demasiado abstractos o demasiado detallados]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0014">
-<rem:name>Estabilidad no establecida</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no tienen estimada su estabilidad]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0013">
-<rem:name>Prioridad no establecida</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no tienen establecida su prioridad, es decir, su importancia y su urgencia]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0012">
-<rem:name>Incompleción</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos no describen todo lo que el sistema se supone que deberá hacer, no describen las respuestas del sistema a todas las posibles situaciones o incluyen elementos por determinar (PD)]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0010">
-<rem:name>Redundancia</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos son redundantes o contienen elementos redundantes]]>
-</rem:description>
-</rem:defectTypeValue>
-<rem:defectTypeValue oid = "DTV-0009">
-<rem:name>Dependiente del diseño</rem:name>
-<rem:description>
-<![CDATA[El requisito o requisitos incluyen elementos dependientes del diseño del sistema]]>
-</rem:description>
-</rem:defectTypeValue>
+<rem:defectStatusValue oid = "DSV-0003">
+<rem:name>en proceso de negociación</rem:name>
+</rem:defectStatusValue>
+<rem:defectStatusValue oid = "DSV-0004">
+<rem:name>eliminado</rem:name>
+</rem:defectStatusValue>
 <rem:defectTypeValue oid = "DTV-0001">
 <rem:name>PD</rem:name>
 <rem:description>
@@ -1368,6 +2311,69 @@ Hour:minutes:seconds</rem:description>
 <![CDATA[El requisito o requisitos pueden expresarse de forma más concisa sin alterar su significado]]>
 </rem:description>
 </rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0009">
+<rem:name>Dependiente del diseño</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos incluyen elementos dependientes del diseño del sistema]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0010">
+<rem:name>Redundancia</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos son redundantes o contienen elementos redundantes]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0011">
+<rem:name>Imprecisión</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no se expresan de forma precisa, es decir, usando cantidades numéricas siempre que sea posible con el nivel adecuado de precisión]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0012">
+<rem:name>Incompleción</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no describen todo lo que el sistema se supone que deberá hacer, no describen las respuestas del sistema a todas las posibles situaciones o incluyen elementos por determinar (PD)]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0013">
+<rem:name>Prioridad no establecida</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no tienen establecida su prioridad, es decir, su importancia y su urgencia]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0014">
+<rem:name>Estabilidad no establecida</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no tienen estimada su estabilidad]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0015">
+<rem:name>Nivel incorrecto de detalle</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no están expresados con el nivel adecuado de detalle, es decir, son demasiado abstractos o demasiado detallados]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0016">
+<rem:name>No rastreabilidad</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no están trazados hacia sus orígenes, bien requisitos de nivel superior (objetivos), bien clientes y usuarios]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0017">
+<rem:name>Organización incorrecta</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos no están organizados correctamente según la normativa aplicada o el documento no contiene las secciones obligatorias]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:defectTypeValue oid = "DTV-0023">
+<rem:name>Otro</rem:name>
+<rem:description>
+<![CDATA[El requisito o requisitos presentan otro tipo de defecto]]>
+</rem:description>
+</rem:defectTypeValue>
+<rem:importanceValue oid = "IMV-0001">
+<rem:name>PD</rem:name>
+</rem:importanceValue>
 <rem:importanceValue oid = "IMV-0002">
 <rem:name>vital</rem:name>
 </rem:importanceValue>
@@ -1376,9 +2382,6 @@ Hour:minutes:seconds</rem:description>
 </rem:importanceValue>
 <rem:importanceValue oid = "IMV-0004">
 <rem:name>quedaría bien</rem:name>
-</rem:importanceValue>
-<rem:importanceValue oid = "IMV-0001">
-<rem:name>PD</rem:name>
 </rem:importanceValue>
 <rem:stabilityValue oid = "SBV-0001">
 <rem:name>PD</rem:name>
@@ -1407,14 +2410,14 @@ Hour:minutes:seconds</rem:description>
 <rem:statusValue oid = "STV-0005">
 <rem:name>validado</rem:name>
 </rem:statusValue>
-<rem:terminationValue oid = "TEV-0003">
-<rem:name>queda sin efecto</rem:name>
-</rem:terminationValue>
 <rem:terminationValue oid = "TEV-0001">
 <rem:name>PD</rem:name>
 </rem:terminationValue>
 <rem:terminationValue oid = "TEV-0002">
 <rem:name>continúa</rem:name>
+</rem:terminationValue>
+<rem:terminationValue oid = "TEV-0003">
+<rem:name>queda sin efecto</rem:name>
 </rem:terminationValue>
 <rem:timeUnitValue oid = "TUV-0001">
 <rem:name>PD</rem:name>
