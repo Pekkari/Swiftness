@@ -474,9 +474,9 @@ Identificación de usuario</a>
 Identificación de usuario</a>
 </li>
 <li>
-<a href="#IRQ-0004" title="Credenciales de operación">
+<a href="#IRQ-0004" title="Sesión">
                                 [IRQ-0004] 
-Credenciales de operación</a>
+Sesión</a>
 </li>
 </td>
 </tr>
@@ -551,7 +551,7 @@ Ninguno</td>
 <tr bgcolor="#c8e0e0">
 <th align="left" valign="top">IRQ-0001</th>
 <th align="left" valign="top" width="100%" colspan="2">
-Credenciales de usuario</th>
+Usuario</th>
 </tr>
 <tr>
 <th align="left" valign="top">Versión</th>
@@ -597,9 +597,9 @@ Identificación de usuario</a>
 Identificación de usuario</a>
 </li>
 <li>
-<a href="#IRQ-0004" title="Credenciales de operación">
+<a href="#IRQ-0004" title="Sesión">
                                 [IRQ-0004] 
-Credenciales de operación</a>
+Sesión</a>
 </li>
 </td>
 </tr>
@@ -840,7 +840,7 @@ Ninguno</td>
 <tr bgcolor="#c8e0e0">
 <th align="left" valign="top">IRQ-0004</th>
 <th align="left" valign="top" width="100%" colspan="2">
-Credenciales de operación</th>
+Sesión</th>
 </tr>
 <tr>
 <th align="left" valign="top">Versión</th>
@@ -942,7 +942,7 @@ Borrado de un objeto</a>
 <td colspan="2">
     El sistema deberá almacenar la información correspondiente a 
 <em>
-credenciales válidas para realizar sucesivas operaciones..
+datos de sesión para realizar sucesivas operaciones..
 				</em>
     En concreto:
 </td>
@@ -1178,9 +1178,9 @@ Borrado de contenedor</a>
 Borrado de un objeto</a>
 </li>
 <li>
-<a href="#IRQ-0004" title="Credenciales de operación">
+<a href="#IRQ-0004" title="Sesión">
                                 [IRQ-0004] 
-Credenciales de operación</a>
+Sesión</a>
 </li>
 </td>
 </tr>
@@ -1196,22 +1196,7 @@ se abra el dispositivo de bloques o se reconecte a la nube.</em>
 <a href="&#xA;                #UC-0002">
            [UC-0002]
            
-Listado de contenedores</a>, <a href="&#xA;                #UC-0003">
-           [UC-0003]
-           
-Listado de objetos</a>, <a href="&#xA;                #UC-0004">
-           [UC-0004]
-           
-Creación de un contenedor</a>, <a href="&#xA;                #UC-0005">
-           [UC-0005]
-           
-Creación de un objeto</a>, <a href="&#xA;                #UC-0006">
-           [UC-0006]
-           
-Borrado de contenedor</a>, <a href="&#xA;                #UC-0007">
-           [UC-0007]
-           
-Borrado de un objeto</a></td>
+Listado de contenedores</a></td>
 </tr>
 <tr>
 <th align="left" valign="top">Precondición</th>
@@ -1411,7 +1396,17 @@ Borrado de un objeto</a>
     caso de uso cuando
 <em>
 se solicite visualizar los contenedores del usuario.</em>
-</td>
+    o durante la realización de los siguientes casos de uso:
+<a href="&#xA;                #UC-0003">
+           [UC-0003]
+           
+Listado de objetos</a>, <a href="&#xA;                #UC-0004">
+           [UC-0004]
+           
+Creación de un contenedor</a>, <a href="&#xA;                #UC-0006">
+           [UC-0006]
+           
+Borrado de contenedor</a></td>
 </tr>
 <tr>
 <th align="left" valign="top">Precondición</th>
@@ -1589,7 +1584,14 @@ Borrado de un objeto</a>
     caso de uso cuando
 <em>
 se solicita la apertura de un contenedor.</em>
-</td>
+    o durante la realización de los siguientes casos de uso:
+<a href="&#xA;                #UC-0005">
+           [UC-0005]
+           
+Creación de un objeto</a>, <a href="&#xA;                #UC-0007">
+           [UC-0007]
+           
+Borrado de un objeto</a></td>
 </tr>
 <tr>
 <th align="left" valign="top">Precondición</th>
@@ -1604,13 +1606,11 @@ El usuario debe estar conectado a la nube, el dispositivo debe estar abierto, y 
 <tr>
 <a name="STP-0013" />
 <td align="center" valign="top">1</td>
-<td>Si<em>
-el usuario está desconectado o el dispositivo está cerrado,
-                                </em>
-    se realiza el caso de uso
-<a href="&#xA;            #UC-0001">
-Identificación de usuario
-        (UC-0001)
+<td>
+    Se realiza el caso de uso
+<a href="&#xA;            #UC-0002">
+Listado de contenedores
+        (UC-0002)
     </a></td>
 </tr>
 <tr>
@@ -1620,7 +1620,7 @@ Identificación de usuario
 Usuario (ACT-0001)
     </a>
 <em>
-solicita el la apertura del contenedor.</em>
+solicita la apertura del contenedor.</em>
 </td>
 </tr>
 <tr>
@@ -1802,13 +1802,11 @@ El usuario debe estar conectado a la nube, el dispositivo abierto y el contenedo
 <tr>
 <a name="STP-0016" />
 <td align="center" valign="top">1</td>
-<td>Si<em>
-el usuario no está conectado a la nube, o el dispositivo está cerrado.,
-                                </em>
-    se realiza el caso de uso
-<a href="&#xA;            #UC-0001">
-Identificación de usuario
-        (UC-0001)
+<td>
+    Se realiza el caso de uso
+<a href="&#xA;            #UC-0002">
+Listado de contenedores
+        (UC-0002)
     </a></td>
 </tr>
 <tr>
@@ -1975,13 +1973,11 @@ El usuario debe estar conectado, el dispositivo de bloques debe estar abierto, e
 <tr>
 <a name="STP-0019" />
 <td align="center" valign="top">1</td>
-<td>Si<em>
-el usuario no está conectado a la nube o el dispositivo está cerrado,
-                                </em>
-    se realiza el caso de uso
-<a href="&#xA;            #UC-0001">
-Identificación de usuario
-        (UC-0001)
+<td>
+    Se realiza el caso de uso
+<a href="&#xA;            #UC-0003">
+Listado de objetos
+        (UC-0003)
     </a></td>
 </tr>
 <tr>
@@ -2138,13 +2134,11 @@ El usuario debe estar conectado, el dispositivo de bloques debe estar abierto, e
 <tr>
 <a name="STP-0022" />
 <td align="center" valign="top">1</td>
-<td>Si<em>
-el usuario no está conectado a la nube, o el dispositivo de bloques está cerrado.,
-                                </em>
-    se realiza el caso de uso
-<a href="&#xA;            #UC-0001">
-Identificación de usuario
-        (UC-0001)
+<td>
+    Se realiza el caso de uso
+<a href="&#xA;            #UC-0002">
+Listado de contenedores
+        (UC-0002)
     </a></td>
 </tr>
 <tr>
@@ -2306,13 +2300,11 @@ El usuario debe estar conectado, el dispositivo de bloques debe estar abierto, e
 <tr>
 <a name="STP-0025" />
 <td align="center" valign="top">1</td>
-<td>Si<em>
-el usuario no está conectado a la nube, o el dispositivo de bloques está cerrado,
-                                </em>
-    se realiza el caso de uso
-<a href="&#xA;            #UC-0001">
-Identificación de usuario
-        (UC-0001)
+<td>
+    Se realiza el caso de uso
+<a href="&#xA;            #UC-0003">
+Listado de objetos
+        (UC-0003)
     </a></td>
 </tr>
 <tr>
@@ -3017,7 +3009,7 @@ Matriz de rastreabilidad</h1><a name="TRM-0001" />
 </tr>
 <tr>
 <th align="left" valign="top" bgcolor="#c8e0e0">
-<a href="&#xA;                        #IRQ-0001" title="Credenciales de usuario">IRQ-0001</a>
+<a href="&#xA;                        #IRQ-0001" title="Usuario">IRQ-0001</a>
 </th>
 <td align="center" valign="top">
                 -
@@ -3104,7 +3096,7 @@ Matriz de rastreabilidad</h1><a name="TRM-0001" />
 </tr>
 <tr>
 <th align="left" valign="top" bgcolor="#c8e0e0">
-<a href="&#xA;                        #IRQ-0004" title="Credenciales de operación">IRQ-0004</a>
+<a href="&#xA;                        #IRQ-0004" title="Sesión">IRQ-0004</a>
 </th>
 <td align="center" valign="top">
                 -
@@ -3368,7 +3360,7 @@ Requisitos de información</p>
 <a href="&#xA;                        #OBJ-0008" title="Eliminación de objetos">OBJ-0008</a>
 </th>
 <th align="center" valign="top" bgcolor="#c8e0e0">
-<a href="&#xA;                        #IRQ-0001" title="Credenciales de usuario">IRQ-0001</a>
+<a href="&#xA;                        #IRQ-0001" title="Usuario">IRQ-0001</a>
 </th>
 <th align="center" valign="top" bgcolor="#c8e0e0">
 <a href="&#xA;                        #IRQ-0002" title="Mapa de almacenamiento">IRQ-0002</a>
@@ -3377,7 +3369,7 @@ Requisitos de información</p>
 <a href="&#xA;                        #IRQ-0003" title="Nube de almacenamiento">IRQ-0003</a>
 </th>
 <th align="center" valign="top" bgcolor="#c8e0e0">
-<a href="&#xA;                        #IRQ-0004" title="Credenciales de operación">IRQ-0004</a>
+<a href="&#xA;                        #IRQ-0004" title="Sesión">IRQ-0004</a>
 </th>
 </tr>
 <tr>

@@ -445,7 +445,7 @@ Ninguno</rem:comments>
 <rem:informationRequirement
  oid = "IRQ-0001">
 <rem:name>
-Credenciales de usuario</rem:name>
+Usuario</rem:name>
 <rem:version>
 <rem:major>1</rem:major>
 <rem:minor>0</rem:minor>
@@ -547,7 +547,7 @@ Ninguno</rem:comments>
 <rem:informationRequirement
  oid = "IRQ-0004">
 <rem:name>
-Credenciales de operación</rem:name>
+Sesión</rem:name>
 <rem:version>
 <rem:major>1</rem:major>
 <rem:minor>0</rem:minor>
@@ -566,7 +566,7 @@ Ninguno</rem:comments>
 <rem:status value = "STV-0002"/>
 <rem:stability value = "SBV-0003"/>
 <rem:relevantConcept>
-credenciales válidas para realizar sucesivas operaciones.</rem:relevantConcept>
+datos de sesión para realizar sucesivas operaciones.</rem:relevantConcept>
 <rem:averageLifeTime>
 <rem:value>30</rem:value>
 <rem:timeUnit value = "TUV-0010"/>
@@ -885,16 +885,14 @@ Se devolverá un mapa con los objetos dentro de este contenedor.</rem:postconditi
 </rem:frequency>
 <rem:step oid = "STP-0013">
 <rem:number>1</rem:number>
-<rem:condition>
-el usuario está desconectado o el dispositivo está cerrado</rem:condition>
-<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+<rem:useCaseAction useCase = "UC-0002"/><rem:comments>
 Ninguno</rem:comments>
 </rem:step>
 <rem:step oid = "STP-0014">
 <rem:number>2</rem:number>
 <rem:actorAction actor = "ACT-0001">
 <rem:description>
-solicita el la apertura del contenedor.</rem:description>
+solicita la apertura del contenedor.</rem:description>
 </rem:actorAction>
 <rem:comments>
 Ninguno</rem:comments>
@@ -941,9 +939,7 @@ Se creará un nuevo contenedor y se devolverá un mensaje de estado válido.</rem:p
 </rem:frequency>
 <rem:step oid = "STP-0016">
 <rem:number>1</rem:number>
-<rem:condition>
-el usuario no está conectado a la nube, o el dispositivo está cerrado.</rem:condition>
-<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+<rem:useCaseAction useCase = "UC-0002"/><rem:comments>
 Ninguno</rem:comments>
 </rem:step>
 <rem:step oid = "STP-0017">
@@ -997,9 +993,7 @@ El sistema devolverá un código de estado de la operación finalizado con éxito.</
 </rem:frequency>
 <rem:step oid = "STP-0019">
 <rem:number>1</rem:number>
-<rem:condition>
-el usuario no está conectado a la nube o el dispositivo está cerrado</rem:condition>
-<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+<rem:useCaseAction useCase = "UC-0003"/><rem:comments>
 Ninguno</rem:comments>
 </rem:step>
 <rem:step oid = "STP-0020">
@@ -1053,9 +1047,7 @@ El sistema devuelve un código de operación realizada con éxito.</rem:postconditi
 </rem:frequency>
 <rem:step oid = "STP-0022">
 <rem:number>1</rem:number>
-<rem:condition>
-el usuario no está conectado a la nube, o el dispositivo de bloques está cerrado.</rem:condition>
-<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+<rem:useCaseAction useCase = "UC-0002"/><rem:comments>
 Ninguno</rem:comments>
 </rem:step>
 <rem:step oid = "STP-0023">
@@ -1109,9 +1101,7 @@ El sistema devuelve un mensaje de finalización de la operación con éxito.</rem:p
 </rem:frequency>
 <rem:step oid = "STP-0025">
 <rem:number>1</rem:number>
-<rem:condition>
-el usuario no está conectado a la nube, o el dispositivo de bloques está cerrado</rem:condition>
-<rem:useCaseAction useCase = "UC-0001"/><rem:comments>
+<rem:useCaseAction useCase = "UC-0003"/><rem:comments>
 Ninguno</rem:comments>
 </rem:step>
 <rem:step oid = "STP-0026">
@@ -1804,6 +1794,27 @@ Subsistema de Login</rem:name>
 Ninguno</rem:comments>
 <rem:level>2</rem:level>
 <rem:number>2.1 </rem:number>
+<rem:graphicFile
+ oid = "GRF-0004">
+<rem:name>
+Diagrama de secuencia de login</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\loginUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
 </rem:section>
 <rem:section
  oid = "SEC-0023">
@@ -1824,6 +1835,132 @@ Subsistema de almacenamiento</rem:name>
 Ninguno</rem:comments>
 <rem:level>2</rem:level>
 <rem:number>2.2 </rem:number>
+<rem:graphicFile
+ oid = "GRF-0005">
+<rem:name>
+Diagrama de secuencia de listado de contenedores</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\listContainersUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
+<rem:graphicFile
+ oid = "GRF-0006">
+<rem:name>
+Diagrama de secuencia de listado de objetos</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\listObjectsUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
+<rem:graphicFile
+ oid = "GRF-0007">
+<rem:name>
+Diagrama de secuencia de creación de un contenedor</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\createContainerUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
+<rem:graphicFile
+ oid = "GRF-0008">
+<rem:name>
+Diagrama de secuencia de borrado de un contenedor</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\deleteContainerUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
+<rem:graphicFile
+ oid = "GRF-0009">
+<rem:name>
+Diagrama de secuencia de creación de un objeto</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\createObjectUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
+<rem:graphicFile
+ oid = "GRF-0010">
+<rem:name>
+Diagrama de secuencia de borrado de un objeto</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>26</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\deleteObjectUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
 </rem:section>
 </rem:section>
 <rem:section
