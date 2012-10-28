@@ -1123,6 +1123,60 @@ devuelve un código de operación realizada con éxito.</rem:description>
 Ninguno</rem:comments>
 </rem:step>
 </rem:useCase>
+<rem:useCase
+ oid = "UC-0008">
+<rem:name>
+Recuperación de objeto</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>28</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:importance value = "IMV-0002"/>
+<rem:urgency value = "URV-0002"/>
+<rem:status value = "STV-0002"/>
+<rem:stability value = "SBV-0003"/>
+<rem:triggeringEvent>
+se solicite recuperar un objeto de la nube de almacenamiento.</rem:triggeringEvent>
+<rem:precondition>
+El usuario debe estar conectado a la nube, y el dispositivo de bloques abierto.</rem:precondition>
+<rem:postcondition>
+<rem:tbd/></rem:postcondition>
+<rem:frequency>
+<rem:tbd/>
+</rem:frequency>
+<rem:step oid = "STP-0061">
+<rem:number>1</rem:number>
+<rem:useCaseAction useCase = "UC-0003"/><rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0062">
+<rem:number>2</rem:number>
+<rem:actorAction actor = "ACT-0001">
+<rem:description>
+solicita la recuperación de un objeto.</rem:description>
+</rem:actorAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+<rem:step oid = "STP-0063">
+<rem:number>3</rem:number>
+<rem:systemAction>
+<rem:description>
+devuelve un mensaje con el objeto.</rem:description>
+</rem:systemAction>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:step>
+</rem:useCase>
 </rem:section>
 </rem:section>
 </rem:section>
@@ -1498,6 +1552,17 @@ Ninguno</rem:comments>
 <rem:td mark ="yes"/>
 <rem:td mark ="yes"/>
 </rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0008"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
 </rem:traceabilityMatrix>
 <rem:traceabilityMatrix
  oid = "TRM-0002">
@@ -1631,6 +1696,21 @@ Ninguno</rem:comments>
 <rem:td mark ="no"/>
 <rem:td mark ="yes"/>
 <rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+</rem:tr>
+<rem:tr>
+<rem:th oid ="UC-0008"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="yes"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
+<rem:td mark ="no"/>
 <rem:td mark ="no"/>
 <rem:td mark ="no"/>
 <rem:td mark ="no"/>
@@ -1941,6 +2021,27 @@ Ninguno</rem:comments>
 </rem:fileName>
 </rem:graphicFile>
 <rem:graphicFile
+ oid = "GRF-0011">
+<rem:name>
+Diagrama de secuencia de recuperación de objetos</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>28</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:fileName>
+<![CDATA[..\images\retrieveObjectUC.emf]]>
+</rem:fileName>
+</rem:graphicFile>
+<rem:graphicFile
  oid = "GRF-0010">
 <rem:name>
 Diagrama de secuencia de borrado de un objeto</rem:name>
@@ -1982,6 +2083,496 @@ Modelo funcional</rem:name>
 Ninguno</rem:comments>
 <rem:level>1</rem:level>
 <rem:number>3 </rem:number>
+<rem:section
+ oid = "SEC-0024">
+<rem:name>
+Subsistema de Login</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:level>2</rem:level>
+<rem:number>3.1 </rem:number>
+<rem:systemOperation
+ oid = "SOP-0001">
+<rem:name>
+login</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+Esta función comprueba si el usuario ofrecido es válido y devuelve los datos de sesión necesarios en caso afirmativo.</rem:description>
+<rem:resultType>Sesión</rem:resultType>
+<rem:parameter oid = "PAR-0032" baseType = "PVT-0004">
+<rem:name>
+Dirección</rem:name>
+<rem:description>
+Dirección del servidor.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0033" baseType = "PVT-0002">
+<rem:name>
+Puerto</rem:name>
+<rem:description>
+Puerto de escucha del servidor.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0030" baseType = "PVT-0004">
+<rem:name>
+Nombre</rem:name>
+<rem:description>
+Nombre de usuario.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0031" baseType = "PVT-0004">
+<rem:name>
+Contraseña</rem:name>
+<rem:description>
+Contraseña del usuario.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:preconditionExpression oid = "PRE-0035">
+<rem:name>Servidor válido</rem:name>
+<rem:expression>
+<rem:natural>
+Los datos de conexión deben ser válidos.</rem:natural>
+<rem:ocl><![CDATA[Servidor.allInstances()->one( srv | srv.dirección = Dirección AND srv.puerto = Puerto)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0036">
+<rem:name>Usuario válido</rem:name>
+<rem:expression>
+<rem:natural>
+El usuario debe existir en el servidor.</rem:natural>
+<rem:ocl><![CDATA[(Servidor.allInstances()->select( srv | srv.dirección = Dirección AND srv.puerto = Puerto)).Usuario->one( usr | usr.nombre = Nombre and usr.password = Contraseña)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0037">
+<rem:name>Objeto de sesión no vacío.</rem:name>
+<rem:expression>
+<rem:natural>
+El objeto de sesión debe contener un token y una url</rem:natural>
+<rem:ocl><![CDATA[let token = Sesión.allInstances() -> count() + 1
+    session: session.oclAsType(Sesión)
+in
+    session.oclIsNew() = True and
+    session.url = url and
+    session.token = token and
+    result = session]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
+</rem:systemOperation>
+</rem:section>
+<rem:section
+ oid = "SEC-0025">
+<rem:name>
+Subsistema de almacenamiento</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:level>2</rem:level>
+<rem:number>3.2 </rem:number>
+<rem:systemOperation
+ oid = "SOP-0002">
+<rem:name>
+listContainers</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+Esta función genera una lista de contenedores del usuario.</rem:description>
+<rem:resultType>Lista de Contenedor</rem:resultType>
+<rem:parameter oid = "PAR-0038" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de operación.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0039" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Url donde se procesa la operación.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:preconditionExpression oid = "PRE-0041">
+<rem:name>Token no nulo</rem:name>
+<rem:expression>
+<rem:natural>
+El token no puede ser nulo</rem:natural>
+<rem:ocl><![CDATA[Token.size() > 0]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0042">
+<rem:name>Url no nula</rem:name>
+<rem:expression>
+<rem:natural>
+La url no puede ser nula</rem:natural>
+<rem:ocl><![CDATA[Url.size() > 0]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0043">
+<rem:name>Listado de contenedores</rem:name>
+<rem:expression>
+<rem:natural>
+Genera la lista de contenedores</rem:natural>
+<rem:ocl><![CDATA[]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
+</rem:systemOperation>
+<rem:systemOperation
+ oid = "SOP-0003">
+<rem:name>
+listObjects</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+La operación devuelve el listado de objetos de un contenedor dado.</rem:description>
+<rem:resultType>Lista de Objetos</rem:resultType>
+<rem:parameter oid = "PAR-0044" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de sesión.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0045" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Url donde se procesa la operación.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0046" baseType = "PVT-0004">
+<rem:name>
+Contenedor</rem:name>
+<rem:description>
+Nombre del contenedor del que se requiere el listado.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+</rem:systemOperation>
+<rem:systemOperation
+ oid = "SOP-0004">
+<rem:name>
+createContainer</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+La operación debe crear un contenedor nuevo en el servidor.</rem:description>
+<rem:resultType>Código de estado.</rem:resultType>
+<rem:parameter oid = "PAR-0047" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de sesión.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0048" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Url donde procesar la operación.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0049" baseType = "PVT-0004">
+<rem:name>
+Nombre</rem:name>
+<rem:description>
+Nombre del nuevo contenedor.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+</rem:systemOperation>
+<rem:systemOperation
+ oid = "SOP-0005">
+<rem:name>
+deleteContainer</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+Elimina un contenedor vacío.</rem:description>
+<rem:resultType>Código de finalización de la operación.</rem:resultType>
+<rem:parameter oid = "PAR-0050" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de sesión.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0051" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Url de proceso de operaciones.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0052" baseType = "PVT-0004">
+<rem:name>
+Nombre</rem:name>
+<rem:description>
+Nombre del contenedor a eliminar.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+</rem:systemOperation>
+<rem:systemOperation
+ oid = "SOP-0006">
+<rem:name>
+createObject</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+Creación de un objeto en un contenedor dado.</rem:description>
+<rem:resultType>Código de finalización de la operación.</rem:resultType>
+<rem:parameter oid = "PAR-0053" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de sesión.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0054" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Url de proceso de operaciones.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0055" baseType = "PVT-0004">
+<rem:name>
+Contenedor</rem:name>
+<rem:description>
+Contenedor donde debe crearse el objeto.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0056" baseType = "PVT-0004">
+<rem:name>
+Nombre</rem:name>
+<rem:description>
+Nombre del objeto.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+</rem:systemOperation>
+<rem:systemOperation
+ oid = "SOP-0007">
+<rem:name>
+deleteObject</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>27</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+Eliminación de un objeto dentro de un contenedor.</rem:description>
+<rem:resultType>Código de finalización de operación.</rem:resultType>
+<rem:parameter oid = "PAR-0057" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de sesión.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0058" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Url de proceso de operaciones.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0059" baseType = "PVT-0004">
+<rem:name>
+Contenedor</rem:name>
+<rem:description>
+Contenedor donde se aloja el objeto.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0060" baseType = "PVT-0004">
+<rem:name>
+Nombre</rem:name>
+<rem:description>
+Nombre del objeto a eliminar.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+</rem:systemOperation>
+<rem:systemOperation
+ oid = "SOP-0008">
+<rem:name>
+retrieveObject</rem:name>
+<rem:version>
+<rem:major>1</rem:major>
+<rem:minor>0</rem:minor>
+<rem:date>
+<rem:year>2012</rem:year>
+<rem:month>10</rem:month>
+<rem:day>28</rem:day>
+</rem:date>
+</rem:version>
+<rem:authors stakeholders ="STK-0002 "/>
+<rem:sources stakeholders ="STK-0002 "/>
+<rem:comments>
+Ninguno</rem:comments>
+<rem:description>
+Devuelve el objeto solicitado por el usuario.</rem:description>
+<rem:resultType>Objeto</rem:resultType>
+<rem:parameter oid = "PAR-0064" baseType = "PVT-0004">
+<rem:name>
+Token</rem:name>
+<rem:description>
+Token de sesión.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0065" baseType = "PVT-0004">
+<rem:name>
+Url</rem:name>
+<rem:description>
+Dirección de proceso.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0066" baseType = "PVT-0004">
+<rem:name>
+Contenedor</rem:name>
+<rem:description>
+Nombre del contenedor del objeto.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:parameter oid = "PAR-0067" baseType = "PVT-0004">
+<rem:name>
+Objeto</rem:name>
+<rem:description>
+Nombre del objeto.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+</rem:systemOperation>
+</rem:section>
 </rem:section>
 <rem:section
  oid = "SEC-0017">
@@ -2470,6 +3061,51 @@ Ninguno
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "IRQ-0004"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0001"  target = "UC-0001" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0002"  target = "UC-0002" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0003"  target = "UC-0003" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0004"  target = "UC-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0005"  target = "UC-0006" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0006"  target = "UC-0005" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0007"  target = "UC-0007" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0008"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0008"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0002"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0003"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "OBJ-0004"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0001"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0002"  target = "UC-0008" >
 <rem:isChecked/>
 </rem:trace>
 <rem:predefinedValueTypes>

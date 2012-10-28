@@ -103,6 +103,20 @@ Subsistema de almacenamiento</a>
 Modelo funcional</a>
 </th>
 </tr>
+<tr><td />
+<td align="left" valign="top">3.1 </td>
+<td align="left" valign="top" width="100%" colspan="2">
+<a href="#SEC-0024">
+Subsistema de Login</a>
+</td>
+</tr>
+<tr><td />
+<td align="left" valign="top">3.2 </td>
+<td align="left" valign="top" width="100%" colspan="2">
+<a href="#SEC-0025">
+Subsistema de almacenamiento</a>
+</td>
+</tr>
 <tr>
 <th align="left" valign="top">4 </th>
 <th align="left" valign="top" width="100%" colspan="3">
@@ -190,17 +204,812 @@ Diagrama de secuencia de borrado de un contenedor</p>
 <b>Figura 5</b>:
                 
 Diagrama de secuencia de creación de un objeto</p>
+<a name="GRF-0011" />
+<p align="center">
+<img src="..\images\retrieveObjectUC.emf" title="..\images\retrieveObjectUC.emf" />
+</p>
+<p align="center">
+<b>Figura 6</b>:
+                
+Diagrama de secuencia de recuperación de objetos</p>
 <a name="GRF-0010" />
 <p align="center">
 <img src="..\images\deleteObjectUC.emf" title="..\images\deleteObjectUC.emf" />
 </p>
 <p align="center">
-<b>Figura 6</b>:
+<b>Figura 7</b>:
                 
 Diagrama de secuencia de borrado de un objeto</p>
 <a name="SEC-0016" />
 <h1 align="left">3 
-Modelo funcional</h1><a name="SEC-0017" />
+Modelo funcional</h1><a name="SEC-0024" />
+<h2 align="left">3.1 
+Subsistema de Login</h2><a name="SOP-0001" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0001</th>
+<th align="left" valign="top" width="100%">
+login</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Sesión</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0001" title="Identificación de usuario">
+                                [UC-0001] 
+Identificación de usuario</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+Esta función comprueba si el usuario ofrecido es válido y devuelve los datos de sesión necesarios en caso afirmativo.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0032" />
+<code>
+Dirección : <code>
+String</code> -- <em>
+Dirección del servidor.</em></code><br />
+<a name="PAR-0033" />
+<code>
+Puerto : <code>
+Integer</code> -- <em>
+Puerto de escucha del servidor.</em></code><br />
+<a name="PAR-0030" />
+<code>
+Nombre : <code>
+String</code> -- <em>
+Nombre de usuario.</em></code><br />
+<a name="PAR-0031" />
+<code>
+Contraseña : <code>
+String</code> -- <em>
+Contraseña del usuario.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">
+<a name="PRE-0035" />
+<b>Servidor válido</b>: 
+					
+Los datos de conexión deben ser válidos.<br />
+<a name="PRE-0036" />
+<b>Usuario válido</b>: 
+					
+El usuario debe existir en el servidor.<br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code><b>Servidor válido</b>: Servidor.allInstances()-&gt;one( srv | srv.dirección = Dirección AND srv.puerto = Puerto)</code><br />
+<code><b>Usuario válido</b>: (Servidor.allInstances()-&gt;select( srv | srv.dirección = Dirección AND srv.puerto = Puerto)).Usuario-&gt;one( usr | usr.nombre = Nombre and usr.password = Contraseña)</code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">
+<a name="POS-0037" />
+<b>Objeto de sesión no vacío.</b>: 
+El objeto de sesión debe contener un token y una url<br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code><b>Objeto de sesión no vacío.</b>: let token = Sesión.allInstances() -&gt; count() + 1
+
+    session: session.oclAsType(Sesión)
+
+in
+
+    session.oclIsNew() = True and
+
+    session.url = url and
+
+    session.token = token and
+
+    result = session</code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SEC-0025" />
+<h2 align="left">3.2 
+Subsistema de almacenamiento</h2><a name="SOP-0002" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0002</th>
+<th align="left" valign="top" width="100%">
+listContainers</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Lista de Contenedor</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0002" title="Listado de contenedores">
+                                [UC-0002] 
+Listado de contenedores</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+Esta función genera una lista de contenedores del usuario.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0038" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de operación.</em></code><br />
+<a name="PAR-0039" />
+<code>
+Url : <code>
+String</code> -- <em>
+Url donde se procesa la operación.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">
+<a name="PRE-0041" />
+<b>Token no nulo</b>: 
+					
+El token no puede ser nulo<br />
+<a name="PRE-0042" />
+<b>Url no nula</b>: 
+					
+La url no puede ser nula<br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code><b>Token no nulo</b>: Token.size() &gt; 0</code><br />
+<code><b>Url no nula</b>: Url.size() &gt; 0</code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">
+<a name="POS-0043" />
+<b>Listado de contenedores</b>: 
+Genera la lista de contenedores<br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code><b>Listado de contenedores</b>: </code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SOP-0003" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0003</th>
+<th align="left" valign="top" width="100%">
+listObjects</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Lista de Objetos</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0003" title="Listado de objetos">
+                                [UC-0003] 
+Listado de objetos</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+La operación devuelve el listado de objetos de un contenedor dado.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0044" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de sesión.</em></code><br />
+<a name="PAR-0045" />
+<code>
+Url : <code>
+String</code> -- <em>
+Url donde se procesa la operación.</em></code><br />
+<a name="PAR-0046" />
+<code>
+Contenedor : <code>
+String</code> -- <em>
+Nombre del contenedor del que se requiere el listado.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SOP-0004" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0004</th>
+<th align="left" valign="top" width="100%">
+createContainer</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Código de estado.</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0004" title="Creación de un contenedor">
+                                [UC-0004] 
+Creación de un contenedor</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+La operación debe crear un contenedor nuevo en el servidor.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0047" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de sesión.</em></code><br />
+<a name="PAR-0048" />
+<code>
+Url : <code>
+String</code> -- <em>
+Url donde procesar la operación.</em></code><br />
+<a name="PAR-0049" />
+<code>
+Nombre : <code>
+String</code> -- <em>
+Nombre del nuevo contenedor.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SOP-0005" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0005</th>
+<th align="left" valign="top" width="100%">
+deleteContainer</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Código de finalización de la operación.</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0006" title="Borrado de contenedor">
+                                [UC-0006] 
+Borrado de contenedor</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+Elimina un contenedor vacío.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0050" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de sesión.</em></code><br />
+<a name="PAR-0051" />
+<code>
+Url : <code>
+String</code> -- <em>
+Url de proceso de operaciones.</em></code><br />
+<a name="PAR-0052" />
+<code>
+Nombre : <code>
+String</code> -- <em>
+Nombre del contenedor a eliminar.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SOP-0006" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0006</th>
+<th align="left" valign="top" width="100%">
+createObject</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Código de finalización de la operación.</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0005" title="Creación de un objeto">
+                                [UC-0005] 
+Creación de un objeto</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+Creación de un objeto en un contenedor dado.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0053" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de sesión.</em></code><br />
+<a name="PAR-0054" />
+<code>
+Url : <code>
+String</code> -- <em>
+Url de proceso de operaciones.</em></code><br />
+<a name="PAR-0055" />
+<code>
+Contenedor : <code>
+String</code> -- <em>
+Contenedor donde debe crearse el objeto.</em></code><br />
+<a name="PAR-0056" />
+<code>
+Nombre : <code>
+String</code> -- <em>
+Nombre del objeto.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SOP-0007" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0007</th>
+<th align="left" valign="top" width="100%">
+deleteObject</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Código de finalización de operación.</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 27/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0007" title="Borrado de un objeto">
+                                [UC-0007] 
+Borrado de un objeto</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+Eliminación de un objeto dentro de un contenedor.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0057" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de sesión.</em></code><br />
+<a name="PAR-0058" />
+<code>
+Url : <code>
+String</code> -- <em>
+Url de proceso de operaciones.</em></code><br />
+<a name="PAR-0059" />
+<code>
+Contenedor : <code>
+String</code> -- <em>
+Contenedor donde se aloja el objeto.</em></code><br />
+<a name="PAR-0060" />
+<code>
+Nombre : <code>
+String</code> -- <em>
+Nombre del objeto a eliminar.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SOP-0008" />
+<table border="1" width="100%">
+<tr bgcolor="#c8e0e0">
+<th align="left" valign="top">SOP-0008</th>
+<th align="left" valign="top" width="100%">
+retrieveObject</th>
+</tr>
+<th align="left" valign="top">Tipo del resultado</th>
+<td align="left" valign="top">
+<code>Objeto</code>
+</td>
+<tr>
+<th align="left" valign="top">Versión</th>
+<td align="left" valign="top">1.0 
+			( 28/10/2012 )
+        </td>
+</tr>
+<tr>
+<th align="left" valign="top">Autores</th>
+<td align="left" valign="top" colspan="1">
+<ul>
+<li>
+<a href="#STK-0002">
+José Ramón Muñoz Pekkarinen</a>
+<br />
+</li>
+</ul>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Dependencias</th>
+<td align="left" valign="top" colspan="1">
+<li>
+<a href="#UC-0008" title="Recuperación de objeto">
+                                [UC-0008] 
+Recuperación de objeto</a>
+</li>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Descripción</th>
+<td align="left" valign="top">
+Devuelve el objeto solicitado por el usuario.</td>
+</tr>
+<tr>
+<th align="left" valign="top">Parámetros</th>
+<td align="left" valign="top">
+<a name="PAR-0064" />
+<code>
+Token : <code>
+String</code> -- <em>
+Token de sesión.</em></code><br />
+<a name="PAR-0065" />
+<code>
+Url : <code>
+String</code> -- <em>
+Dirección de proceso.</em></code><br />
+<a name="PAR-0066" />
+<code>
+Contenedor : <code>
+String</code> -- <em>
+Nombre del contenedor del objeto.</em></code><br />
+<a name="PAR-0067" />
+<code>
+Objeto : <code>
+String</code> -- <em>
+Nombre del objeto.</em></code><br />
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de precondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición</th>
+<td align="left" valign="top">Ninguno</td>
+</tr>
+<tr>
+<th align="left" valign="top">Expresiones de postcondición (OCL)</th>
+<td align="left" valign="top">
+<code>true</code>
+</td>
+</tr>
+<tr>
+<th align="left" valign="top">Comentarios</th>
+<td align="left" valign="top" colspan="1">
+Ninguno</td>
+</tr>
+</table>
+<p />
+<a name="SEC-0017" />
 <h1 align="left">4 
 Prototipo de interfaz</h1></body>
 </html>
