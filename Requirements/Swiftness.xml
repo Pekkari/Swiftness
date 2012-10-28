@@ -3084,15 +3084,6 @@ Ninguno
 <rem:trace source = "SOP-0007"  target = "UC-0007" >
 <rem:isChecked/>
 </rem:trace>
-<rem:trace source = "UC-0003"  target = "UC-0008" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "UC-0008"  target = "OBJ-0004" >
-<rem:isChecked/>
-</rem:trace>
-<rem:trace source = "SOP-0008"  target = "UC-0008" >
-<rem:isChecked/>
-</rem:trace>
 <rem:trace source = "OBJ-0002"  target = "UC-0008" >
 <rem:isChecked/>
 </rem:trace>
@@ -3106,6 +3097,15 @@ Ninguno
 <rem:isChecked/>
 </rem:trace>
 <rem:trace source = "UC-0002"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0003"  target = "UC-0008" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "UC-0008"  target = "OBJ-0004" >
+<rem:isChecked/>
+</rem:trace>
+<rem:trace source = "SOP-0008"  target = "UC-0008" >
 <rem:isChecked/>
 </rem:trace>
 <rem:predefinedValueTypes>
