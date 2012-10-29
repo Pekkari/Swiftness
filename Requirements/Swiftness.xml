@@ -2175,16 +2175,20 @@ El usuario debe existir en el servidor.</rem:natural>
 Ninguno</rem:comments>
 </rem:preconditionExpression>
 <rem:postconditionExpression oid = "POS-0037">
-<rem:name>Objeto de sesión no vacío.</rem:name>
+<rem:name>Objeto de sesión válido.</rem:name>
 <rem:expression>
 <rem:natural>
 El objeto de sesión debe contener un token y una url</rem:natural>
-<rem:ocl><![CDATA[let token = Sesión.allInstances() -> count() + 1
-    session: session.oclAsType(Sesión)
+<rem:ocl><![CDATA[let token = Sesión.allInstances() -> count() + 1,
+    session: Sesión
+    serv: Servidor = any(srv | srv.dirección = Dirección and srv.puerto = Puerto)
+    user: Usuario = any(usr | usr.nombre = Nombre and user.password = Contraseña)
 in
     session.oclIsNew() = True and
     session.url = url and
     session.token = token and
+    session.servidor = serv and
+    session.usuario = user and
     result = session]]></rem:ocl>
 </rem:expression>
 <rem:comments>
@@ -2247,22 +2251,12 @@ Url donde se procesa la operación.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
-<rem:preconditionExpression oid = "PRE-0041">
-<rem:name>Token no nulo</rem:name>
+<rem:preconditionExpression oid = "PRE-0072">
+<rem:name>Sesión existente</rem:name>
 <rem:expression>
 <rem:natural>
-El token no puede ser nulo</rem:natural>
-<rem:ocl><![CDATA[Token.size() > 0]]></rem:ocl>
-</rem:expression>
-<rem:comments>
-Ninguno</rem:comments>
-</rem:preconditionExpression>
-<rem:preconditionExpression oid = "PRE-0042">
-<rem:name>Url no nula</rem:name>
-<rem:expression>
-<rem:natural>
-La url no puede ser nula</rem:natural>
-<rem:ocl><![CDATA[Url.size() > 0]]></rem:ocl>
+La sesión debe existir.</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)]]></rem:ocl>
 </rem:expression>
 <rem:comments>
 Ninguno</rem:comments>
@@ -2272,7 +2266,7 @@ Ninguno</rem:comments>
 <rem:expression>
 <rem:natural>
 Genera la lista de contenedores</rem:natural>
-<rem:ocl><![CDATA[]]></rem:ocl>
+<rem:ocl><![CDATA[result = Contenedor.allInstances()]]></rem:ocl>
 </rem:expression>
 <rem:comments>
 Ninguno</rem:comments>
@@ -2316,12 +2310,43 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0046" baseType = "PVT-0004">
 <rem:name>
-Contenedor</rem:name>
+Container</rem:name>
 <rem:description>
 Nombre del contenedor del que se requiere el listado.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
+<rem:preconditionExpression oid = "PRE-0074">
+<rem:name>Sesión existente</rem:name>
+<rem:expression>
+<rem:natural>
+La sesión debe existir.</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)
+]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0069">
+<rem:name>Contenedor existente</rem:name>
+<rem:expression>
+<rem:natural>
+El contenedor indicado debe existir</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()->includes(Container)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0068">
+<rem:name>Listado de objetos</rem:name>
+<rem:expression>
+<rem:natural>
+Lista de objetos del contenedor indicado.</rem:natural>
+<rem:ocl><![CDATA[result = Container.Objeto.allInstances()]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
 </rem:systemOperation>
 <rem:systemOperation
  oid = "SOP-0004">
@@ -2361,12 +2386,50 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0049" baseType = "PVT-0004">
 <rem:name>
-Nombre</rem:name>
+Name</rem:name>
 <rem:description>
 Nombre del nuevo contenedor.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
+<rem:preconditionExpression oid = "PRE-0075">
+<rem:name>Sesión existente</rem:name>
+<rem:expression>
+<rem:natural>
+La sesión debe existir.</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0070">
+<rem:name>Contenedor no existente</rem:name>
+<rem:expression>
+<rem:natural>
+No puede existir un contenedor con el mismo nombre.</rem:natural>
+<rem:ocl><![CDATA[not Contenedor.allInstances()->one(cont | cont.nombre = name)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0071">
+<rem:name>Creación de contenedor</rem:name>
+<rem:expression>
+<rem:natural>
+Creación de un nuevo contenedor.</rem:natural>
+<rem:ocl><![CDATA[let session: Sesión = any(session | session.token = Token and session.url = Url)
+    container: Contenedor
+in
+    container.oclIsNew() = True and
+    container.Nombre = Name and
+    container.tamaño = 0 and
+    container.Sesión = session and
+    session.Contenedor->includes(container) and
+    result = container]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
 </rem:systemOperation>
 <rem:systemOperation
  oid = "SOP-0005">
@@ -2406,12 +2469,42 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0052" baseType = "PVT-0004">
 <rem:name>
-Nombre</rem:name>
+Name</rem:name>
 <rem:description>
 Nombre del contenedor a eliminar.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
+<rem:preconditionExpression oid = "PRE-0076">
+<rem:name>Sesión existente</rem:name>
+<rem:expression>
+<rem:natural>
+La sesión debe existir</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0082">
+<rem:name>Contenedor existente</rem:name>
+<rem:expression>
+<rem:natural>
+El contenedor debe existir.</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()->one(container | container.Nombre = name)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0084">
+<rem:name>Contenedor no existente.</rem:name>
+<rem:expression>
+<rem:natural>
+El contenedor no debe seguir existiendo.</rem:natural>
+<rem:ocl><![CDATA[not Contenedor.allInstances()->one(cont | cont.Nombre = Name)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
 </rem:systemOperation>
 <rem:systemOperation
  oid = "SOP-0006">
@@ -2451,7 +2544,7 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0055" baseType = "PVT-0004">
 <rem:name>
-Contenedor</rem:name>
+ContainerName</rem:name>
 <rem:description>
 Contenedor donde debe crearse el objeto.</rem:description>
 <rem:comments>
@@ -2459,12 +2552,71 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0056" baseType = "PVT-0004">
 <rem:name>
-Nombre</rem:name>
+Name</rem:name>
 <rem:description>
 Nombre del objeto.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
+<rem:parameter oid = "PAR-0086" baseType = "PVT-0002">
+<rem:name>
+Size</rem:name>
+<rem:description>
+Tamaño del objeto.</rem:description>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:parameter>
+<rem:preconditionExpression oid = "PRE-0077">
+<rem:name>Sesión existente</rem:name>
+<rem:expression>
+<rem:natural>
+La sesión debe existir</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0083">
+<rem:name>Contenedor existente</rem:name>
+<rem:expression>
+<rem:natural>
+El contenedor indicado debe existir.</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()->one(container | container.Nombre = ContainerName)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0087">
+<rem:name>Objeto no existente</rem:name>
+<rem:expression>
+<rem:natural>
+El objeto no debe existir en el contenedor.</rem:natural>
+<rem:ocl><![CDATA[not Contenedor.allInstances()->any(container | container.Nombre = ContainerName).Objeto->one(obj | obj.Nombre = name)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0080">
+<rem:name>Creación de objeto</rem:name>
+<rem:expression>
+<rem:natural>
+Creación de un nuevo objeto.</rem:natural>
+<rem:ocl><![CDATA[let session: Sesión = any(session | session.token = Token and session.url = Url)
+    container: Contenedor = any(cont | cont.Nombre = ContainerName)
+    object: Objeto
+in
+    object.oclIsNew() = True and
+    object.Nombre = Name and
+    object.tamaño = size and
+    object.Sesión = session and
+    session.Objeto->includes(object) and
+    object.Contenedor = container and
+    container.Objeto->includes(object) and
+    result = Object]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
 </rem:systemOperation>
 <rem:systemOperation
  oid = "SOP-0007">
@@ -2504,7 +2656,7 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0059" baseType = "PVT-0004">
 <rem:name>
-Contenedor</rem:name>
+Container</rem:name>
 <rem:description>
 Contenedor donde se aloja el objeto.</rem:description>
 <rem:comments>
@@ -2512,12 +2664,52 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0060" baseType = "PVT-0004">
 <rem:name>
-Nombre</rem:name>
+Name</rem:name>
 <rem:description>
 Nombre del objeto a eliminar.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
+<rem:preconditionExpression oid = "PRE-0078">
+<rem:name>Sesión existente</rem:name>
+<rem:expression>
+<rem:natural>
+La sesión debe existir</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0088">
+<rem:name>Contenedor existente</rem:name>
+<rem:expression>
+<rem:natural>
+El contenedor debe existir.</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()-> one(cont | cont.nombre = Container)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0089">
+<rem:name>Objeto existente</rem:name>
+<rem:expression>
+<rem:natural>
+El objeto debe existir dentro del contenedor.</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()->any(cont | cont.Nombre = Container).Objeto.one(obj | obj.Nombre = Name)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0085">
+<rem:name>Objeto no existente</rem:name>
+<rem:expression>
+<rem:natural>
+El objeto debe dejar de existir en el contenedor.</rem:natural>
+<rem:ocl><![CDATA[not Contenedor.allInstances()->any(cont | cont.Nombre = Container).Objeto->one(obj | obj.Nombre = Name)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
 </rem:systemOperation>
 <rem:systemOperation
  oid = "SOP-0008">
@@ -2557,7 +2749,7 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0066" baseType = "PVT-0004">
 <rem:name>
-Contenedor</rem:name>
+Container</rem:name>
 <rem:description>
 Nombre del contenedor del objeto.</rem:description>
 <rem:comments>
@@ -2565,12 +2757,52 @@ Ninguno</rem:comments>
 </rem:parameter>
 <rem:parameter oid = "PAR-0067" baseType = "PVT-0004">
 <rem:name>
-Objeto</rem:name>
+Object</rem:name>
 <rem:description>
 Nombre del objeto.</rem:description>
 <rem:comments>
 Ninguno</rem:comments>
 </rem:parameter>
+<rem:preconditionExpression oid = "PRE-0079">
+<rem:name>Sesión existente</rem:name>
+<rem:expression>
+<rem:natural>
+La sesión debe existir.</rem:natural>
+<rem:ocl><![CDATA[Sesión.allInstances()->one(session | session.token= Token and session.url = URL)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0090">
+<rem:name>Contenedor existente</rem:name>
+<rem:expression>
+<rem:natural>
+El contenedor debe existir.</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()->one(cont | cont.Nombre = Container)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:preconditionExpression oid = "PRE-0091">
+<rem:name>Objeto existente</rem:name>
+<rem:expression>
+<rem:natural>
+El objeto debe existir dentro del contenedor.</rem:natural>
+<rem:ocl><![CDATA[Contenedor.allInstances()->any(cont | cont.Nombre = Container).Objeto->one(obj | obj.Nombre = Object)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:preconditionExpression>
+<rem:postconditionExpression oid = "POS-0092">
+<rem:name>Devolución del objeto</rem:name>
+<rem:expression>
+<rem:natural>
+Devuelve el objeto solicitado.</rem:natural>
+<rem:ocl><![CDATA[result = Contenedor.allInstances->any(cont | cont.Nombre = Container).Objeto->any(obj | obj.Nombre = Object)]]></rem:ocl>
+</rem:expression>
+<rem:comments>
+Ninguno</rem:comments>
+</rem:postconditionExpression>
 </rem:systemOperation>
 </rem:section>
 </rem:section>

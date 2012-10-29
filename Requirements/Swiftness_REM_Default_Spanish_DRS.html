@@ -317,16 +317,20 @@ El usuario debe existir en el servidor.<br />
 <th align="left" valign="top">Expresiones de postcondición</th>
 <td align="left" valign="top">
 <a name="POS-0037" />
-<b>Objeto de sesión no vacío.</b>: 
+<b>Objeto de sesión válido.</b>: 
 El objeto de sesión debe contener un token y una url<br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code><b>Objeto de sesión no vacío.</b>: let token = Sesión.allInstances() -&gt; count() + 1
+<code><b>Objeto de sesión válido.</b>: let token = Sesión.allInstances() -&gt; count() + 1,
 
-    session: session.oclAsType(Sesión)
+    session: Sesión
+
+    serv: Servidor = any(srv | srv.dirección = Dirección and srv.puerto = Puerto)
+
+    user: Usuario = any(usr | usr.nombre = Nombre and user.password = Contraseña)
 
 in
 
@@ -335,6 +339,10 @@ in
     session.url = url and
 
     session.token = token and
+
+    session.servidor = serv and
+
+    session.usuario = user and
 
     result = session</code><br />
 </td>
@@ -410,21 +418,16 @@ Url donde se procesa la operación.</em></code><br />
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
 <td align="left" valign="top">
-<a name="PRE-0041" />
-<b>Token no nulo</b>: 
+<a name="PRE-0072" />
+<b>Sesión existente</b>: 
 					
-El token no puede ser nulo<br />
-<a name="PRE-0042" />
-<b>Url no nula</b>: 
-					
-La url no puede ser nula<br />
+La sesión debe existir.<br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code><b>Token no nulo</b>: Token.size() &gt; 0</code><br />
-<code><b>Url no nula</b>: Url.size() &gt; 0</code><br />
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)</code><br />
 </td>
 </tr>
 <tr>
@@ -438,7 +441,7 @@ Genera la lista de contenedores<br />
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code><b>Listado de contenedores</b>: </code><br />
+<code><b>Listado de contenedores</b>: result = Contenedor.allInstances()</code><br />
 </td>
 </tr>
 <tr>
@@ -507,29 +510,45 @@ String</code> -- <em>
 Url donde se procesa la operación.</em></code><br />
 <a name="PAR-0046" />
 <code>
-Contenedor : <code>
+Container : <code>
 String</code> -- <em>
 Nombre del contenedor del que se requiere el listado.</em></code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="PRE-0074" />
+<b>Sesión existente</b>: 
+					
+La sesión debe existir.<br />
+<a name="PRE-0069" />
+<b>Contenedor existente</b>: 
+					
+El contenedor indicado debe existir<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)
+
+</code><br />
+<code><b>Contenedor existente</b>: Contenedor.allInstances()-&gt;includes(Container)</code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="POS-0068" />
+<b>Listado de objetos</b>: 
+Lista de objetos del contenedor indicado.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Listado de objetos</b>: result = Container.Objeto.allInstances()</code><br />
 </td>
 </tr>
 <tr>
@@ -598,29 +617,59 @@ String</code> -- <em>
 Url donde procesar la operación.</em></code><br />
 <a name="PAR-0049" />
 <code>
-Nombre : <code>
+Name : <code>
 String</code> -- <em>
 Nombre del nuevo contenedor.</em></code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="PRE-0075" />
+<b>Sesión existente</b>: 
+					
+La sesión debe existir.<br />
+<a name="PRE-0070" />
+<b>Contenedor no existente</b>: 
+					
+No puede existir un contenedor con el mismo nombre.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)</code><br />
+<code><b>Contenedor no existente</b>: not Contenedor.allInstances()-&gt;one(cont | cont.nombre = name)</code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="POS-0071" />
+<b>Creación de contenedor</b>: 
+Creación de un nuevo contenedor.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Creación de contenedor</b>: let session: Sesión = any(session | session.token = Token and session.url = Url)
+
+    container: Contenedor
+
+in
+
+    container.oclIsNew() = True and
+
+    container.Nombre = Name and
+
+    container.tamaño = 0 and
+
+    container.Sesión = session and
+
+    session.Contenedor-&gt;includes(container) and
+
+    result = container</code><br />
 </td>
 </tr>
 <tr>
@@ -689,29 +738,43 @@ String</code> -- <em>
 Url de proceso de operaciones.</em></code><br />
 <a name="PAR-0052" />
 <code>
-Nombre : <code>
+Name : <code>
 String</code> -- <em>
 Nombre del contenedor a eliminar.</em></code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="PRE-0076" />
+<b>Sesión existente</b>: 
+					
+La sesión debe existir<br />
+<a name="PRE-0082" />
+<b>Contenedor existente</b>: 
+					
+El contenedor debe existir.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)</code><br />
+<code><b>Contenedor existente</b>: Contenedor.allInstances()-&gt;one(container | container.Nombre = name)</code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="POS-0084" />
+<b>Contenedor no existente.</b>: 
+El contenedor no debe seguir existiendo.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Contenedor no existente.</b>: not Contenedor.allInstances()-&gt;one(cont | cont.Nombre = Name)</code><br />
 </td>
 </tr>
 <tr>
@@ -780,34 +843,80 @@ String</code> -- <em>
 Url de proceso de operaciones.</em></code><br />
 <a name="PAR-0055" />
 <code>
-Contenedor : <code>
+ContainerName : <code>
 String</code> -- <em>
 Contenedor donde debe crearse el objeto.</em></code><br />
 <a name="PAR-0056" />
 <code>
-Nombre : <code>
+Name : <code>
 String</code> -- <em>
 Nombre del objeto.</em></code><br />
+<a name="PAR-0086" />
+<code>
+Size : <code>
+Integer</code> -- <em>
+Tamaño del objeto.</em></code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="PRE-0077" />
+<b>Sesión existente</b>: 
+					
+La sesión debe existir<br />
+<a name="PRE-0083" />
+<b>Contenedor existente</b>: 
+					
+El contenedor indicado debe existir.<br />
+<a name="PRE-0087" />
+<b>Objeto no existente</b>: 
+					
+El objeto no debe existir en el contenedor.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)</code><br />
+<code><b>Contenedor existente</b>: Contenedor.allInstances()-&gt;one(container | container.Nombre = ContainerName)</code><br />
+<code><b>Objeto no existente</b>: not Contenedor.allInstances()-&gt;any(container | container.Nombre = ContainerName).Objeto-&gt;one(obj | obj.Nombre = name)</code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="POS-0080" />
+<b>Creación de objeto</b>: 
+Creación de un nuevo objeto.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Creación de objeto</b>: let session: Sesión = any(session | session.token = Token and session.url = Url)
+
+    container: Contenedor = any(cont | cont.Nombre = ContainerName)
+
+    object: Objeto
+
+in
+
+    object.oclIsNew() = True and
+
+    object.Nombre = Name and
+
+    object.tamaño = size and
+
+    object.Sesión = session and
+
+    session.Objeto-&gt;includes(object) and
+
+    object.Contenedor = container and
+
+    container.Objeto-&gt;includes(object) and
+
+    result = Object</code><br />
 </td>
 </tr>
 <tr>
@@ -876,34 +985,53 @@ String</code> -- <em>
 Url de proceso de operaciones.</em></code><br />
 <a name="PAR-0059" />
 <code>
-Contenedor : <code>
+Container : <code>
 String</code> -- <em>
 Contenedor donde se aloja el objeto.</em></code><br />
 <a name="PAR-0060" />
 <code>
-Nombre : <code>
+Name : <code>
 String</code> -- <em>
 Nombre del objeto a eliminar.</em></code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="PRE-0078" />
+<b>Sesión existente</b>: 
+					
+La sesión debe existir<br />
+<a name="PRE-0088" />
+<b>Contenedor existente</b>: 
+					
+El contenedor debe existir.<br />
+<a name="PRE-0089" />
+<b>Objeto existente</b>: 
+					
+El objeto debe existir dentro del contenedor.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)</code><br />
+<code><b>Contenedor existente</b>: Contenedor.allInstances()-&gt; one(cont | cont.nombre = Container)</code><br />
+<code><b>Objeto existente</b>: Contenedor.allInstances()-&gt;any(cont | cont.Nombre = Container).Objeto.one(obj | obj.Nombre = Name)</code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="POS-0085" />
+<b>Objeto no existente</b>: 
+El objeto debe dejar de existir en el contenedor.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Objeto no existente</b>: not Contenedor.allInstances()-&gt;any(cont | cont.Nombre = Container).Objeto-&gt;one(obj | obj.Nombre = Name)</code><br />
 </td>
 </tr>
 <tr>
@@ -972,34 +1100,53 @@ String</code> -- <em>
 Dirección de proceso.</em></code><br />
 <a name="PAR-0066" />
 <code>
-Contenedor : <code>
+Container : <code>
 String</code> -- <em>
 Nombre del contenedor del objeto.</em></code><br />
 <a name="PAR-0067" />
 <code>
-Objeto : <code>
+Object : <code>
 String</code> -- <em>
 Nombre del objeto.</em></code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="PRE-0079" />
+<b>Sesión existente</b>: 
+					
+La sesión debe existir.<br />
+<a name="PRE-0090" />
+<b>Contenedor existente</b>: 
+					
+El contenedor debe existir.<br />
+<a name="PRE-0091" />
+<b>Objeto existente</b>: 
+					
+El objeto debe existir dentro del contenedor.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de precondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Sesión existente</b>: Sesión.allInstances()-&gt;one(session | session.token= Token and session.url = URL)</code><br />
+<code><b>Contenedor existente</b>: Contenedor.allInstances()-&gt;one(cont | cont.Nombre = Container)</code><br />
+<code><b>Objeto existente</b>: Contenedor.allInstances()-&gt;any(cont | cont.Nombre = Container).Objeto-&gt;one(obj | obj.Nombre = Object)</code><br />
 </td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición</th>
-<td align="left" valign="top">Ninguno</td>
+<td align="left" valign="top">
+<a name="POS-0092" />
+<b>Devolución del objeto</b>: 
+Devuelve el objeto solicitado.<br />
+</td>
 </tr>
 <tr>
 <th align="left" valign="top">Expresiones de postcondición (OCL)</th>
 <td align="left" valign="top">
-<code>true</code>
+<code><b>Devolución del objeto</b>: result = Contenedor.allInstances-&gt;any(cont | cont.Nombre = Container).Objeto-&gt;any(obj | obj.Nombre = Object)</code><br />
 </td>
 </tr>
 <tr>
