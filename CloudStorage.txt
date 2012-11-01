@@ -15,7 +15,7 @@
 2.3.Comparación de soluciones.	6
 2.4.Swift.	7
 2.4.1.Swift Proxy Server.	8
-2.4.2.Operaciones en la API.	8
+2.4.2.Operaciones en la API.	9
 2.4.2.1Identificación.	9
 2.4.2.2Listado de contenedores.	9
 2.4.2.3Listado de objetos.	10
@@ -81,12 +81,15 @@
 4.Documentación de análisis.	53
 5.Documentación de diseño.	53
 5.1.Arquitectura del sistema.	53
-5.2.Patrones de diseño.	53
-5.3.Diagrama de clases de diseño.	53
-5.4.Diseño de datos.	53
-5.5.Diseño lógico.	53
-6.Glosario.	53
-7.Referencias.	55
+5.2.Patrones de diseño.	54
+5.2.1.Fachada	55
+5.2.2.Adaptador.	55
+5.2.3.Envoltorio.	56
+5.3.Diagrama de clases de diseño.	56
+5.4.Diseño de datos.	56
+5.5.Diseño lógico.	56
+6.Glosario.	56
+7.Referencias.	57
 
 1 Introducción.
 		
@@ -1175,17 +1178,29 @@ Hacer que la librería sea más legible.
 Reducir el número de dependencias con el código exterior, puesto que solo utilizará lo que la fachada ofrezca.
 Envolver una librería con diseño pobre.
 
-	Cabría la posibilidad de pensar que un adaptador es suficiente con el fin perseguido, puesto que la plataforma debe traducir las peticiones generadas por el sistema de ficheros virtual a las peticiones REST de Openstack Swift. La situaciones en las que el adaptador es utilizado implican interfaces previamente definidas, y, en nuestro caso, no es necesario utilizar una interfaz ya existente, o en situaciones en las que se utilice el polimorfismo, que, por tratarse de programación de sistemas operativos, esta característica se encuentra fuera de los lenguajes de programación utilizados habitualmente.
+	Cabría la posibilidad de pensar que un adaptador es suficiente con el fin perseguido, puesto que la plataforma debe traducir las peticiones generadas por el sistema de ficheros virtual a las peticiones REST de Openstack Swift. La situaciones en las que el adaptador es utilizado implican interfaces previamente definidas, y, en nuestro caso, no es necesario utilizar una interfaz ya existente, es más, estas cambiaran en función del sistema operativo, o en situaciones en las que se utilice el polimorfismo, que, por tratarse de programación de sistemas operativos, esta característica se encuentra fuera de los lenguajes de programación utilizados habitualmente.
 	En concreto conviene ofrecer la posibilidad, al dispositivo NBD de que seleccione que backend quiere utilizar para resolver sus peticiones. Esto puede resolverse fácilmente añadiéndole la posibilidad de elegir que función de transmisión, y de recepción debe utilizar para las comunicaciones.
 	De esta forma, en nuestro driver solo es necesario definir las funciones de envío y de recepción. Haciendo analogía con los diseños de redes de computadores, deberemos definir las primitivas Request y Confirm, que son las primitivas que se utilizan en el transmisor. Al encontrarnos en el sistema operativo, dichas primitivas suelen ser más conocidas como send y receive. Estas dos funciones serán las que conformen la interfaz de fachada, y sus parámetros requeridos serán el dispositivo en cuestión, y la estructura de la petición determinada.
 	Definida la fachada, el sistema podemos representarlo como una caja negra, que iremos descomponiendo con el uso del resto de patrones, conformando un panorama parecido al siguiente:
 
-	Insertar imagen aquí de la pila de componentes.
+	
+
 	
 5.2.2 Adaptador.
 
+	Puesto que debe producirse una traducción, de la petición ofrecida por el sistema de ficheros virtual a la petición requerida por el servidor Swift, este patrón también se convierte en objeto de estudio, y debe aplicarse, puesto que es lo que definirá la pieza de código del backend de Swiftness que orquestará el uso de las funciones de nuestra arquitectura, decidiendo en cada momento que operación realizar, y en que orden.
+	El objetivo de este patrón es adaptar interfaces distintas que impiden que determinados objetos colaboren unos con otros traduciendo sus llamadas, de forma que esta restricción desaparezca. En nuestro caso, los objetos que deben colaborar, son la petición, o respuesta del sistema de ficheros virtual, con respecto a los sockets de comunicación internos al núcleo de Linux. Sus principales características son las mismas que la de una fachada, con la restricción de utilizar interfaces fijas, y adaptarse a un, inexistente en nuestro caso, polimorfismo.
+	Para que la traducción pueda realizarse en ambos sentidos, la interfaz que limitará con la fachada previamente definida dispondrá de dos funciones, que traducirán cada uno en un sentido de la comunicación, estas serán las funciones RequestTranslation, que recibirá la estructura de la petición en proceso, y decidirá que operación debe corresponderse con la petición, y ReplyTranslation, que recibirá una respuesta del servidor Swift en formato XML y la procesará generando la respuesta adecuada al sistema de ficheros virtual, o nuevas operaciones a procesar por el servidor Swift. Estas nuevas operaciones se relacionarían con el tratamiento de errores.
+	Puede contemplarse, en un futuro ciclo de desarrollo de este proyecto, añadir la funcionalidad a este adaptador, de poder trabajar con respuestas en formato JSON.
+
 5.2.3 Envoltorio.
+
+	Por último, y con objeto de que nuestra implementación reduzca las dependencias con el sistema operativo que lo gobierna, debe implementarse una interfaz que permita a la plataforma desentenderse del sistema operativo, y especializando las interfaces ofrecidas por estos a las funciones requeridas por nuestra plataforma. Puesto que las comunicaciones en ambos sistemas operativos, se basan en sockets UNIX, será suficiente con envolver las funciones específicas de creación, destrucción, envío y recepción, en una interfaz genérica utilizada por las operaciones. De esta forma estaremos simplificando su uso, adaptándolo a nuestra estricta necesidad, a la par que reduciendo el acoplamiento con el sistema operativo, características claves de dicho patrón.
+
 5.3 Diagrama de clases de diseño.
+
+	En resumidas cuentas, ambos tres patrones guardan mucho en común, y la elección de cada uno de ellos trata de ajustarse lo más posible a las necesidades de cada tarea a resolver. Conviene recordar que, aunque los patrones definan tres interfaces, es necesaria una interfaz más que reunirá los servicios de la arquitectura. De las cuatro interfaces que se definirán, solo quedará expuesta la fachada, para que interaccione con el sistema de ficheros virtual, incluyéndose en el fichero “include/linux/swt.h”, y el resto de interfaces se incluirán directamente en el fichero “drivers/block/swt.c”. El panorama de dichas interfaces, en colaboración con los objetos será el siguiente.
+
 
 5.4 Diseño de datos.
 
