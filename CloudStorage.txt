@@ -3,46 +3,46 @@
 1.Introducción.	2
 2.Documentación previa.	3
 2.1.Cloud Storage.	3
-2.2.Almacenamiento en soluciones libres y locales existentes.	3
-2.2.1.Amazon S3.	3
+2.2.Almacenamiento en soluciones libres y locales existentes.	4
+2.2.1.Amazon S3.	4
 2.2.2.OpenNebula.	4
-2.2.3.Nimbus.	4
-2.2.4.OpenStack.	4
+2.2.3.Nimbus.	5
+2.2.4.OpenStack.	5
 2.2.5.OpenQRM.	5
-2.2.6.Eucalyptus.	5
-2.2.7.CloudStack.	5
-2.2.8.Abiquo Open Source Edition.	5
+2.2.6.Eucalyptus.	6
+2.2.7.CloudStack.	6
+2.2.8.Abiquo Open Source Edition.	6
 2.3.Comparación de soluciones.	6
 2.4.Swift.	7
-2.4.1.Swift Proxy Server.	7
+2.4.1.Swift Proxy Server.	8
 2.4.2.Operaciones en la API.	8
-2.4.2.1Identificación.	8
-2.4.2.2Listado de contenedores.	8
-2.4.2.3Listado de objetos.	9
+2.4.2.1Identificación.	9
+2.4.2.2Listado de contenedores.	9
+2.4.2.3Listado de objetos.	10
 2.4.2.4Creación de contenedores.	11
-2.4.2.5Eliminación de contenedores.	11
-2.4.2.6Recuperación de objetos.	11
+2.4.2.5Eliminación de contenedores.	12
+2.4.2.6Recuperación de objetos.	12
 2.4.2.7Creación, o actualización de objetos.	12
-2.4.2.8Copia de objetos.	12
+2.4.2.8Copia de objetos.	13
 2.4.2.9Eliminación de objetos.	13
-2.4.3.Entorno de operación.	13
-2.5.Linux.	13
-2.5.1.Dispositivos de bloques.	14
+2.4.3.Entorno de operación.	14
+2.5.Linux.	14
+2.5.1.Dispositivos de bloques.	15
 2.5.1.1Proceso de una operación.	15
 2.5.1.2Estructura genérica de dispositivos de bloques.	16
 2.5.2.Dispositivos de red.	17
-2.5.3.Network Block Device.	18
-2.6.Windows	20
+2.5.3.Network Block Device.	19
+2.6.Windows	21
 2.6.1.Subsistema de entorno y librerías dinámicas.	22
 2.6.2.Ejecutor de Windows.	23
 2.6.3.El núcleo.	24
 2.6.4.Drivers de dispositivos.	24
-2.6.5.Componentes del sistema de entrada/salida.	24
+2.6.5.Componentes del sistema de entrada/salida.	25
 2.6.5.1Gestor de entrada/salida.	25
-2.6.5.2Drivers de dispositivos.	25
+2.6.5.2Drivers de dispositivos.	26
 2.6.5.3Estructura de un driver.	26
 2.6.5.4Objetos de drivers y objetos de dispositivos.	27
-2.6.5.5Estructuras de ficheros.	27
+2.6.5.5Estructuras de ficheros.	28
 2.6.5.6Paquetes de peticiones de entrada/salida.	29
 2.6.5.7Petición en drivers de una sola capa.	29
 2.6.5.8Petición en drivers de múltiples capas.	30
@@ -51,17 +51,17 @@
 2.6.5.11Gestor de dispositivos Plug and Play(PnP).	32
 2.6.5.12Carga, inicialización e instalación de drivers.	33
 2.6.5.13Gestor de consumo.	35
-2.6.6.Subsistema de almacenamiento.	36
+2.6.6.Subsistema de almacenamiento.	37
 2.6.6.1Drivers de disco.	37
 2.6.6.2Drivers iSCSI.	38
 2.6.6.3Drivers de entrada/salida a través de múltiples caminos.	38
-2.6.6.4Objetos de dispositivos de disco.	38
+2.6.6.4Objetos de dispositivos de disco.	39
 2.6.6.5Discos básicos y discos dinámicos.	39
 2.6.6.6Espacio de nombres de volúmenes.	39
-2.6.6.6.1Gestor de montaje.	39
+2.6.6.6.1Gestor de montaje.	40
 2.6.6.6.2Puntos de montaje.	40
-2.6.6.6.3Montaje de volúmenes.	40
-2.6.6.6.4Operaciones de entrada/salida de volúmenes.	41
+2.6.6.6.3Montaje de volúmenes.	41
+2.6.6.6.4Operaciones de entrada/salida de volúmenes.	42
 2.6.6.7Servicio de discos virtuales.	42
 2.6.7.Subsistema de redes.	43
 2.6.7.1Modelo OSI.	43
@@ -77,8 +77,16 @@
 2.7.Windows vs. Linux.	51
 2.8.Swiftness.	52
 2.8.1.Bases de diseño.	52
-3.Glosario.	53
-4.Referencias.	54
+3.Documentación de requisitos.	53
+4.Documentación de análisis.	53
+5.Documentación de diseño.	53
+5.1.Arquitectura del sistema.	53
+5.2.Patrones de diseño.	53
+5.3.Diagrama de clases de diseño.	53
+5.4.Diseño de datos.	53
+5.5.Diseño lógico.	53
+6.Glosario.	53
+7.Referencias.	55
 
 1 Introducción.
 		
@@ -418,7 +426,7 @@ Eliminación de objetos.
 	DELETE /<api version>/<account>/<container> HTTP/1.1
 	Host: <server>
 	X-Auth-Token: <identificador de sesión>
-	Sin embargo deben suceder que el contenedor esté vacío para que este pueda ser eliminado. Su borrado es permanente. Su respuesta pudiera ser la siguiente:
+	Sin embargo debe suceder que el contenedor esté vacío para que este pueda ser eliminado. Su borrado es permanente. Su respuesta pudiera ser la siguiente:
 	 HTTP/1.1 204 No Content
 	 Date: Thu, 07 Jun 2010 18:57:07 GMT
 	 Server: Apache
@@ -1126,7 +1134,66 @@ NDIS orientado a conexión, permitiendo a la especificación utilizar dispositiv
 	Otro detalle a tener en cuenta es que los drivers son independientes del sistema de ficheros. Esto de traduce en que, las estructuras de peticiones y respuestas no disponen de los nombres de objetos y contenedores que se procesan en cada momento, sino de direcciones de almacenamiento en bruto, luego es necesario establecer una correspondencia entre las direcciones de las peticiones y los contenedores y objetos existentes, de cara a ambas operaciones descritas anteriormente.
 	Por último, es necesario definir las operaciones de registro del driver en el sistema, que en el caso de Linux se corresponde con las funciones init y exit, y en el caso de Windows la rutina add-device.
 
-3 Glosario.
+3 Documentación de requisitos.
+
+4 Documentación de análisis.
+
+5 Documentación de diseño.
+
+5.1 Arquitectura del sistema.
+
+	Dentro de las posibles arquitecturas existentes, y por similitud con los objetivos de este proyecto, se convierte en objeto de estudio la arquitectura orientada a servicios. A lo largo de este apartado haremos un resumen de las características de dicha arquitectura, y comentaremos las razones que hacen de esta, la arquitectura adecuada para afrontar nuestra situación.
+	Los principios y metodologías de dicha arquitectura, fueron pensados para el diseño y desarrollo de servicios interoperables. Cada servicio definido, desarrolla una funcionalidad concreta, lo más independiente posible del resto, evitando problemas de acoplamiento. Estas funcionalidades, se definen como componentes software que pueden ser reutilizados con diferentes propósitos. Los principios definidos por la arquitectura cobran mayor importancia en las fases de desarrollo e integración. Este tipo de arquitecturas es altamente adecuado para resolver problemas donde las interfaces tengan gran importancia, deban ser claras, y bien definidas. Su principal objetivo es definir la integración de sistemas dispares para su uso conjunto. 
+	Aunque en sus principio básicos, dicha arquitectura debe ser independiente del sistema operativo, para cumplir nuestro objetivo, dicha condición es inviable, debe haber cierto grado de dependencia puesto que, aunque la plataforma será lo más independiente posible del sistema operativo, hacerla completamente independiente elevaría los costes y complejidad de la solución a valores no rentables. Otra característica principal de dicha arquitectura es la capacidad de utilizar servicios a través de la red, lo cual es un objetivo principal en esta ocasión, haciendo que la interfaz REST del servidor, sea interpretada por el sistema operativo. Esta última característica hace que dicha arquitectura se asocie habitualmente con los sistemas distribuidos.
+	Sus servicios, no deben estar asociados, deben ser desacoplados, y no requerirse los unos a los otros. Estos implementarán una funcionalidad, simple, y de requerir los servicios de otra funcionalidad, definen un protocolo de comunicación que pase un mensaje, en lugar de realizar una llamada internamente, al servicio requerido. Para relacionar los distintos objetos suele utilizarse la técnica de orquestación, dotando al sistema de la inteligencia necesaria para preparar, coordinar y gestionar los recursos necesarios para realizar su función. Con este fin, deben definirse claramente los distintos servicios, y como se desenvuelven, hasta la finalización de su operación. Además, es habitual que se utilicen metadatos que sean utilizados a lo largo del uso de dicha técnica, y que ayuden como información complementaria para decidir, cual debe ser el paso siguiente.
+	Con estas características se pretende que el usuario pueda disponer de grandes funcionalidades, en un entorno ad-hoc, basado en amplias funcionalidades. A más amplias sean, más pequeñas serán las interfaces requeridas, sin embargo, debe buscarse un acuerdo entre este punto, y el grado de granularidad ofrecido, para que el sistema no pierda la capacidad de reutilización. No es, tampoco razonable utilizar un amplio número de interfaces para alcanzar la mayor granularidad posible, puesto que por cada interfaz se añade una sobrecarga de ejecución, pudiendo comprometer la capacidad de respuesta de este. Definida la arquitectura, construir aplicaciones sobre ella se reduce a orquestar los servicios adecuadamente, reuniendo los componentes software necesarios, ahorrando tiempo de desarrollo, y reutilizando los servicios ofrecidos.
+	Puesto que un objetivo principal es que las funcionalidades no interaccionen con otras, debe ser el usuario quien define en que orden se utilizan los servicios para que se resuelva su propósito. Sus requisitos se resumen en los siguiente:
+
+Interoperabilidad entre sistemas y lenguajes para ofrecer de integración entre diversos sistemas a través de protocolos de comunicación.
+Crear un conjunto de mecanismos básicos en los que se apoyen las distintas aplicaciones para ofrecer nuevas funcionalidades.
+	
+	Sus principios se resumen en los siguientes:
+
+Reutilización, granularidad, modularidad, composición e interoperabilidad.
+Capacidad de cumplir con estándares generalizados.
+Identificación, categorización, aprovisionamiento, distribución, monitorización y seguimiento de servicios.
+
+	Estos principios y requisitos, se ven reflejados en una gran mayoría de sistemas orientados a la red, implicando que muchos de los servicios web e interfaces se apoyen en este tipo de arquitecturas, no siendo REST, una excepción, pero además, dicha arquitectura no dista demasiado de las ideas utilizadas para diseñar un sistema operativo, en cuanto a que se diseñan un conjunto de servicios mínimos, que puedan ser utilizados de diversas maneras por el usuario, tratando que los mecanismos requieran la menor cooperación posible entre ellos. Es por esto, que en el desarrollo de este proyecto que se encuentra en un término medio entre ambos tipos de sistemas encuentra en esta arquitectura una gran oportunidad para resolver el problema siguiendo su metodología.
+	
+5.2 Patrones de diseño.
+
+	En los siguientes apartados realizaremos un breve resumen de los patrones requeridos para estructurar el driver, y como se pretende aplicarlos para ir definiendo el diseño del driver que implementaremos en el proyecto. Para ello haremos un diseño Top-down que defina como una petición se procesará por las distintas partes del driver hasta llegar a la interfaz de red, y como debe ir transformándose la petición para que el servidor Swift la procese correctamente.
+	Conviene recordar que, el objetivo de nuestra plataforma es hacer un driver de dispositivo de bloques, y no crear un sistema de ficheros que sea capaz de resolver la comunicación, luego trabajamos en los niveles más bajos de hardware. En el estudio realizado previamente acerca del sistema operativo GNU/Linux, comentábamos la existencia del módulo NBD que ya ejercía ciertas tareas relacionadas con nuestro objetivo. En concreto, este driver define una interfaz con el sistema de ficheros virtual que recogía las peticiones que este realizaba, en bruto, para enviarlas a través de la red y ser procesadas en el servidor, en espacio de usuario, que exponga su espacio de almacenamiento.
+	La diferencia en nuestro contexto, es que no esperamos que la petición realizada por el sistema de ficheros, sea resuelta por el servidor NBD, sino por el servidor Openstack Swift, luego, la petición generada por el sistema de ficheros debe ser traducida a la interfaz REST del servidor Swift, para ser enviada por la interfaz de red. Esto, además añadirá cierta complejidad, puesto que hay que resolver las ambigüedades producidas, cuando se quiere crear un contenedor, o un objeto, cuando se quiere listar un contenedor, o recuperar un objeto, o eliminar un contenedor u objeto.
+	En resumidas cuentas, traduciremos las peticiones distintas que el sistema de ficheros virtual nos ofrece, a las peticiones correspondientes a las operaciones posibles que el servidor nos ofrezca, y para ello debemos servirnos de los siguientes patrones.
+5.2.1 Fachada
+
+	En este conocido patrón de diseño se pretende ocultar los detalles irrelevantes al usuario, ofreciéndole una interfaz simplificada que resuelva sus peticiones. Sus principales características son las siguientes:
+
+Hacer que un componente software sea más sencillo de utilizar, entender y probar, ofreciendo métodos convenientes para tareas comunes.
+Hacer que la librería sea más legible.
+Reducir el número de dependencias con el código exterior, puesto que solo utilizará lo que la fachada ofrezca.
+Envolver una librería con diseño pobre.
+
+	Cabría la posibilidad de pensar que un adaptador es suficiente con el fin perseguido, puesto que la plataforma debe traducir las peticiones generadas por el sistema de ficheros virtual a las peticiones REST de Openstack Swift. La situaciones en las que el adaptador es utilizado implican interfaces previamente definidas, y, en nuestro caso, no es necesario utilizar una interfaz ya existente, o en situaciones en las que se utilice el polimorfismo, que, por tratarse de programación de sistemas operativos, esta característica se encuentra fuera de los lenguajes de programación utilizados habitualmente.
+	En concreto conviene ofrecer la posibilidad, al dispositivo NBD de que seleccione que backend quiere utilizar para resolver sus peticiones. Esto puede resolverse fácilmente añadiéndole la posibilidad de elegir que función de transmisión, y de recepción debe utilizar para las comunicaciones.
+	De esta forma, en nuestro driver solo es necesario definir las funciones de envío y de recepción. Haciendo analogía con los diseños de redes de computadores, deberemos definir las primitivas Request y Confirm, que son las primitivas que se utilizan en el transmisor. Al encontrarnos en el sistema operativo, dichas primitivas suelen ser más conocidas como send y receive. Estas dos funciones serán las que conformen la interfaz de fachada, y sus parámetros requeridos serán el dispositivo en cuestión, y la estructura de la petición determinada.
+	Definida la fachada, el sistema podemos representarlo como una caja negra, que iremos descomponiendo con el uso del resto de patrones, conformando un panorama parecido al siguiente:
+
+	Insertar imagen aquí de la pila de componentes.
+	
+5.2.2 Adaptador.
+
+5.2.3 Envoltorio.
+5.3 Diagrama de clases de diseño.
+
+5.4 Diseño de datos.
+
+5.5 Diseño lógico.
+
+	blahblah
+
+6 Glosario.
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
 Agilidad:  capacidad de mover los datos al área adecuada para mejorar su disponibilidad.
@@ -1139,6 +1206,8 @@ Nodo: Sistema capaz de procesar información.
 Multiusuario: capacidad de que el recurso sea utilizado por varios usuarios concurrentemente.
 Servicio distribuido: servicio ofrecido por un conjunto de sistemas que actúa como un solo sistema.
 API: Application programming interface, interfaz de programación de la aplicación.
+Backend: infraestructura que ofrece una lógica de negocio interna, que no se relaciona directamente con el usuario.
+Frontend: infraestructura ofrecida a un usuario para transmitir información a un sistema que resolverá sus peticiones de forma interna, sin que este pueda comunicarses con el directamente.
 Tolerancia a fallos: capacidad de soportar errores sin dejar sin servicio al cliente.
 Redundancia de datos: duplicación de datos, habitualmente para evitar su pérdida.
 Software duradero: software capaz de almacenar distintas versiones de un mismo fichero.
@@ -1170,11 +1239,12 @@ Callback: Función ejecutada, tan pronto como es posible, para atender la situac
 Primitiva: Función básica de un nivel de red, que se ejecuta en todo nodo que tenga dicho nivel activo.
 Protocolo de red: Conjunto de reglas que definen una comunicación.
 Entidad par: elemento activo del sistema que se comunicará con el nivel homónimo en un sistema distinto.
+Entorno ad hoc: entorno de comunicaciones con poca o ninguna planificación.
 Mutex: Mecanismo de concurrencia basado en una variable, que recibe, normalmente, dos valores, abierto y cerrado, y en función de el, detiene la ejecución de código hasta que su valor cambie, reanudandola.
 Jiffies: Unidad de tiempo mínima del núcleo de Linux.
 Dispositivos Plug and Play: dispositivos que, al conectarse al sistema, se configuran automáticamente y se ofrecen sus servicios al usuario sin que este realice ninguna tarea previa.
 
-4 Referencias.
+7 Referencias.
 
 Wikipedia:
 http://en.wikipedia.org/wiki/Cloud_computing_comparison
