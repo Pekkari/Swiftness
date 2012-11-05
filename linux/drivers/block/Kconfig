@@ -318,16 +318,13 @@ config BLK_DEV_NBD
 	  If unsure, say N.
 
 config BLK_DEV_SWT
-	tristate "Support Openstack Swift servers connections on Network block device"
+	bool "Support Openstack Swift servers connections on Network block device"
 	depends on BLK_DEV_NBD
 	default n
 	help
 	--help--
 	  Say y here will allow any nbd node to be a client for Openstack
 	  Swift Cloud Storage.
-
-	  To compile this driver as a module, choose M here: the
-	  module will be called swt.
 
 	  If unsure, say N.
 
