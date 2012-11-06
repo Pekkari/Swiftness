@@ -283,7 +283,7 @@ void usage(char* errmsg, ...) {
 	} else {
 		fprintf(stderr, "nbd-client version %s\n", PACKAGE_VERSION);
 	}
-	fprintf(stderr, "Usage: nbd-client host port nbd_device [-block-size|-b block size] [-timeout|-t timeout] [-swap|-s] [-sdp|-S] [-persist|-p] [-nofork|-n] [-name|-N name]\n");
+	fprintf(stderr, "Usage: nbd-client host port nbd_device [-block-size|-b block size] [-timeout|-t timeout] [-swap|-s] [-sdp|-S] [-persist|-p] [-backend|-B] [-user|-u username] [-key|-k password] [-nofork|-n] [-name|-N name]\n");
 	fprintf(stderr, "Or   : nbd-client -d nbd_device\n");
 	fprintf(stderr, "Or   : nbd-client -c nbd_device\n");
 	fprintf(stderr, "Or   : nbd-client -h|--help\n");
