@@ -16,6 +16,9 @@
 #define LINUX_NBD_H
 
 #include <linux/types.h>
+#ifdef CONFIG_BLK_DEV_SWT
+#include <linux/swt.h>
+#endif
 
 #define NBD_SET_SOCK	_IO( 0xab, 0 )
 #define NBD_SET_BLKSIZE	_IO( 0xab, 1 )
@@ -77,9 +80,15 @@ struct nbd_device {
 	int xmit_timeout;
 	
 	int type;	/* to provide differents backends */
+
 	int (*send_req)(struct nbd_device *nbd, struct request *req);
-	char * url;	/* Required for swt authentication */
-	char * token;
+	struct request *(*read_stat)(struct nbd_device *nbd);
+
+#ifdef CONFIG_BLK_DEV_SWT
+	struct swt_auth user;
+	struct swt_serv srv;
+	struct swt_sess session;
+#endif
 };
 
 #endif
