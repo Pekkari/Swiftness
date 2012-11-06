@@ -37,7 +37,9 @@
 #include <asm/types.h>
 
 #include <linux/nbd.h>
-#include "swt.h"
+#ifdef CONFIG_BLK_DEV_SWT
+#include <linux/swt.h>
+#endif
 
 #define NBD_MAGIC 0x68797548
 
@@ -71,27 +73,6 @@ static int max_part;
  * Thanks go to Jens Axboe and Al Viro for their LKML emails explaining this!
  */
 static DEFINE_SPINLOCK(nbd_lock);
-
-struct nbd_protocol {
-	enum nbd_type type;
-	const char *name;
-	const char *alias;
-};
-
-static const struct nbd_protocol nbd_protocols[] = {
-	{
-		.type		= NBD_DEFAULT,
-		.name		= "NBD",
-		.alias		= "bare",
-	},
-#ifdef CONFIG_BLK_DEV_SWT
-	{
-		.type		= NBD_SWT,
-		.name		= "Swiftness",
-		.alias		= "REST",
-	},
-#endif
-};
 
 #ifndef NDEBUG
 static const char *ioctl_cmd_to_ascii(int cmd)
@@ -176,6 +157,7 @@ static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
 	struct msghdr msg;
 	struct kvec iov;
 	sigset_t blocked, oldset;
+	unsigned long pflags = current->flags;
 
 	if (unlikely(!sock)) {
 		dev_err(disk_to_dev(nbd->disk),
@@ -189,8 +171,9 @@ static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
 	siginitsetinv(&blocked, sigmask(SIGKILL));
 	sigprocmask(SIG_SETMASK, &blocked, &oldset);
 
+	current->flags |= PF_MEMALLOC;
 	do {
-		sock->sk->sk_allocation = GFP_NOIO;
+		sock->sk->sk_allocation = GFP_NOIO | __GFP_MEMALLOC;
 		iov.iov_base = buf;
 		iov.iov_len = size;
 		msg.msg_name = NULL;
@@ -236,6 +219,7 @@ static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
 	} while (size > 0);
 
 	sigprocmask(SIG_SETMASK, &oldset, NULL);
+	tsk_restore_flags(current, pflags, PF_MEMALLOC);
 
 	return result;
 }
@@ -427,6 +411,7 @@ static int nbd_do_it(struct nbd_device *nbd)
 
 	BUG_ON(nbd->magic != NBD_MAGIC);
 
+	sk_set_memalloc(nbd->sock->sk);
 	nbd->pid = task_pid_nr(current);
 	ret = device_create_file(disk_to_dev(nbd->disk), &pid_attr);
 	if (ret) {
@@ -435,7 +420,7 @@ static int nbd_do_it(struct nbd_device *nbd)
 		return ret;
 	}
 
-	while ((req = nbd_read_stat(nbd)) != NULL)
+	while ((req = nbd->read_stat(nbd)) != NULL)
 		nbd_end_request(req);
 
 	device_remove_file(disk_to_dev(nbd->disk), &pid_attr);
@@ -462,6 +447,14 @@ static void nbd_clear_que(struct nbd_device *nbd)
 
 	while (!list_empty(&nbd->queue_head)) {
 		req = list_entry(nbd->queue_head.next, struct request,
+				 queuelist);
+		list_del_init(&req->queuelist);
+		req->errors++;
+		nbd_end_request(req);
+	}
+
+	while (!list_empty(&nbd->waiting_queue)) {
+		req = list_entry(nbd->waiting_queue.next, struct request,
 				 queuelist);
 		list_del_init(&req->queuelist);
 		req->errors++;
@@ -503,7 +496,7 @@ static void nbd_handle_req(struct nbd_device *nbd, struct request *req)
 		nbd_end_request(req);
 	} else {
 		spin_lock(&nbd->queue_lock);
-		list_add(&req->queuelist, &nbd->queue_head);
+		list_add_tail(&req->queuelist, &nbd->queue_head);
 		spin_unlock(&nbd->queue_lock);
 	}
 
@@ -616,6 +609,7 @@ static int __nbd_ioctl(struct block_device *bdev, struct nbd_device *nbd,
 		nbd->file = NULL;
 		nbd_clear_que(nbd);
 		BUG_ON(!list_empty(&nbd->queue_head));
+		BUG_ON(!list_empty(&nbd->waiting_queue));
 		if (file)
 			fput(file);
 		return 0;
@@ -725,12 +719,15 @@ static int __nbd_ioctl(struct block_device *bdev, struct nbd_device *nbd,
 	    {
 	      nbd->type = NBD_SWT;
 	      nbd->send_req = swt_send_req;
+	      nbd->read_stat = swt_read_stat;
 	    }
 	    else /* Any other case, fallback to default */
 	    {
 	      nbd->type = NBD_DEFAULT;
 	      nbd->send_req = nbd_send_req;
+	      nbd->read_stat = nbd_read_stat;
 	    }
+	    return 0;
 	}
 	return -ENOTTY;
 }
@@ -857,6 +854,7 @@ static int __init nbd_init(void)
 		add_disk(disk);
 		nbd_dev[i].type = NBD_DEFAULT;
 		nbd_dev[i].send_req = nbd_send_req;
+		nbd_dev[i].read_stat = nbd_read_stat;
 	}
 
 	return 0;
