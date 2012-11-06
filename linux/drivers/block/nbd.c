@@ -714,6 +714,20 @@ static int __nbd_ioctl(struct block_device *bdev, struct nbd_device *nbd,
 			nbd->queue_head.next, nbd->queue_head.prev,
 			&nbd->queue_head);
 		return 0;
+	
+	case NBD_SWT_CONNECT:
+		if ( nbd->type == NBD_SWT )
+		{
+			//Code to produce de real connection
+			struct swt_auth user;
+			int ret = 0;
+
+			ret = copy_from_user(&user,(void *) arg, sizeof(user));
+			swt_send_req(nbd,NULL);
+
+			return ret;	
+		}
+
 	case NBD_SET_BACKEND:
 	    if ( NBD_SWT == arg)
 	    {

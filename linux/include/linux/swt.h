@@ -18,7 +18,7 @@ enum swt_ops {
 };
 
 char * swt_ops_format[] = {
-	"GET /%s HTTP/1.1\nHost: %s\nX-Auth-User: %s\nX-Auth-Key: %s\n",
+	"GET /v1.0 HTTP/1.1\nHost: %s\nX-Auth-User: %s\nX-Auth-Key: %s\n",
 	"GET /%s?format=xml HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"PUT /%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"DELETE /%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
@@ -26,6 +26,10 @@ char * swt_ops_format[] = {
 	"GET /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"PUT /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\nContent-Length: %i\n",
 	"DELETE /%s/%s/%s HTTP/1.1\nHost: %s\n X-Auth-Token: %s\n"
+};
+
+char * swt_ans_format[] ={
+	"%s\nX-Storage-Url: %s\nX-Auth-Token: %s\n%s"
 };
 
 struct swt_auth {
@@ -53,6 +57,6 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 }
 struct request *swt_read_stat(struct nbd_device *nbd)
 {
-	return -ENOSYS;
+	return NULL;
 }
 #endif

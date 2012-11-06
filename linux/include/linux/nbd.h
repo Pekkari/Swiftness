@@ -85,7 +85,7 @@ struct nbd_device {
 	struct request *(*read_stat)(struct nbd_device *nbd);
 
 #ifdef CONFIG_BLK_DEV_SWT
-	struct swt_auth user;
+	struct swt_auth usr;
 	struct swt_serv srv;
 	struct swt_sess session;
 #endif
