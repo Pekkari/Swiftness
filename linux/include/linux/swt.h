@@ -29,7 +29,14 @@ char * swt_ops_format[] = {
 };
 
 char * swt_ans_format[] ={
-	"%s\nX-Storage-Url: %s\nX-Auth-Token: %s\n%s"
+	"HTTP/1.1 204 No Content\n%s\nX-Storage-Url: %s\nX-Storage-Token: %s\n%s",
+	"%s\n\n%s",
+	"%s\n\n%s",
+	"%s\n\n%s",
+	"%s\n\n%s",
+	"%s\n\n%s",
+	"%s\n\n%s",
+	"%s\n\n%s"
 };
 
 struct swt_auth {
@@ -47,6 +54,7 @@ struct swt_sess {
 	char token[256];
 };
 
+// RequestTranslation + ReplyTranslation
 int swt_send_req(struct nbd_device *nbd, struct request *req);
 struct request *swt_read_stat(struct nbd_device *nbd);
 

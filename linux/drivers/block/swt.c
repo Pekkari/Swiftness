@@ -6,9 +6,9 @@
 
 extern struct nbd_device;
 extern static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size, int msg_flags);
+void seek(char * host, char * tail);
 
 
-/* always call with the tx_lock held */
 int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
 	int res = 0;
@@ -35,7 +35,7 @@ struct request *swt_read_stat(struct nbd_device *nbd)
 
 	sscanf(reply, swt_ans_format[0], url, token);
 
-	if(url != NULL || token != NULL)
+	if(url != NULL && token != NULL)
 	{
 		nbd->session.url = url;
 		nbd->session.token = token;
@@ -55,4 +55,95 @@ int identify(char * host, int * port, char * user, char * key)
 	sprintf(request, swt_ops_format[0], host, user, key);
 
 	return sock_xmit(nbd, 1, request, strlen(request), 0);
+}
+
+int listContainers(token, url)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[1], tail, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+int createContainers(token, url, name)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[2], tail, name, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+int deleteContainers(token, url, name)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[3], tail, name, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+int listObjects(token, url, container)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[4], tail, container, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+int retrieveObjects(token, url, container, object)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[5], tail, container, object, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+int createObjects(token, url, container, object)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[6], tail, container, object, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+int deleteObjects(token, url, container, object)
+{
+	char request[1024];
+	char * host, tail = url;
+
+	seek(host,tail);	
+
+	sprintf(request, swt_ops_format[7], tail, container, object, host, token);  
+
+	return sock_xmit(nbd,1,request,strlen(request),0);
+}
+
+void seek(char * host, char * tail)
+{
+	strsep(&tail, '/');
+	strsep(&tail, '/');
+	host = strsep(&tail, '/');
 }
