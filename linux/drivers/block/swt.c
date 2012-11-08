@@ -7,6 +7,7 @@
 #include <linux/socket.h>
 
 void translate_request(char * request, int op, ...);
+int translate_reply(char * reply, int op, ...);
 
 int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
@@ -34,20 +35,50 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 struct request *swt_read_stat(struct nbd_device *nbd)
 {
 	//struct request result;
-	char * reply = NULL, * token = NULL, * url = NULL;
+	char * reply = NULL, * token = NULL, * url = NULL, * name;
+	void * data;
+	int size = 0;
 
 	sock_xmit(nbd, 0, reply, sizeof(reply), MSG_WAITALL);
-
 	
-	if( 2 == sscanf(reply, swt_ans_format[SWT_AUTH], url, token) )
+	if( translate_reply(reply, SWT_AUTH, url, token) )
 	{
+		// Vaya! Nos identificamos en la nube :)
 		nbd->sess.url = url;
 		nbd->sess.token = token;
+	}/*else if ( translate_reply(reply, SWT_CONTAINER_LIST, url, token) ) 
+	{
+		// Tiro errado, listado de objetos?
+
+	}else if ( translate_reply(reply, SWT_CONTAINER_CREATE) )
+	{
+		// Intentamos con la creación de contenedores :)
+		
+	}else if ( translate_reply(reply, SWT_CONTAINER_DELETE) )
+	{
+		// Borrado de contenedores?
+		
+	}else if ( translate_reply(reply, SWT_OBJECT_LIST) ) 
+	{
+		// Grrrr! Recuperación de objetos?
+
+	}else if ( translate_reply(reply, SWT_OBJECT_RETRIEVE, data, size) ) 
+	{
+		// Ya se! Recuperación de objetos!
+
+	}else if ( translate_reply(reply, SWT_OBJECT_CREATE, size) ) 
+	{
+		// No estarás creando un objeto ¿no?
+
+	}else if ( translate_reply(reply, SWT_OBJECT_DELETE) ) 
+	{
+		// Dime que es un borrado de objetos... :'(
 	}else
 	{
-		//Tiro errado, intentamos con otra operación :)
-		
-	}
+		// Wrong way!
+		return NULL;
+	}*/
+	
 
 	// Aquí debe devolver la request que generó esta reply
 	return NULL;
@@ -188,4 +219,87 @@ void translate_request(char * request, int op, ...)
 	va_end(args);
 }
 
+int translate_reply(char * reply, int op, ...)
+{
+	char * token = NULL, * url = NULL, * container = NULL, * object = NULL;
+	void * data;
+	int size = 0, res = 0;
+	va_list args;
+	va_start(args, op);
+	
+	switch (op)
+	{
+		case SWT_AUTH:
+
+			token = va_arg(args, char *);
+			url = va_arg(args, char *);
+ 			res = (2 == sscanf(reply, swt_ans_format[SWT_AUTH], token, url));
+
+		case SWT_CONTAINER_LIST:
+
+			if (res = (2 == sscanf(reply, swt_ans_format[SWT_CONTAINER_LIST], \
+						container, size)))
+			{
+				// Seguimos procesando la lista
+			}
+			break;
+
+		case SWT_CONTAINER_CREATE:
+
+			if (res = (!strncmp(reply, swt_ans_format[SWT_CONTAINER_CREATE],\
+					strlen(swt_ans_format[SWT_CONTAINER_CREATE]))))
+			{
+				// Generamos el contenedor y lo metemos en la lista de
+				// de contenedores
+			}
+			break;
+
+		case SWT_CONTAINER_DELETE:
+
+			if (res = (!strncmp(reply, swt_ans_format[SWT_CONTAINER_DELETE], \
+				strlen(swt_ans_format[SWT_CONTAINER_DELETE]))))
+			{
+				// Buscamos el contenedor y lo eliminamos de la lista
+			}
+			break;
+
+		case SWT_OBJECT_LIST:
+		
+			if (res = (2 == sscanf(reply, swt_ans_format[SWT_OBJECT_LIST], \
+					object, size)))
+			{
+				// Seguimos procesando la lista
+			}
+			break;
+
+		case SWT_OBJECT_RETRIEVE:
+
+			data = va_arg(args, void *);
+			size = va_arg(args, int);
+			res = (2 == sscanf(reply, swt_ans_format[SWT_OBJECT_LIST], \
+					size, data));
+			break;
+
+		case SWT_OBJECT_CREATE:
+
+			size = va_arg(args, int);
+			if (res = (1 == sscanf(reply, swt_ans_format[SWT_OBJECT_CREATE], \
+						size)))
+			{
+				// Inserta el objeto en la lista
+			}
+			break;
+
+		case SWT_OBJECT_DELETE:
+			if (res = (!strncmp(reply, swt_ans_format[SWT_OBJECT_DELETE], \
+				strlen(swt_ans_format[SWT_OBJECT_DELETE]))))
+			{
+				// Buscamos el objeto y lo retiramos de la lista de objetos
+			}
+			break;
+
+	}
+	va_end(args);
+	return res;
+}
 
