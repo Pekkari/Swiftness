@@ -87,7 +87,7 @@ struct nbd_device {
 #ifdef CONFIG_BLK_DEV_SWT
 	struct swt_auth usr;
 	struct swt_serv srv;
-	struct swt_sess session;
+	struct swt_sess sess;
 #endif
 };
 
@@ -120,4 +120,8 @@ struct nbd_reply {
 	__be32 error;		/* 0 = ok, else error	*/
 	char handle[8];		/* handle you got from request	*/
 };
+
+#ifdef CONFIG_BLK_DEV_SWT
+int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size, int msg_flags);
+#endif
 #endif

@@ -149,7 +149,7 @@ static void nbd_xmit_timeout(unsigned long arg)
 /*
  *  Send or receive packet.
  */
-static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
+int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
 		int msg_flags)
 {
 	struct socket *sock = nbd->sock;
