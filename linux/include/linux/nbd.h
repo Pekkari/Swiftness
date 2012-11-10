@@ -16,9 +16,6 @@
 #define LINUX_NBD_H
 
 #include <linux/types.h>
-#ifdef CONFIG_BLK_DEV_SWT
-#include <linux/swt.h>
-#endif
 
 #define NBD_SET_SOCK	_IO( 0xab, 0 )
 #define NBD_SET_BLKSIZE	_IO( 0xab, 1 )
@@ -57,6 +54,23 @@ enum nbd_type {
 };
 
 struct request;
+
+#ifdef CONFIG_BLK_DEV_SWT
+struct swt_auth {
+	char * user;
+	char * key;
+};
+
+struct swt_serv {
+	char * host;
+	int port;
+};
+
+struct swt_sess {
+	char * url;
+	char * token;
+};
+#endif
 
 struct nbd_device {
 	int flags;
@@ -120,4 +134,20 @@ struct nbd_reply {
 	__be32 error;		/* 0 = ok, else error	*/
 	char handle[8];		/* handle you got from request	*/
 };
+
+#ifdef CONFIG_BLK_DEV_SWT
+
+int swt_send_req(struct nbd_device *nbd, struct request *req);
+struct request *swt_read_stat(struct nbd_device *nbd);
+
+#else
+int swt_send_req(struct nbd_device *nbd, struct request *req)
+{
+	return -ENOSYS;
+}
+struct request *swt_read_stat(struct nbd_device *nbd)
+{
+	return NULL;
+}
+#endif
 #endif

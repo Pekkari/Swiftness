@@ -4,8 +4,6 @@
 
 #include <linux/types.h>
 
-extern struct nbd_device nbd;
-
 enum swt_ops {
 	SWT_AUTH,
 	SWT_CONTAINER_LIST,
@@ -39,34 +37,4 @@ char * swt_ans_format[] = {
 	"HTTP/1.1 204 No Content\n%*s"
 };
 
-struct swt_auth {
-	char * user;
-	char * key;
-};
-
-struct swt_serv {
-	char * host;
-	int port;
-};
-
-struct swt_sess {
-	char * url;
-	char * token;
-};
-
-#ifdef CONFIG_BLK_DEV_SWT
-
-int swt_send_req(struct nbd_device *nbd, struct request *req);
-struct request *swt_read_stat(struct nbd_device *nbd);
-
-#else
-int swt_send_req(struct nbd_device *nbd, struct request *req)
-{
-	return -ENOSYS;
-}
-struct request *swt_read_stat(struct nbd_device *nbd)
-{
-	return NULL;
-}
-#endif
 #endif
