@@ -120,8 +120,4 @@ struct nbd_reply {
 	__be32 error;		/* 0 = ok, else error	*/
 	char handle[8];		/* handle you got from request	*/
 };
-
-#ifdef CONFIG_BLK_DEV_SWT
-int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size, int msg_flags);
-#endif
 #endif

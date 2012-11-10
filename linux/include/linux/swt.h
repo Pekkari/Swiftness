@@ -30,10 +30,10 @@ char * swt_ops_format[] = {
 
 char * swt_ans_format[] = {
 	"HTTP/1.1 204 No Content\n%*s\nX-Storage-Url: %s\nX-Storage-Token: %s\n%*s",
-	"<name>%s</name>\n%*s\n<bytes>%d</bytes>\n",
+	"%*s<name>%s</name>\n%*s\n<bytes>%d</bytes>\n",
 	"HTTP/1.1 201 Created\n",
 	"HTTP/1.1 204 No Content\n",
-	"<object>\n%*s<name>%s</name>\n%*s<bytes>%d</bytes>\n%*s</object>\n",
+	"%*s<object>\n%*s<name>%s</name>\n%*s<bytes>%d</bytes>\n%*s</object>\n",
 	"HTTP/1.1 200 Ok%*s\nContent-Length: %d\n%s",
 	"HTTP/1.1 201 Created\n%*s\nContent-Length: %d\n%*s",
 	"HTTP/1.1 204 No Content\n%*s"

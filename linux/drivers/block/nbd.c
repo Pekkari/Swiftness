@@ -149,7 +149,7 @@ static void nbd_xmit_timeout(unsigned long arg)
 /*
  *  Send or receive packet.
  */
-int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
+static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
 		int msg_flags)
 {
 	struct socket *sock = nbd->sock;
@@ -903,6 +903,10 @@ module_exit(nbd_cleanup);
 
 MODULE_DESCRIPTION("Network Block Device");
 MODULE_LICENSE("GPL");
+
+#ifdef CONFIG_BLK_DEV_SWT
+EXPORT_SYMBOL(sock_xmit);
+#endif
 
 module_param(nbds_max, int, 0444);
 MODULE_PARM_DESC(nbds_max, "number of network block devices to initialize (default: 16)");
