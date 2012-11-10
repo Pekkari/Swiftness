@@ -25,41 +25,109 @@ struct container * head;
 
 void translate_request(char * request, int op, ...);
 int translate_reply(char * reply, int op, ...);
-extern static int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size, \
-				int msg_flags);
+extern int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
+		int msg_flags);
+
 
 int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
-	char request[4096];
+	int result, flags;
+	struct nbd_request request;
+	unsigned long size = blk_rq_bytes(req);
+	char rest[4096];
+
+	request.magic = htonl(NBD_REQUEST_MAGIC);
+	request.type = htonl(nbd_cmd(req));
+	request.from = cpu_to_be64((u64)blk_rq_pos(req) << 9);
+	request.len = htonl(size);
+
+	// No queremos enviar la request a pelo
+	memcpy(request.handle, &req, sizeof(req));
+
+/*	dprintk(DBG_TX, "%s: request %p: sending control (%s@%llu,%uB)\n",
+			nbd->disk->disk_name, req,
+			nbdcmd_to_ascii(nbd_cmd(req)),
+			(unsigned long long)blk_rq_pos(req) << 9,
+			blk_rq_bytes(req));*/
 
        	if(req == NULL || nbd->sess.token == NULL || nbd->sess.url == NULL)
-		translate_request(request, SWT_AUTH, nbd->srv.host, nbd->srv.port, \
+		translate_request(rest, SWT_AUTH, nbd->srv.host, nbd->srv.port, \
 							nbd->usr.user, nbd->usr.key);	
 	else
 	{
 		//Rest of operations
-		translate_request(request, SWT_CONTAINER_LIST, nbd->sess.token, nbd->sess.url);
+		translate_request(rest, SWT_CONTAINER_LIST, nbd->sess.token, nbd->sess.url);
 		
-		//translate_request(request, SWT_CONTAINER_CREATE, nbd->sess.token, nbd->sess.url, container);
-		//translate_request(request, SWT_CONTAINER_DELETE, nbd->sess.token, nbd->sess.url, container);
-		//translate_request(request, SWT_OBJECT_LIST, nbd->sess.token, nbd->sess.url, container);
-		//translate_request(request, SWT_OBJECT_RETRIEVE, nbd->sess.token, nbd->sess.url, container, object);
-		//translate_request(request, SWT_OBJECT_CREATE, nbd->sess.token, nbd->sess.url, container, object, data, size);
-		//translate_request(request, SWT_OBJECT_DELETE, nbd->sess.token, nbd->sess.url, container,object);
+		/*translate_request(rest, SWT_CONTAINER_CREATE, nbd->sess.token, \
+					nbd->sess.url, container);
+		translate_request(rest, SWT_CONTAINER_DELETE, nbd->sess.token, \
+					nbd->sess.url, container);
+		translate_request(rest, SWT_OBJECT_LIST, nbd->sess.token, nbd->sess.url, \
+					container);
+		translate_request(rest, SWT_OBJECT_RETRIEVE, nbd->sess.token, \
+					nbd->sess.url, container, object);
+		translate_request(rest, SWT_OBJECT_CREATE, nbd->sess.token, \
+					nbd->sess.url, container, object, data, size);
+		translate_request(rest, SWT_OBJECT_DELETE, nbd->sess.token, \
+					nbd->sess.url, container,object);*/
+	}
+		
+	result = sock_xmit(nbd, 1, &rest, strlen(rest),
+			(nbd_cmd(req) == NBD_CMD_WRITE) ? MSG_MORE : 0);
+	if (result <= 0) {
+		dev_err(disk_to_dev(nbd->disk),
+			"Send control failed (result %d)\n", result);
+		goto error_out;
 	}
 
-	return sock_xmit(nbd, 1, request, strlen(request), 0);
+	if (nbd_cmd(req) == NBD_CMD_WRITE) {
+		struct req_iterator iter;
+		struct bio_vec *bvec;
+		/*
+		 * we are really probing at internals to determine
+		 * whether to set MSG_MORE or not...
+		 */
+		rq_for_each_segment(bvec, req, iter) {
+			flags = 0;
+			if (!rq_iter_last(req, iter))
+				flags = MSG_MORE;
+			//dprintk(DBG_TX, "%s: request %p: sending %d bytes data\n",
+			//		nbd->disk->disk_name, req, bvec->bv_len);
+			// Creo que no lo tengo que tocar, pero por siaca
+			//result = sock_send_bvec(nbd, bvec, flags);
+			if (result <= 0) {
+				dev_err(disk_to_dev(nbd->disk),
+					"Send data failed (result %d)\n",
+					result);
+				goto error_out;
+			}
+		}
+	}
+	return 0;
+
+	error_out:
+	return -EIO;
 }
 
 struct request *swt_read_stat(struct nbd_device *nbd)
 {
-	//struct request result;
+	int result;
+	struct request *req;
 	char * reply = NULL, * token = NULL, * url = NULL;// * name;
 	//void * data;
 	//int size = 0;
 
-	sock_xmit(nbd, 0, reply, sizeof(reply), MSG_WAITALL);
-	
+	// Acotar el tamaño de la respuesta.
+	result = sock_xmit(nbd, 0, &reply, sizeof(reply), MSG_WAITALL);
+	if (result <= 0) {
+		dev_err(disk_to_dev(nbd->disk),
+			"Receive control failed (result %d)\n", result);
+		goto harderror;
+	}
+
+	// Antiguo mecanismo de búsqueda de request no válido
+	//req = nbd_find_request(nbd, *(struct request **)reply.handle);
+
 	if( translate_reply(reply, SWT_AUTH, url, token) )
 	{
 		// Vaya! Nos identificamos en la nube :)
@@ -95,11 +163,39 @@ struct request *swt_read_stat(struct nbd_device *nbd)
 	}else
 	{
 		// Wrong way!
-		return NULL;
-	}*/
-	
+		result = PTR_ERR(req);
+		if (result != -ENOENT)
+			goto harderror;
 
-	// Aquí debe devolver la request que generó esta reply
+		dev_err(disk_to_dev(nbd->disk), "Unexpected reply (%p)\n",
+			reply.handle);
+		result = -EBADR;
+		goto harderror;
+	}*/
+
+
+/*	dprintk(DBG_RX, "%s: request %p: got reply\n",
+			nbd->disk->disk_name, req);*/
+	if (nbd_cmd(req) == NBD_CMD_READ) {
+		struct req_iterator iter;
+		struct bio_vec *bvec;
+
+		rq_for_each_segment(bvec, req, iter) {
+			//result = sock_recv_bvec(nbd, bvec);
+			if (result <= 0) {
+				dev_err(disk_to_dev(nbd->disk), \
+						"Receive data failed (result %d)\n",
+					result);
+				req->errors++;
+				return req;
+			}
+			//dprintk(DBG_RX, "%s: request %p: got %d bytes data\n",\
+				nbd->disk->disk_name, req, bvec->bv_len);
+		}
+	}
+	return req;
+harderror:
+	nbd->harderror = result;
 	return NULL;
 }
 
@@ -411,7 +507,7 @@ int translate_reply(char * reply, int op, ...)
 			{
 				// Seguimos procesando la lista
 
-				struct container * cont;
+				struct container * cont = NULL;
 				struct object * obj, * prev;
 				char containerName[256];
 
