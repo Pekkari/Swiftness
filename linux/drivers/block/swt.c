@@ -40,10 +40,7 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
 	int result, flags;
 	unsigned long size = blk_rq_bytes(req);
-	char rest[4096];
-
-	// Way to know where it starts
-	//request.from = cpu_to_be64((u64)blk_rq_pos(req) << 9);
+	char rest[2032];
 
 /*	dprintk(DBG_TX, "%s: request %p: sending control (%s@%llu,%uB)\n",
 			nbd->disk->disk_name, req,
@@ -69,9 +66,8 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 			translate_request(rest, SWT_CONTAINER_CREATE, nbd->sess.token, \
 				nbd->sess.url, filp->f_path.dentry->d_name.name);
 
-		// Remiendo requerido...
 		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
-				&& req->bio->bi_rw & REQ_WRITE && S_ISDIR(inode->i_mode))
+				&& req->bio->bi_rw & REQ_WRITE && IS_DEADDIR(inode))
 			translate_request(rest, SWT_CONTAINER_DELETE, nbd->sess.token, \
 				nbd->sess.url, filp->f_path.dentry->d_name.name);
 
@@ -88,14 +84,12 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 
 		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
 				&& req->bio->bi_rw & REQ_WRITE && S_ISREG(inode->i_mode))
-		// Remiendo requerido...
 			translate_request(rest, SWT_OBJECT_CREATE, nbd->sess.token, \
 				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
-				filp->f_path.dentry->d_name.name, data, size);
+				filp->f_path.dentry->d_name.name, NULL, size);
 
-		// Remiendo requerido...
 		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
-				&& req->bio->bi_rw & REQ_WRITE && S_ISREG(inode->i_mode))
+				&& S_ISREG(inode->i_mode) && inode->i_nlink == 0)
 			translate_request(rest, SWT_OBJECT_DELETE, nbd->sess.token, \
 				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
 				filp->f_path.dentry->d_name.name);
@@ -122,7 +116,6 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 				flags = MSG_MORE;
 			//dprintk(DBG_TX, "%s: request %p: sending %d bytes data\n",
 			//		nbd->disk->disk_name, req, bvec->bv_len);
-			// Creo que no lo tengo que tocar, pero por siaca
 			result = sock_send_bvec(nbd, bvec, flags);
 			if (result <= 0) {
 				dev_err(disk_to_dev(nbd->disk),
