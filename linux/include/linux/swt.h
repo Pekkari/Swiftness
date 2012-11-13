@@ -1,3 +1,10 @@
+/*
+ * include/linux/swt.h - Support for Openstack Swift through the nbd module
+ *
+ * Copyright 2012, José Ramón Muñoz Pekkarinen <koalinux@gmail.com>
+ * Released under the General Public License (GPL).
+ *
+ */
 
 #ifndef _SWT_H
 #define _SWT_H

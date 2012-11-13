@@ -1,3 +1,10 @@
+/*
+ * drivers/block/swt.c - Support for Openstack Swift through the nbd module
+ *
+ * Copyright 2012, José Ramón Muñoz Pekkarinen <koalinux@gmail.com>
+ * Released under the General Public License (GPL).
+ *
+ */
 
 #include <linux/kernel.h>
 #include <linux/blkdev.h>
@@ -5,6 +12,8 @@
 #include <linux/swt.h>
 #include <linux/string.h>
 #include <linux/socket.h>
+#include <linux/rmap.h>
+#include <linux/mount.h>
 
 struct object
 {
@@ -25,24 +34,16 @@ struct container * head;
 
 void translate_request(char * request, int op, ...);
 int translate_reply(char * reply, int op, ...);
-extern int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
-		int msg_flags);
-
+struct file *reverse_mapping(struct page * pg);
 
 int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
 	int result, flags;
-	struct nbd_request request;
 	unsigned long size = blk_rq_bytes(req);
 	char rest[4096];
 
-	request.magic = htonl(NBD_REQUEST_MAGIC);
-	request.type = htonl(nbd_cmd(req));
-	request.from = cpu_to_be64((u64)blk_rq_pos(req) << 9);
-	request.len = htonl(size);
-
-	// No queremos enviar la request a pelo
-	memcpy(request.handle, &req, sizeof(req));
+	// Way to know where it starts
+	//request.from = cpu_to_be64((u64)blk_rq_pos(req) << 9);
 
 /*	dprintk(DBG_TX, "%s: request %p: sending control (%s@%llu,%uB)\n",
 			nbd->disk->disk_name, req,
@@ -52,24 +53,52 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 
        	if(req == NULL || nbd->sess.token == NULL || nbd->sess.url == NULL)
 		translate_request(rest, SWT_AUTH, nbd->srv.host, nbd->srv.port, \
-							nbd->usr.user, nbd->usr.key);	
+					nbd->usr.user, nbd->usr.key);	
 	else
 	{
+		struct file * filp = reverse_mapping(req->bio->bi_io_vec->bv_page);
+		struct inode * inode = filp->f_path.dentry->d_inode; 
 		//Rest of operations
-		translate_request(rest, SWT_CONTAINER_LIST, nbd->sess.token, nbd->sess.url);
-		
-		/*translate_request(rest, SWT_CONTAINER_CREATE, nbd->sess.token, \
-					nbd->sess.url, container);
-		translate_request(rest, SWT_CONTAINER_DELETE, nbd->sess.token, \
-					nbd->sess.url, container);
-		translate_request(rest, SWT_OBJECT_LIST, nbd->sess.token, nbd->sess.url, \
-					container);
-		translate_request(rest, SWT_OBJECT_RETRIEVE, nbd->sess.token, \
-					nbd->sess.url, container, object);
-		translate_request(rest, SWT_OBJECT_CREATE, nbd->sess.token, \
-					nbd->sess.url, container, object, data, size);
-		translate_request(rest, SWT_OBJECT_DELETE, nbd->sess.token, \
-					nbd->sess.url, container,object);*/
+		if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry \
+				&& !(req->bio->bi_rw & REQ_WRITE) && S_ISDIR(inode->i_mode))
+			translate_request(rest, SWT_CONTAINER_LIST, nbd->sess.token, \
+				nbd->sess.url);
+
+		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
+				&& req->bio->bi_rw & REQ_WRITE && S_ISDIR(inode->i_mode))
+			translate_request(rest, SWT_CONTAINER_CREATE, nbd->sess.token, \
+				nbd->sess.url, filp->f_path.dentry->d_name.name);
+
+		// Remiendo requerido...
+		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
+				&& req->bio->bi_rw & REQ_WRITE && S_ISDIR(inode->i_mode))
+			translate_request(rest, SWT_CONTAINER_DELETE, nbd->sess.token, \
+				nbd->sess.url, filp->f_path.dentry->d_name.name);
+
+		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
+				&& !(req->bio->bi_rw & REQ_WRITE) && S_ISDIR(inode->i_mode))
+			translate_request(rest, SWT_OBJECT_LIST, nbd->sess.token,\
+				nbd->sess.url, filp->f_path.dentry->d_name.name);
+				
+		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
+				&& !(req->bio->bi_rw & REQ_WRITE) && S_ISREG(inode->i_mode))
+			translate_request(rest, SWT_OBJECT_RETRIEVE, nbd->sess.token, \
+				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
+				filp->f_path.dentry->d_name.name);
+
+		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
+				&& req->bio->bi_rw & REQ_WRITE && S_ISREG(inode->i_mode))
+		// Remiendo requerido...
+			translate_request(rest, SWT_OBJECT_CREATE, nbd->sess.token, \
+				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
+				filp->f_path.dentry->d_name.name, data, size);
+
+		// Remiendo requerido...
+		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
+				&& req->bio->bi_rw & REQ_WRITE && S_ISREG(inode->i_mode))
+			translate_request(rest, SWT_OBJECT_DELETE, nbd->sess.token, \
+				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
+				filp->f_path.dentry->d_name.name);
 	}
 		
 	result = sock_xmit(nbd, 1, &rest, strlen(rest),
@@ -94,7 +123,7 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 			//dprintk(DBG_TX, "%s: request %p: sending %d bytes data\n",
 			//		nbd->disk->disk_name, req, bvec->bv_len);
 			// Creo que no lo tengo que tocar, pero por siaca
-			//result = sock_send_bvec(nbd, bvec, flags);
+			result = sock_send_bvec(nbd, bvec, flags);
 			if (result <= 0) {
 				dev_err(disk_to_dev(nbd->disk),
 					"Send data failed (result %d)\n",
@@ -181,7 +210,7 @@ struct request *swt_read_stat(struct nbd_device *nbd)
 		struct bio_vec *bvec;
 
 		rq_for_each_segment(bvec, req, iter) {
-			//result = sock_recv_bvec(nbd, bvec);
+			result = sock_recv_bvec(nbd, bvec);
 			if (result <= 0) {
 				dev_err(disk_to_dev(nbd->disk), \
 						"Receive data failed (result %d)\n",
@@ -189,14 +218,38 @@ struct request *swt_read_stat(struct nbd_device *nbd)
 				req->errors++;
 				return req;
 			}
-			//dprintk(DBG_RX, "%s: request %p: got %d bytes data\n",\
-				nbd->disk->disk_name, req, bvec->bv_len);
+			//dprintk(DBG_RX, "%s: request %p: got %d bytes data\n",
+				//nbd->disk->disk_name, req, bvec->bv_len);
 		}
 	}
 	return req;
 harderror:
 	nbd->harderror = result;
 	return NULL;
+}
+
+struct file *reverse_mapping(struct page * pg)
+{
+	struct address_space *mapping = pg->mapping;
+	pgoff_t pgoff = pg->index << (PAGE_CACHE_SHIFT - PAGE_SHIFT);
+	struct vm_area_struct *vma;
+	struct prio_tree_iter iter;
+	struct file * f = NULL;
+
+	mutex_lock(&mapping->i_mmap_mutex);
+	vma_prio_tree_foreach(vma, &iter, &mapping->i_mmap, pgoff, pgoff) {
+		unsigned long address = page_address_in_vma(pg, vma);
+		if (address == -EFAULT)
+			continue;
+		else
+		{
+			f = vma->vm_file;
+			goto out;
+		}
+	}
+	out:
+	mutex_unlock(&mapping->i_mmap_mutex);
+	return f;
 }
 
 void splitUrl(char * host, char * tail)
