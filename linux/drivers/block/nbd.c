@@ -221,6 +221,7 @@ int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
 	return result;
 }
 
+#ifndef CONFIG_BLK_DEV_SWT
 static inline int sock_send_bvec(struct nbd_device *nbd, struct bio_vec *bvec,
 		int flags)
 {
@@ -231,6 +232,7 @@ static inline int sock_send_bvec(struct nbd_device *nbd, struct bio_vec *bvec,
 	kunmap(bvec->bv_page);
 	return result;
 }
+#endif
 
 /* always call with the tx_lock held */
 static int nbd_send_req(struct nbd_device *nbd, struct request *req)
@@ -312,6 +314,7 @@ out:
 	return ERR_PTR(err);
 }
 
+#ifndef CONFIG_BLK_DEV_SWT
 static inline int sock_recv_bvec(struct nbd_device *nbd, struct bio_vec *bvec)
 {
 	int result;
@@ -321,6 +324,7 @@ static inline int sock_recv_bvec(struct nbd_device *nbd, struct bio_vec *bvec)
 	kunmap(bvec->bv_page);
 	return result;
 }
+#endif
 
 /* NULL returned = something went wrong, inform userspace */
 static struct request *nbd_read_stat(struct nbd_device *nbd)

@@ -43,6 +43,7 @@ enum {
 
 #include <linux/wait.h>
 #include <linux/mutex.h>
+#include <linux/socket.h>
 
 /* values for flags field */
 #define NBD_READ_ONLY 0x0001
@@ -139,6 +140,30 @@ struct nbd_reply {
 
 int swt_send_req(struct nbd_device *nbd, struct request *req);
 struct request *swt_read_stat(struct nbd_device *nbd);
+
+int sock_xmit(struct nbd_device *nbd, int send, void *buf, int size,
+		int msg_flags);
+
+static inline int sock_send_bvec(struct nbd_device *nbd, struct bio_vec *bvec,
+		int flags)
+{
+	int result;
+	void *kaddr = kmap(bvec->bv_page);
+	result = sock_xmit(nbd, 1, kaddr + bvec->bv_offset,
+			   bvec->bv_len, flags);
+	kunmap(bvec->bv_page);
+	return result;
+}
+
+static inline int sock_recv_bvec(struct nbd_device *nbd, struct bio_vec *bvec)
+{
+	int result;
+	void *kaddr = kmap(bvec->bv_page);
+	result = sock_xmit(nbd, 0, kaddr + bvec->bv_offset, bvec->bv_len,
+			MSG_WAITALL);
+	kunmap(bvec->bv_page);
+	return result;
+}
 
 #else
 int swt_send_req(struct nbd_device *nbd, struct request *req)
