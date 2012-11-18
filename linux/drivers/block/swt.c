@@ -14,33 +14,24 @@
 #include <linux/socket.h>
 #include <linux/rmap.h>
 #include <linux/mount.h>
+#include <linux/list.h>
+#include <linux/kfifo.h>
 
-struct object
-{
-	char * name;
-	int size;
-	struct object * next;
-};
-
-struct container
-{
-	char * name;
-	int size;
-	struct container * next;
-	struct object * first;
-};
-
+static LIST_HEAD(unprocessed);
 struct container * head;
 
 void translate_request(char * request, int op, ...);
 int translate_reply(char * reply, int op, ...);
 struct file *reverse_mapping(struct page * pg);
+struct swt_op *peek_req_list(struct nbd_device *nbd, struct swt_op *head, \
+				struct swt_reply *reply_op);
 
 int swt_send_req(struct nbd_device *nbd, struct request *req)
 {
 	int result, flags;
 	unsigned long size = blk_rq_bytes(req);
-	char rest[2032];
+	char rest[2024];
+	struct swt_op * op_desc = kmalloc(sizeof(struct swt_op),GFP_KERNEL);
 
 /*	dprintk(DBG_TX, "%s: request %p: sending control (%s@%llu,%uB)\n",
 			nbd->disk->disk_name, req,
@@ -49,8 +40,13 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 			blk_rq_bytes(req));*/
 
        	if(req == NULL || nbd->sess.token == NULL || nbd->sess.url == NULL)
+	{
+
+		op_desc->op = SWT_AUTH;
 		translate_request(rest, SWT_AUTH, nbd->srv.host, nbd->srv.port, \
-					nbd->usr.user, nbd->usr.key);	
+					nbd->usr.user, nbd->usr.key);
+
+	}
 	else
 	{
 		struct file * filp = reverse_mapping(req->bio->bi_io_vec->bv_page);
@@ -58,49 +54,87 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 		//Rest of operations
 		if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry \
 				&& !(req->bio->bi_rw & REQ_WRITE) && S_ISDIR(inode->i_mode))
+		{
+
+			op_desc->op = SWT_CONTAINER_LIST;
 			translate_request(rest, SWT_CONTAINER_LIST, nbd->sess.token, \
 				nbd->sess.url);
 
-		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
+		}else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
 				&& req->bio->bi_rw & REQ_WRITE && S_ISDIR(inode->i_mode))
+		{
+
+			op_desc->op = SWT_CONTAINER_CREATE;
+			op_desc->container = filp->f_path.dentry->d_name.name;
 			translate_request(rest, SWT_CONTAINER_CREATE, nbd->sess.token, \
-				nbd->sess.url, filp->f_path.dentry->d_name.name);
+				nbd->sess.url, op_desc->container);
 
-		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
+		}else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
 				&& req->bio->bi_rw & REQ_WRITE && IS_DEADDIR(inode))
+		{
+
+			op_desc->op = SWT_CONTAINER_DELETE;
+			op_desc->container = filp->f_path.dentry->d_name.name;
 			translate_request(rest, SWT_CONTAINER_DELETE, nbd->sess.token, \
-				nbd->sess.url, filp->f_path.dentry->d_name.name);
+				nbd->sess.url, op_desc->container);
 
-		else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
+		}else if ( filp->f_path.mnt->mnt_root == filp->f_path.dentry->d_parent \
 				&& !(req->bio->bi_rw & REQ_WRITE) && S_ISDIR(inode->i_mode))
+		{
+
+			op_desc->op = SWT_OBJECT_LIST;
+			op_desc->container = filp->f_path.dentry->d_name.name;
 			translate_request(rest, SWT_OBJECT_LIST, nbd->sess.token,\
-				nbd->sess.url, filp->f_path.dentry->d_name.name);
+				nbd->sess.url, op_desc->container);
 				
-		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
+		}else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
 				&& !(req->bio->bi_rw & REQ_WRITE) && S_ISREG(inode->i_mode))
+		{
+			
+			op_desc->op = SWT_OBJECT_RETRIEVE;
+			op_desc->container = filp->f_path.dentry->d_parent->d_name.name;
+			op_desc->object = filp->f_path.dentry->d_name.name;
 			translate_request(rest, SWT_OBJECT_RETRIEVE, nbd->sess.token, \
-				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
-				filp->f_path.dentry->d_name.name);
+				nbd->sess.url, op_desc->container, op_desc->object);
 
-		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
+		}else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
 				&& req->bio->bi_rw & REQ_WRITE && S_ISREG(inode->i_mode))
+		{
+			
+			op_desc->op = SWT_OBJECT_CREATE;
+			op_desc->container = filp->f_path.dentry->d_parent->d_name.name;
+			op_desc->object = filp->f_path.dentry->d_name.name;
 			translate_request(rest, SWT_OBJECT_CREATE, nbd->sess.token, \
-				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
-				filp->f_path.dentry->d_name.name, NULL, size);
+				nbd->sess.url, op_desc->container, op_desc->object, \
+				NULL, size);
 
-		else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
+		}else if ( filp->f_path.mnt->mnt_root != filp->f_path.dentry->d_parent \
 				&& S_ISREG(inode->i_mode) && inode->i_nlink == 0)
+		{
+			
+			op_desc->op = SWT_OBJECT_DELETE;
+			op_desc->container = filp->f_path.dentry->d_parent->d_name.name;
+			op_desc->object = filp->f_path.dentry->d_name.name;
 			translate_request(rest, SWT_OBJECT_DELETE, nbd->sess.token, \
-				nbd->sess.url, filp->f_path.dentry->d_parent->d_name.name,\
-				filp->f_path.dentry->d_name.name);
+				nbd->sess.url, op_desc->container, op_desc->object);
+
+		}
 	}
 		
 	result = sock_xmit(nbd, 1, &rest, strlen(rest),
 			(nbd_cmd(req) == NBD_CMD_WRITE) ? MSG_MORE : 0);
-	if (result <= 0) {
+	if (result <= 0) 
+	{
 		dev_err(disk_to_dev(nbd->disk),
 			"Send control failed (result %d)\n", result);
 		goto error_out;
+	}
+	else
+	{
+		op_desc->req = req;
+		if(kfifo_in(nbd->pending, op_desc, sizeof(struct swt_op)) != \
+			sizeof(struct swt_op))
+			goto error_out;
 	}
 
 	if (nbd_cmd(req) == NBD_CMD_WRITE) {
@@ -133,81 +167,127 @@ int swt_send_req(struct nbd_device *nbd, struct request *req)
 
 struct request *swt_read_stat(struct nbd_device *nbd)
 {
-	int result;
-	struct request *req;
-	char * reply = NULL, * token = NULL, * url = NULL;// * name;
-	//void * data;
-	//int size = 0;
+	int res;
+	struct request *req = NULL;
+	struct swt_op * head = NULL, * op = NULL;
+	char * reply = NULL, * token = NULL, * url = NULL, * container = NULL, * object = NULL;
+	struct swt_reply * reply_op = kmalloc(sizeof(struct swt_reply), GFP_KERNEL);
+	void * data = NULL;
+	int size = 0;
 
-	// Acotar el tamaño de la respuesta.
-	result = sock_xmit(nbd, 0, &reply, sizeof(reply), MSG_WAITALL);
-	if (result <= 0) {
+	// Inicializamos la lista
+	INIT_LIST_HEAD(&reply_op->unprocessed);
+
+	res = sock_xmit(nbd, 0, &reply, sizeof(reply), MSG_WAITALL);
+	if (res <= 0) {
 		dev_err(disk_to_dev(nbd->disk),
-			"Receive control failed (result %d)\n", result);
+			"Receive control failed (result %d)\n", res);
 		goto harderror;
 	}
 
-	// Antiguo mecanismo de búsqueda de request no válido
-	//req = nbd_find_request(nbd, *(struct request **)reply.handle);
-
-	if( translate_reply(reply, SWT_AUTH, url, token) )
+	if( (res = (2 == sscanf(reply, swt_ans_format[SWT_AUTH], token, url))) )
 	{
 		// Vaya! Nos identificamos en la nube :)
 		nbd->sess.url = url;
 		nbd->sess.token = token;
-	}/*else if ( translate_reply(reply, SWT_CONTAINER_LIST, url, token) ) 
+		reply_op->op = SWT_AUTH;
+
+	}else if ( (res = (2 == sscanf(reply, swt_ans_format[SWT_CONTAINER_LIST], \
+					container, size))) ) 
 	{
 		// Tiro errado, listado de objetos?
+		reply_op->op = SWT_CONTAINER_LIST;
+		op = peek_req_list(nbd, head, reply_op);
+		if (req)
+			translate_reply(reply, SWT_CONTAINER_LIST);
 
-	}else if ( translate_reply(reply, SWT_CONTAINER_CREATE) )
+	}else if ( (res = (!strncmp(reply, swt_ans_format[SWT_CONTAINER_CREATE],\
+					strlen(swt_ans_format[SWT_CONTAINER_CREATE])))) )
 	{
 		// Intentamos con la creación de contenedores :)
+		reply_op->op = SWT_CONTAINER_CREATE;
+		op = peek_req_list(nbd, head, reply_op);
+		if (op)
+			translate_reply(reply, SWT_CONTAINER_CREATE, op->container);
 		
-	}else if ( translate_reply(reply, SWT_CONTAINER_DELETE) )
+	}else if ( (res = (!strncmp(reply, swt_ans_format[SWT_CONTAINER_DELETE], \
+				strlen(swt_ans_format[SWT_CONTAINER_DELETE])))) )
 	{
 		// Borrado de contenedores?
-		
-	}else if ( translate_reply(reply, SWT_OBJECT_LIST) ) 
-	{
-		// Grrrr! Recuperación de objetos?
+		reply_op->op = SWT_CONTAINER_DELETE;		
+		op = peek_req_list(nbd, head, reply_op);
+		if (op)
+			translate_reply(reply, SWT_CONTAINER_DELETE, op->container);
 
-	}else if ( translate_reply(reply, SWT_OBJECT_RETRIEVE, data, size) ) 
+	}else if ( (res = (2 == sscanf(reply, swt_ans_format[SWT_OBJECT_LIST], \
+					object, size))) ) 
+	{
+		// Grrrr! Listado de objetos?
+		reply_op->op = SWT_OBJECT_LIST;
+		op = peek_req_list(nbd, head, reply_op);
+		if (op)
+			translate_reply(reply, SWT_OBJECT_LIST, container);
+
+	}else if ( (res = (2 == sscanf(reply, swt_ans_format[SWT_OBJECT_RETRIEVE], \
+					object, size))) ) 
 	{
 		// Ya se! Recuperación de objetos!
+		reply_op->op = SWT_OBJECT_RETRIEVE;
+		reply_op->size = size;
+		op = peek_req_list(nbd, head, reply_op);
+		if (op)
+			translate_reply(reply, SWT_OBJECT_RETRIEVE, op->container,\
+					op->object, data, size);
 
-	}else if ( translate_reply(reply, SWT_OBJECT_CREATE, size) ) 
+	}else if ( (res = (1 == sscanf(reply, swt_ans_format[SWT_OBJECT_CREATE], \
+						size))) ) 
 	{
 		// No estarás creando un objeto ¿no?
+		reply_op->op = SWT_OBJECT_CREATE;
+		op = peek_req_list(nbd, head, reply_op);
+		if (op)
+			translate_reply(reply, SWT_OBJECT_CREATE, op->container, \
+				op->object, size);
 
-	}else if ( translate_reply(reply, SWT_OBJECT_DELETE) ) 
+	}else if ( (res = (!strncmp(reply, swt_ans_format[SWT_OBJECT_DELETE], \
+				strlen(swt_ans_format[SWT_OBJECT_DELETE])))) ) 
 	{
 		// Dime que es un borrado de objetos... :'(
+		reply_op->op = SWT_OBJECT_DELETE;
+		op = peek_req_list(nbd, head, reply_op);
+		if (op)
+			translate_reply(reply, SWT_OBJECT_DELETE, op->container, \
+				op->object);
+
 	}else
 	{
 		// Wrong way!
-		result = PTR_ERR(req);
-		if (result != -ENOENT)
+		res = PTR_ERR(req);
+		if (res != -ENOENT)
 			goto harderror;
 
 		dev_err(disk_to_dev(nbd->disk), "Unexpected reply (%p)\n",
-			reply.handle);
-		result = -EBADR;
+			reply);
+		res = -EBADR;
 		goto harderror;
-	}*/
+	}
 
+	if(op)
+		req = op->req;
 
+	// Controlar que se llegue aquí con la reply semiprocesada
 /*	dprintk(DBG_RX, "%s: request %p: got reply\n",
 			nbd->disk->disk_name, req);*/
-	if (nbd_cmd(req) == NBD_CMD_READ) {
+	if (req && nbd_cmd(req) == NBD_CMD_READ) {
 		struct req_iterator iter;
 		struct bio_vec *bvec;
 
 		rq_for_each_segment(bvec, req, iter) {
-			result = sock_recv_bvec(nbd, bvec);
-			if (result <= 0) {
+			res = sock_recv_bvec(nbd, bvec);
+			if (res <= 0) {
 				dev_err(disk_to_dev(nbd->disk), \
 						"Receive data failed (result %d)\n",
-					result);
+					res);
 				req->errors++;
 				return req;
 			}
@@ -217,8 +297,41 @@ struct request *swt_read_stat(struct nbd_device *nbd)
 	}
 	return req;
 harderror:
-	nbd->harderror = result;
+	kfree(reply);
+	nbd->harderror = res;
 	return NULL;
+}
+//	list_entry(reply_op->unprocessed.prev, struct swt_reply, unprocessed);
+//	if(kfifo_out_peek(nbd->pending, head, sizeof(struct swt_op)) != sizeof(struct swt_op)) goto harderror;
+
+struct swt_op *peek_req_list(struct nbd_device *nbd, struct swt_op *head, \
+				struct swt_reply *reply_op)
+{
+	struct swt_op * op = NULL;
+
+	if (!kfifo_is_empty(nbd->pending) && kfifo_out_peek(nbd->pending, head, \
+					sizeof(struct swt_op)) == sizeof(struct swt_op))
+	{
+
+		if(head != NULL && head->op == reply_op->op)
+		{
+				
+			// Lo sacamos de la cola y nos cargamos la reply
+			if(kfifo_out(nbd->pending, head, sizeof(struct swt_op)))
+				return NULL;
+
+			op = head;
+
+		}
+		else
+		{
+			// Metemos el elemento en la pila
+			list_add_tail(&reply_op->unprocessed,&unprocessed);
+			return NULL;
+		}
+	}
+
+	return op;
 }
 
 struct file *reverse_mapping(struct page * pg)
@@ -458,6 +571,8 @@ int translate_reply(char * reply, int op, ...)
 {
 	char * token = NULL, * url = NULL, * container = NULL, * object = NULL;
 	void * data;
+	struct container * cont = NULL, * prev_cont = NULL;
+	struct object * obj = NULL, * prev_obj = NULL;
 	int size = 0, res = 0;
 	va_list args;
 	va_start(args, op);
@@ -472,131 +587,85 @@ int translate_reply(char * reply, int op, ...)
 
 		case SWT_CONTAINER_LIST:
 
-			if ((res = (2 == sscanf(reply, swt_ans_format[SWT_CONTAINER_LIST], \
-						container, size))))
+			// Limpiamos la lista si está llena
+			if (head != NULL)
+				freeContainers();	
+
+			while((res = (2 == sscanf(reply, \
+					swt_ans_format[SWT_CONTAINER_LIST], \
+					container, size)))) 
 			{
-				// Seguimos procesando la lista
-				struct container * cont, * prev;
-
-				// Limpiamos la lista si está llena
-				if (head != NULL)
-					freeContainers();	
-
-				cont = kmalloc(sizeof(struct container), GFP_KERNEL);
+				cont = kmalloc(sizeof(struct container), \
+							GFP_KERNEL);
 				cont->name = container;
 				cont->size = size;
-				head = prev = cont;
-				
-				updateReply(reply);	
-				if ((res = (2 == sscanf(reply, \
-					swt_ans_format[SWT_CONTAINER_LIST], container, size))))
-				{
-					do 
-					{
-						cont = kmalloc(sizeof(struct container), \
-									GFP_KERNEL);
-						cont->name = container;
-						cont->size = size;
-						prev->next = cont;
-						prev = cont;
+				prev_cont->next = cont;
+				prev_cont = cont;
 
-						updateReply(reply);
+				updateReply(reply);
 
-					}while((res = (2 == sscanf(reply, \
-							swt_ans_format[SWT_CONTAINER_LIST], \
-							container, size))));
-				}
 			}
 			break;
 
 		case SWT_CONTAINER_CREATE:
 
-			if ((res = (!strncmp(reply, swt_ans_format[SWT_CONTAINER_CREATE],\
-					strlen(swt_ans_format[SWT_CONTAINER_CREATE])))))
-			{
-				// Generamos el contenedor y lo metemos en la lista de
-				// de contenedores
-				struct container * cont, * prev;
-				char containerName[256];
+			// Generamos el contenedor y lo metemos en la lista de
+			// de contenedores
 
-				// find container name
-				prev = seekContainer(containerName);
-				cont = kmalloc(sizeof(struct container), GFP_KERNEL);
-				cont->name = containerName;
-				cont->size = size;
-				cont->next = prev->next;
-				prev->next = cont;
-			}
+			container = va_arg(args, char *);
+			prev_cont = seekContainer(container);
+			cont = kmalloc(sizeof(struct container), GFP_KERNEL);
+			cont->name = container;
+			cont->size = size;
+			cont->next = prev_cont->next;
+			prev_cont->next = cont;
 			break;
 
 		case SWT_CONTAINER_DELETE:
 
-			if ((res = (!strncmp(reply, swt_ans_format[SWT_CONTAINER_DELETE], \
-				strlen(swt_ans_format[SWT_CONTAINER_DELETE])))))
-			{
-				// Buscamos el contenedor y lo eliminamos de la lista
-				struct container * cont, * prev;
-				char containerName[256];
+			// Buscamos el contenedor y lo eliminamos de la lista
 
-				// find container name
-				prev = seekContainer(containerName);
-				cont = prev->next;
-				prev->next = cont->next;
-				kfree(cont);
-			}
+			container = va_arg(args, char *);
+			prev_cont = seekContainer(container);
+			cont = prev_cont->next;
+			prev_cont->next = cont->next;
+			kfree(cont);
 			break;
 
 		case SWT_OBJECT_LIST:
 		
-			if ((res = (2 == sscanf(reply, swt_ans_format[SWT_OBJECT_LIST], \
-					object, size))))
+			// Seguimos procesando la lista
+
+			container = va_arg(args, char *);
+
+			if ((res=(1 == sscanf(reply, "%*s\n<container name =%s>%*s", \
+				container))))
+				cont = matchContainer(container);
+
+			if ( cont != NULL)
 			{
-				// Seguimos procesando la lista
 
-				struct container * cont = NULL;
-				struct object * obj, * prev;
-				char containerName[256];
+				// Limpiamos la lista si está llena
+				if (cont->first != NULL)
+					freeObjects(cont);	
 
-				if ((res=(1 == sscanf(reply, "%*s\n<container name =%s>%*s", \
-					containerName))))
-					cont = matchContainer(containerName);
-
-				if ( cont != NULL)
+				while((res = (2 == sscanf(reply, \
+					swt_ans_format[SWT_OBJECT_LIST], \
+					object, size)))) 
 				{
-
-					// Limpiamos la lista si está llena
-					if (cont->first != NULL)
-						freeObjects(cont);	
-
-					obj = kmalloc(sizeof(struct object), GFP_KERNEL);
-					obj->name = object;
+					obj = kmalloc(sizeof(struct object), \
+								GFP_KERNEL);
+					obj->name = container;
 					obj->size = size;
-					prev = obj;
-					
-					updateReply(reply);	
-					if ((res = (2 == sscanf(reply, \
-						swt_ans_format[SWT_OBJECT_LIST], \
-						object, size))))
-					{
-						do 
-						{
-							obj = kmalloc(sizeof(struct object), \
-										GFP_KERNEL);
-							obj->name = container;
-							obj->size = size;
-							prev->next = obj;
-							prev = obj;
+					prev_obj->next = obj;
+					prev_obj = obj;
 
-							updateReply(reply);
-
-					}while((res = (2 == sscanf(reply, \
-							swt_ans_format[SWT_OBJECT_LIST], \
-							object, size))));
-					}
+					updateReply(reply);
 
 				}
-				else res = 0;
+
 			}
+			else res = 0;
 			break;
 
 		case SWT_OBJECT_RETRIEVE:
@@ -609,50 +678,40 @@ int translate_reply(char * reply, int op, ...)
 
 		case SWT_OBJECT_CREATE:
 
+			container = va_arg(args, char *);
+			object = va_arg(args, char *);
 			size = va_arg(args, int);
-			if ((res = (1 == sscanf(reply, swt_ans_format[SWT_OBJECT_CREATE], \
-						size))))
-			{
-				// Inserta el objeto en la lista
-				struct container * cont;
-				struct object * obj, * prev;
-				char containerName[256], objectName[1024];
+			// Inserta el objeto en la lista
 
-				// find container name
-				cont = matchContainer(containerName);
-				
-				if ( cont != NULL )
-				{
-					// find object name
-					prev = seekObject(cont, objectName);
-					obj = kmalloc(sizeof(struct object), GFP_KERNEL);
-					obj->name = objectName;
-					obj->size = size;
-					obj->next = prev->next;
-					prev->next = obj;
-				}
+			cont = matchContainer(container);
+			
+			if ( cont != NULL )
+			{
+
+				prev_obj = seekObject(cont, object);
+				obj = kmalloc(sizeof(struct object), GFP_KERNEL);
+				obj->name = object;
+				obj->size = size;
+				obj->next = prev_obj->next;
+				prev_obj->next = obj;
+
 			}
 			break;
 
 		case SWT_OBJECT_DELETE:
-			if ((res = (!strncmp(reply, swt_ans_format[SWT_OBJECT_DELETE], \
-				strlen(swt_ans_format[SWT_OBJECT_DELETE])))))
-			{
-				// Buscamos el objeto y lo retiramos de la lista de objetos
-				struct container * cont;
-				struct object * obj, * prev;
-				char containerName[256],objectName[1024];
 
-				// find container name
-				cont = matchContainer(containerName);
-				if ( cont != NULL )
-				{
-					// find object name
-					prev = seekObject(cont, objectName);
-					obj = prev->next;
-					prev->next = obj->next;
-					kfree(obj);
-				}
+			// Buscamos el objeto y lo retiramos de la lista de objetos
+
+			container = va_arg(args, char *);
+			object = va_arg(args, char *);
+			cont = matchContainer(container);
+
+			if ( cont != NULL )
+			{
+				prev_obj = seekObject(cont, object);
+				obj = prev_obj->next;
+				prev_obj->next = obj->next;
+				kfree(obj);
 			}
 			break;
 

@@ -71,6 +71,8 @@ struct swt_sess {
 	char * url;
 	char * token;
 };
+
+
 #endif
 
 struct nbd_device {
@@ -103,6 +105,7 @@ struct nbd_device {
 	struct swt_auth usr;
 	struct swt_serv srv;
 	struct swt_sess sess;
+	struct kfifo * pending;
 #endif
 };
 

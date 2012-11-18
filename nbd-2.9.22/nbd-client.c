@@ -246,7 +246,7 @@ void setsizes(int nbd, u64 size64, int blocksize, u32 flags) {
 	ioctl(nbd, NBD_CLEAR_SOCK);
 
 	/* ignore error as kernel may not support */
-	ioctl(nbd, NBD_SET_FLAGS, (unsigned long) flags);
+	//ioctl(nbd, NBD_SET_FLAGS, (unsigned long) flags);
 
 	if (ioctl(nbd, BLKROSET, (unsigned long) &read_only) < 0)
 		err("Unable to set read-only attribute for device");
@@ -470,6 +470,7 @@ int main(int argc, char *argv[]) {
 		struct swt_auth auth;
 		auth.user = user;
 		auth.key = key;
+		ioctl(nbd, NBD_SET_BACKEND);
 		ioctl(nbd, NBD_SWT_CONNECT, &auth);
 	}
 	set_timeout(nbd, timeout);

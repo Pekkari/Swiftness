@@ -37,6 +37,9 @@
 #include <asm/types.h>
 
 #include <linux/nbd.h>
+#ifdef CONFIG_BLK_DEV_SWT
+#include <linux/kfifo.h>
+#endif
 
 #define NBD_MAGIC 0x68797548
 
@@ -869,6 +872,10 @@ static int __init nbd_init(void)
 		nbd_dev[i].type = NBD_DEFAULT;
 		nbd_dev[i].send_req = nbd_send_req;
 		nbd_dev[i].read_stat = nbd_read_stat;
+#ifdef CONFIG_BLK_DEV_SWT
+		if(kfifo_alloc(nbd_dev[i].pending, PAGE_SIZE, GFP_KERNEL))
+			goto out;
+#endif
 	}
 
 	return 0;

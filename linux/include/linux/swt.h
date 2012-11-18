@@ -44,4 +44,32 @@ char * swt_ans_format[] = {
 	"HTTP/1.1 204 No Content\n%*s"
 };
 
+struct swt_op {
+	int op;
+	const char * container;
+	const char * object;
+	struct request * req;
+};
+
+struct object
+{
+	char * name;
+	int size;
+	struct object * next;
+};
+
+struct container
+{
+	char * name;
+	int size;
+	struct container * next;
+	struct object * first;
+};
+
+struct swt_reply {
+	int op;
+	int size;
+	struct list_head unprocessed;
+};
+
 #endif
