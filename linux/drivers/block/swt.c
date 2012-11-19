@@ -375,7 +375,7 @@ void identify(char * request, char * host, int port, char * user, char * key)
 
 void listContainers(char * request, char * token, char * url)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);	
 
@@ -384,7 +384,7 @@ void listContainers(char * request, char * token, char * url)
 
 void createContainer(char * request, char * token, char * url, char * name)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);	
 
@@ -393,7 +393,7 @@ void createContainer(char * request, char * token, char * url, char * name)
 
 void deleteContainer(char * request, char * token, char * url, char * name)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);	
 
@@ -402,7 +402,7 @@ void deleteContainer(char * request, char * token, char * url, char * name)
 
 void listObjects(char * request, char * token, char * url, char * container)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);	
 
@@ -411,7 +411,7 @@ void listObjects(char * request, char * token, char * url, char * container)
 
 void retrieveObject(char * request, char * token, char * url, char * container, char * object)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);
 
@@ -420,7 +420,7 @@ void retrieveObject(char * request, char * token, char * url, char * container, 
 
 void createObject(char * request, char * token, char * url, char * container, char * object, void * data, int size)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);	
 
@@ -429,7 +429,7 @@ void createObject(char * request, char * token, char * url, char * container, ch
 
 void deleteObject(char * request, char * token, char * url, char * container, char * object)
 {
-	char * host = url, * tail = url;
+	char host[256], * tail = url;
 
 	splitUrl(host,tail);	
 
