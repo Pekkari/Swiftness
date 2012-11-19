@@ -27,7 +27,7 @@ char * swt_ops_format[] = {
 	"GET /%s?format=xml HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"PUT /%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"DELETE /%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
-	"GET /%s/%s HTTP/1.1\n Host: %s\nX-Auth-Token: %s\n",
+	"GET /%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"GET /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"PUT /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\nContent-Length: %i\n%s",
 	"DELETE /%s/%s/%s HTTP/1.1\nHost: %s\n X-Auth-Token: %s\n"
