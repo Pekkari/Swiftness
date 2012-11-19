@@ -30,7 +30,7 @@ char * swt_ops_format[] = {
 	"GET /%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"GET /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n",
 	"PUT /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\nContent-Length: %i\n%s",
-	"DELETE /%s/%s/%s HTTP/1.1\nHost: %s\n X-Auth-Token: %s\n"
+	"DELETE /%s/%s/%s HTTP/1.1\nHost: %s\nX-Auth-Token: %s\n"
 };
 
 char * swt_ans_format[] = {
