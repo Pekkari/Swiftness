@@ -2839,6 +2839,8 @@ Envolver una librería con diseño pobre.
 	Para el diseño de los datos gestionados por nuestra plataforma utilizaremos el conocido modelo de dominios, por su proximidad con los modelos de datos orientados a objetos. Aunque las posteriores implementaciones se realizarán con lenguajes no orientados a objetos, si existe cierta correspondencia de los elementos a almacenar con objetos pertenecientes a sus respectivas clases, salvando la distancia de que estos no tendrán la posibilidad de hacer operaciones sobre sí mismos o sobre otras clases con las que se relacionen.
 	El modelo siguiente, resalta ciertos objetos, con intención de indicar que son objetos propios del núcleo de GNU/Linux. Estos objetos no serán detallados ampliamente, y pueden ser consultados en la documentación ofrecida dentro de la carpeta “Documentation” de las fuentes del núcleo, en la documentación ofrecida por el proyecto “The Linux Documentation Project”, TLDP, o en cualquiera de las referencias ofrecidas al final de este documento. La intención de incluirlos es su relación con los objetos que nuestra plataforma gestiona.
 
+
+
 	Las entidades existentes en nuestro sistema se recogen en las siguientes tablas:
 
 	
@@ -2918,7 +2920,52 @@ Tamaño del objeto modificado
 
 6.5 Diseño lógico.
 
-	
+	En cuanto al diseño lógico, poco puede destacarse, puesto que las entidades detalladas anteriormente, que serán de interés de cara a la implementación del proyecto que nos concierne, tienen su correspondencia directa con una o varias estructuras en lenguaje de programación C. Estas estructuras se almacenan en espacio del núcleo, conllevando el consecuente peligro de perjudicar el rendimiento de éste, si no se limpia cuidadosamente el espacio utilizado por cualquiera de ellas, cuando dejan de ser útiles.
+	Las estructuras estarán formadas por los campos detallados en el diseño de datos detallado en el apartado 6.4, añadiéndole  los campos que corresponden a la relación de la estructura, con otra del mismo tipo, o de uno distinto. Las estructuras entonces son las siguientes:
+
+struct swt_auth {
+	char * user;
+	char * key;
+};
+
+struct swt_serv {
+	char * host;
+	int port;
+};
+
+struct swt_sess {
+	char * url;
+	char * token;
+};
+
+struct swt_op {
+	int op;
+	const char * container;
+	const char * object;
+	struct request * req;
+};
+
+struct object
+{
+	char * name;
+	int size;
+	struct object * next;
+};
+
+
+struct container
+{
+	char * name;
+	int size;
+	struct container * next;
+	struct object * first;
+};
+
+struct swt_reply {
+	int op;
+	int size;
+	struct list_head unprocessed;
+};
 7 Glosario.
 
 Cloud Storage:  almacenamiento en la nube, es decir, en internet.
