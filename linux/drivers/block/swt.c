@@ -418,7 +418,7 @@ void retrieveObject(char * request, char * token, char * url, char * container, 
 	sprintf(request, swt_ops_format[SWT_OBJECT_RETRIEVE], tail, container, object, host, token);  
 }
 
-void createObject(char * request, char * token, char * url, char * container, char * object, void * data, int size)
+void createObject(char * request, char * token, char * url, char * container, char * object, void * data, long size)
 {
 	char host[256], * tail = url;
 
@@ -440,7 +440,8 @@ void translate_request(char * request, int op, ...)
 {
 	char * host, * user, * pass, * token, * url, * container, * object;
 	void * data;
-	int port, size;
+	int port;
+	long size;
 	va_list args;
 	va_start(args, op);
 	
