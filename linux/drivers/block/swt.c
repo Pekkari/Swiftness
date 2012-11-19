@@ -360,9 +360,12 @@ struct file *reverse_mapping(struct page * pg)
 
 void splitUrl(char * host, char * tail)
 {
-	strsep(&tail, "/");
-	strsep(&tail, "/");
-	host = strsep(&tail, "/");
+	char * h = host, * t = tail;
+	strsep(&t, "/");
+	strsep(&t, "/");
+	h = strsep(&t, "/");
+	strcpy(host,h);
+	strcpy(tail,t);
 }
 
 void identify(char * request, char * host, int port, char * user, char * key)
