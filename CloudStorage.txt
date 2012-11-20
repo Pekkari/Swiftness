@@ -61,8 +61,8 @@ Departamento de lenguajes y sistemas Informáticos.
 3.5.Linux.	22
 3.5.1.Dispositivos de bloques.	23
 3.5.1.1Proceso de una operación.	23
-3.5.1.2Estructura genérica de dispositivos de bloques.	25
-3.5.2.Dispositivos de red.	26
+3.5.1.2Estructura genérica de dispositivos de bloques.	24
+3.5.2.Dispositivos de red.	25
 3.5.3.Network Block Device.	27
 3.6.Windows	29
 3.6.1.Subsistema de entorno y librerías dinámicas.	31
@@ -70,10 +70,10 @@ Departamento de lenguajes y sistemas Informáticos.
 3.6.3.El núcleo.	33
 3.6.4.Drivers de dispositivos.	33
 3.6.5.Componentes del sistema de entrada/salida.	34
-3.6.5.1Gestor de entrada/salida.	35
+3.6.5.1Gestor de entrada/salida.	34
 3.6.5.2Drivers de dispositivos.	35
-3.6.5.3Estructura de un driver.	36
-3.6.5.4Objetos de drivers y objetos de dispositivos.	37
+3.6.5.3Estructura de un driver.	35
+3.6.5.4Objetos de drivers y objetos de dispositivos.	36
 3.6.5.5Estructuras de ficheros.	37
 3.6.5.6Paquetes de peticiones de entrada/salida.	38
 3.6.5.7Petición en drivers de una sola capa.	39
@@ -82,15 +82,15 @@ Departamento de lenguajes y sistemas Informáticos.
 3.6.5.10Modelo de entrada/salida de KMDF.	41
 3.6.5.11Gestor de dispositivos Plug and Play(PnP).	42
 3.6.5.12Carga, inicialización e instalación de drivers.	43
-3.6.5.13Gestor de consumo.	46
+3.6.5.13Gestor de consumo.	45
 3.6.6.Subsistema de almacenamiento.	47
-3.6.6.1Drivers de disco.	48
+3.6.6.1Drivers de disco.	47
 3.6.6.2Drivers iSCSI.	49
 3.6.6.3Drivers de entrada/salida a través de múltiples caminos.	49
-3.6.6.4Objetos de dispositivos de disco.	50
+3.6.6.4Objetos de dispositivos de disco.	49
 3.6.6.5Discos básicos y discos dinámicos.	50
 3.6.6.6Espacio de nombres de volúmenes.	50
-3.6.6.6.1Gestor de montaje.	51
+3.6.6.6.1Gestor de montaje.	50
 3.6.6.6.2Puntos de montaje.	51
 3.6.6.6.3Montaje de volúmenes.	52
 3.6.6.6.4Operaciones de entrada/salida de volúmenes.	53
@@ -98,54 +98,54 @@ Departamento de lenguajes y sistemas Informáticos.
 3.6.7.Subsistema de redes.	54
 3.6.7.1Modelo OSI.	54
 3.6.7.2Componentes de red de Windows.	55
-3.6.7.3APIs de red de Windows.	58
-3.6.7.3.1Windows Sockets(Winsock).	58
-3.6.7.3.2Núcleo Winsock.	59
-3.6.7.3.3APIs de acceso web.	61
-3.6.7.3.4Otras APIs de red de Windows.	61
-3.6.7.3.5Drivers de protocolo.	62
-3.6.7.3.6Drivers NDIS.	63
-3.6.7.3.7Ensamblado.	64
-3.7.Windows vs. Linux.	64
-3.8.Swiftness.	65
-3.8.1.Bases de diseño.	65
-4.Documentación de requisitos.	67
-4.1. Participantes.	67
-4.1.1.Organizaciones.	67
-4.1.2.Participantes.	67
-4.2.Objetivos del sistema.	68
-4.3.Requisitos del sistema.	69
-4.3.1.Requisitos de información.	69
-4.3.2.Requisitos funcionales.	72
-4.3.2.1Diagrama de casos de uso.	72
-4.3.2.2Definición de actores.	73
-4.3.2.3Casos de uso.	73
-4.3.2.3.1Subsistema de login.	73
-4.3.2.3.2Subsistema de almacenamiento.	74
-4.3.3.Requisitos no funcionales	81
-4.3.4.Reglas de negocio	83
-4.4.Matriz de rastreabilidad	84
-5.Documentación de análisis.	87
-5.1.Modelo estático.	87
-5.1.1.Subsistema de Login.	87
-5.1.2.Subsistema de Almacenamiento.	87
-5.2.Modelo dinámico.	88
-5.2.1.Subsistema de Login.	88
-5.2.2.Subsistema de almacenamiento.	88
-5.3.Modelo funcional.	96
-5.3.1.Subsistema de Login.	96
-5.3.2.Subsistema de almacenamiento.	97
-6.Documentación de diseño.	103
-6.1.Arquitectura del sistema.	103
-6.2.Patrones de diseño.	104
-6.2.1.Fachada	105
-6.2.2.Adaptador.	106
-6.2.3.Envoltorio.	106
-6.3.Diagrama de clases de diseño.	106
-6.4.Diseño de datos.	107
-6.5.Diseño lógico.	110
-7.Glosario.	111
-8.Referencias.	113
+3.6.7.3APIs de red de Windows.	57
+3.6.7.3.1Windows Sockets(Winsock).	57
+3.6.7.3.2Núcleo Winsock.	58
+3.6.7.3.3APIs de acceso web.	59
+3.6.7.3.4Otras APIs de red de Windows.	60
+3.6.7.3.5Drivers de protocolo.	61
+3.6.7.3.6Drivers NDIS.	62
+3.6.7.3.7Ensamblado.	63
+3.7.Windows vs. Linux.	63
+3.8.Swiftness.	64
+3.8.1.Bases de diseño.	64
+4.Documentación de requisitos.	66
+4.1. Participantes.	66
+4.1.1.Organizaciones.	66
+4.1.2.Participantes.	66
+4.2.Objetivos del sistema.	67
+4.3.Requisitos del sistema.	68
+4.3.1.Requisitos de información.	68
+4.3.2.Requisitos funcionales.	71
+4.3.2.1Diagrama de casos de uso.	71
+4.3.2.2Definición de actores.	72
+4.3.2.3Casos de uso.	72
+4.3.2.3.1Subsistema de login.	72
+4.3.2.3.2Subsistema de almacenamiento.	73
+4.3.3.Requisitos no funcionales	79
+4.3.4.Reglas de negocio	81
+4.4.Matriz de rastreabilidad	82
+5.Documentación de análisis.	85
+5.1.Modelo estático.	85
+5.1.1.Subsistema de Login.	85
+5.1.2.Subsistema de Almacenamiento.	85
+5.2.Modelo dinámico.	86
+5.2.1.Subsistema de Login.	86
+5.2.2.Subsistema de almacenamiento.	86
+5.3.Modelo funcional.	92
+5.3.1.Subsistema de Login.	92
+5.3.2.Subsistema de almacenamiento.	93
+6.Documentación de diseño.	99
+6.1.Arquitectura del sistema.	99
+6.2.Patrones de diseño.	100
+6.2.1.Fachada	101
+6.2.2.Adaptador.	102
+6.2.3.Envoltorio.	102
+6.3.Diagrama de clases de diseño.	102
+6.4.Diseño de datos.	103
+6.5.Diseño lógico.	107
+7.Glosario.	109
+8.Referencias.	111
 
 1 Introducción.
 		
