@@ -358,15 +358,17 @@ struct file *reverse_mapping(struct page * pg)
 	return f;
 }
 
-void splitUrl(char * host, char * tail)
+void splitUrl(char * url, char * host, char * tail)
 {
 	char * h = host, * t = tail;
+	strcpy(tail, url);
 	strsep(&t, "/");
 	strsep(&t, "/");
 	h = strsep(&t, "/");
 	strcpy(host,h);
 	strcpy(tail,t);
 }
+
 
 void identify(char * request, char * host, int port, char * user, char * key)
 {
@@ -375,63 +377,63 @@ void identify(char * request, char * host, int port, char * user, char * key)
 
 void listContainers(char * request, char * token, char * url)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);	
+	splitUrl(url,host,tail);	
 
 	sprintf(request, swt_ops_format[SWT_CONTAINER_LIST], tail, host, token);  
 }
 
 void createContainer(char * request, char * token, char * url, char * name)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);	
+	splitUrl(url,host,tail);	
 
 	sprintf(request, swt_ops_format[SWT_CONTAINER_CREATE], tail, name, host, token);  
 }
 
 void deleteContainer(char * request, char * token, char * url, char * name)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);	
+	splitUrl(url,host,tail);	
 
 	sprintf(request, swt_ops_format[SWT_CONTAINER_DELETE], tail, name, host, token);  
 }
 
 void listObjects(char * request, char * token, char * url, char * container)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);	
+	splitUrl(url,host,tail);	
 
 	sprintf(request, swt_ops_format[SWT_OBJECT_LIST], tail, container, host, token);  
 }
 
 void retrieveObject(char * request, char * token, char * url, char * container, char * object)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);
+	splitUrl(url,host,tail);
 
 	sprintf(request, swt_ops_format[SWT_OBJECT_RETRIEVE], tail, container, object, host, token);  
 }
 
 void createObject(char * request, char * token, char * url, char * container, char * object, void * data, long size)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);	
+	splitUrl(url,host,tail);	
 
 	sprintf(request, swt_ops_format[SWT_OBJECT_CREATE], tail, container, object, host, token, size, data); 
 }
 
 void deleteObject(char * request, char * token, char * url, char * container, char * object)
 {
-	char host[256], * tail = url;
+	char host[256], tail[256];
 
-	splitUrl(host,tail);	
+	splitUrl(url,host,tail);	
 
 	sprintf(request, swt_ops_format[SWT_OBJECT_DELETE], tail, container, object, host, token);  
 }
